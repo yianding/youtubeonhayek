@@ -117,9 +117,9 @@ export default function BuyOrderCard(props: any, border: any) {
     }
     function HandleDisputeButton() {
         if ((props.pair.lockedblocknumber.add(props.BuyerDisputableBlockNumber)).gte(BlockNumber)) {
-            return (<ButtonSecondary width="100%" onClick={dispute} disabled={true}>Waitting seller confirm <QuestionHelper text={"You can dispute this order after " + props.pair.lockedblocknumber.add(props.BuyerDisputableBlockNumber).sub(BlockNumber).toString() + " blocks"} /></ButtonSecondary>)
+            return (<ButtonSecondary width="100%" onClick={dispute} disabled={true}>{t("Please pay the seller,and notify the seller")} <QuestionHelper text={"You can dispute this order after " + props.pair.lockedblocknumber.add(props.BuyerDisputableBlockNumber).sub(BlockNumber).toString() + " blocks"} /></ButtonSecondary>)
         } else {
-            return (<ButtonSecondary width="100%" onClick={dispute} >Dispute</ButtonSecondary>)
+            return (<ButtonSecondary width="100%" onClick={dispute} >{t("Dispute")}</ButtonSecondary>)
         }
     }
     const { wrapType1, execute: onWrap, inputError: wrapInputError } = useWrapDisputeCallback(props.pair.id, "0", "0", disputeFee)
@@ -259,9 +259,9 @@ export default function BuyOrderCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Seller SEC DEP')}
+                                        {t("Seller's liquidated damage")}
                                     </TYPE.black>
-                                    <QuestionHelper text="Seller Security Deposit" />
+                                    <QuestionHelper text="Seller's liquidated damage" />
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {ethers.utils.formatEther(props.pair.sellerLiquidataedDamages.toString())} HYK
@@ -272,9 +272,9 @@ export default function BuyOrderCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Buyer SEC DEP')}
+                                        {t("Buyer's liquidated damage")}
                                     </TYPE.black>
-                                    <QuestionHelper text="Buyer Security Deposit" />
+                                    <QuestionHelper text="Buyer's liquidated damage" />
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {ethers.utils.formatEther(props.pair.buyerLiquidataedDamages.toString())} HYK

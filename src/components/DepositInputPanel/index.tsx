@@ -74,7 +74,7 @@ export default function CurrencyInputPanel({
                                 {label}
                             </TYPE.body>
                             <TYPE.body color={theme.text2} fontWeight={500} fontSize={14}>
-                                {t('Buyer Deposit')}
+                                {t("Buyer's liquidated damage")+"(HYK)"}
                             </TYPE.body>
                         </RowBetween>
                     </LabelRow>

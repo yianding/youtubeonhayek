@@ -87,13 +87,10 @@ function FaitRow({
       <FIATLOGO currency={currency} size={'24px'} />
       <Column>
 
-        <text key={currency?.symbol} fontWeight={500}>
-          {currency.symbol}:
+        <text key={currency?.symbol} fontWeight={1000}>
+          {currency.symbol +" "+currency.describe+"!"}:
         </text>
-        <text key={currency?.symbol} fontWeight={500}>
-          {currency.describe}
-        </text>
-
+ 
       </Column>
       <TokenTags currency={currency} />
       </RowBetween>
@@ -150,7 +147,7 @@ export default function FaitList({
       width="100%"
       itemData={itemDate}
       itemCount={itemDate.length}
-      itemSize={56}
+      itemSize={70}
       itemKey={itemKey}
     >
       

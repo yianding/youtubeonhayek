@@ -7,6 +7,7 @@ import { MouseoverTooltip } from '../Tooltip'
 import { MenuItem } from './styleds'
 import { AllInfoType, INFOTYPE } from '../../hooks/describeInfoType'
 import InfoTypeLOGO from '../InfoTypeLogo'
+import { useTranslation } from 'react-i18next'
 
 
 
@@ -74,6 +75,7 @@ function FaitRow({
     style: CSSProperties
 }) {
 
+    const { t } = useTranslation()
     // only show add or remove buttons if not on selected list
     return (
         <MenuItem
@@ -87,7 +89,7 @@ function FaitRow({
                
                 <Column>
                     <text key={currency?.InfoText} fontWeight={500}>
-                        {currency.InfoText}
+                        {t(currency.InfoText)}
                     </text>
                 </Column>
                 <TokenTags currency={currency} />

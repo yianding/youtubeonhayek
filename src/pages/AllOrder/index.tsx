@@ -238,8 +238,8 @@ export default function AllOrders() {
                         onUserInput1={handleInputSellerDeposit}
                         onUserInput2={handleInputBuyerDeposit}
                         label1={''}
-                        label2={t('Maximun Buyer Deposit(HYK)')}
-                        label3={t('Minimum Seller Deposit(HYK)')}
+                        label2={t('Maximun Buyer liquidated damage(HYK)')}
+                        label3={t('Minimum Seller liquidated damage(HYK)')}
                         id="deposit"
                       />
                       <div style={{ height: "24px" }} />

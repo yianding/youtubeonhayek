@@ -265,9 +265,9 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Seller SEC DEP')}
+                                        {t("Seller's liquidated damage")}
                                     </TYPE.black>
-                                    <QuestionHelper text={t('Seller Security Deposit')} />
+                                    <QuestionHelper text={t("Seller's liquidated damage")} />
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {ethers.utils.formatEther(props.pair.sellerLiquidataedDamages.toString())} HYK
@@ -278,9 +278,9 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        Buyer SEC DEP:
+                                       {t("Buyer's liquidated damage")}
                                     </TYPE.black>
-                                    <QuestionHelper text={t('Buyer Security Deposit')}/>
+                                    <QuestionHelper text={t("Buyer's liquidated damage")}/>
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {ethers.utils.formatEther(props.pair.buyerLiquidataedDamages.toString())} HYK
@@ -292,7 +292,7 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Locked BlockNumber')}
+                                        {t('Locked Block Number')}
                                     </TYPE.black>
                                     <QuestionHelper text={t('The block number of your locking action')} />
                                 </RowFixed>

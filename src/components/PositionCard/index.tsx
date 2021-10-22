@@ -154,7 +154,7 @@ function Crypto(props: { info: React.Key | undefined, handleHashComfirm: any }) 
       props.handleHashComfirm(2)
     }
   }
-  const {t}=useTranslation()
+  const { t } = useTranslation()
   return (
     <div>
       <FixedHeightRow key={props.info}>
@@ -187,7 +187,7 @@ export default function FullPositionCard(props: any, border: any) {
     return (<TYPE.black fontSize={14} color={theme.text1}>{ethers.utils.formatUnits(props.pair.price.mul(props.pair.salenumber).toString(), (mtoken ? mtoken.decimals : 0) + 6) + " " + props.pair.Currency}</TYPE.black >)
 
   })
-  function infoDescribe(infotype: string, info: string, i: number,infodescribe:string,tempINFOTYPE?:INFOTYPE): ReactNode | undefined {
+  function infoDescribe(infotype: string, info: string, i: number, infodescribe: string, tempINFOTYPE?: INFOTYPE): ReactNode | undefined {
     const ellipsis = (a: string) => {
       if (a.length > 20) {
         return a.substring(0, 20) + "..."
@@ -195,37 +195,37 @@ export default function FullPositionCard(props: any, border: any) {
       return a
     }
 
-      return (
-        
-        <FixedHeightRow key={i}>
-          <RowBetween>
-            <RowFixed>
-              
-            <InfoTypeLOGO currency={tempINFOTYPE} size={'24px'} />
-              <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                {t(infotype)}:
-              </TYPE.black>
-              <QuestionHelper text={t(infodescribe)} />
-            </RowFixed>
-            {infotype==="Telegram"? (
-                <TYPE.black fontSize={14} color={theme.text1}>
+    return (
+
+      <FixedHeightRow key={i}>
+        <RowBetween>
+          <RowFixed>
+
+            <InfoTypeLOGO currency={tempINFOTYPE} size={'12px'} />
+            <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+              {t(infotype)}:
+            </TYPE.black>
+            {infodescribe ? <QuestionHelper text={t(infodescribe)} /> : null}
+          </RowFixed>
+          {infotype === "Telegram" ? (
+            <TYPE.black fontSize={14} color={theme.text1}>
               {info && (
-              <a href={"https://t.me/"+info} target="_blank">{info}</a>
-              )} </TYPE.black>):infotype==="QQ"? (
+                <a href={"https://t.me/" + info} target="_blank">{info}</a>
+              )} </TYPE.black>) : infotype === "QQ" ? (
                 <TYPE.black fontSize={14} color={theme.text1}>
+                  {info && (
+                    <a href={"https://wpa.qq.com/msgrd?v=3&uin=" + info + "&site=qq&menu=yes"} target="_blank">{info}</a>
+                  )} </TYPE.black>)
+            : (<TYPE.black fontSize={14} color={theme.text1}>
               {info && (
-              <a href={"http://wpa.qq.com/msgrd?v=3&uin="+info+"&site=qq&menu=yes"} target="_blank">{info}</a>
-              )} </TYPE.black>) 
-              :(  <TYPE.black fontSize={14} color={theme.text1}>
-                {info && (
-                  <Copy toCopy={info}>
-                    <span style={{ marginLeft: '4px' }}> {ellipsis(info)}</span>
-                  </Copy>
-                )} </TYPE.black>)}
-           
-          </RowBetween>
-        </FixedHeightRow>
-      )
+                <Copy toCopy={info}>
+                  <span style={{ marginLeft: '3px' }}> {ellipsis(info)}</span>
+                </Copy>
+              )} </TYPE.black>)}
+
+        </RowBetween>
+      </FixedHeightRow>
+    )
   }
 
   const [hashComfirm, sethashComfirm] = useState(0)
@@ -237,25 +237,25 @@ export default function FullPositionCard(props: any, border: any) {
 
     let aa;
 
-      aa = Object.values(JSON.parse(props.pair.describe));
+    aa = Object.values(JSON.parse(props.pair.describe));
 
-    let num=0
+    let num = 0
     return (
       aa?.map((item, i) => {
         let item1: string = typeof (item) == "string" ? item : ""
         let infotype: string = item1?.split(':')[0];
-        const tempINFOTYPE=getInfoType(infotype);
-        let infodescribe:string|undefined=getInfoType(infotype)?.Describe;
+        const tempINFOTYPE = getInfoType(infotype);
+        let infodescribe: string | undefined = getInfoType(infotype)?.Describe;
         let info: string = item1?.split(':')[1];
-        if(num<1&&(infotype == "CryptoContract")){
-          num=num+1
+        if (num < 1 && (infotype == "CryptoContract")) {
+          num = num + 1
           if (hashComfirm == 0) {
             sethashComfirm(1)
           }
           return <Crypto info={info} key={info} handleHashComfirm={handleHashComfirm}></Crypto>
         }
         return (
-          infoDescribe(infotype, info, i,infodescribe? infodescribe:"",tempINFOTYPE)
+          infoDescribe(infotype, info, i, infodescribe ? infodescribe : "", tempINFOTYPE)
         )
       })
     )
@@ -263,26 +263,26 @@ export default function FullPositionCard(props: any, border: any) {
   function handleLockButton() {
     if (hashComfirm == 1) {
       return (
-        <ButtonSecondary width="100%"  disabled={true}>
-         {t('Please input Crypto contract')}
+        <ButtonSecondary width="100%" disabled={true}>
+          {t('Please input Crypto contract')}
         </ButtonSecondary>)
-        }if(hashComfirm == 2){
-          return (
-            <ButtonSecondary width="100%"  disabled={true}>
-             {t('Please input correct crypto contract')}
-            </ButtonSecondary>)
-        }else{
-          return (
-            <ButtonSecondary width="100%" onClick={lock}>
-             {t('Lock')}
-            </ButtonSecondary>)
-        }
+    } if (hashComfirm == 2) {
+      return (
+        <ButtonSecondary width="100%" disabled={true}>
+          {t('Please input correct crypto contract')}
+        </ButtonSecondary>)
+    } else {
+      return (
+        <ButtonSecondary width="100%" onClick={lock}>
+          {t('Lock')}
+        </ButtonSecondary>)
+    }
   }
 
 
   const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapCallback1(props.pair.id, contactInfo, props.pair.buyerLiquidataedDamages)
   function lock() {
-    if (hashComfirm==0||hashComfirm==3) {
+    if (hashComfirm == 0 || hashComfirm == 3) {
       console.log("fffffffff", wrapType, "fffffffffff", wrapInputError, "fffffffff", onWrap)
       if (onWrap) { onWrap() }
     }
@@ -293,7 +293,7 @@ export default function FullPositionCard(props: any, border: any) {
     }
     return a
   }
-  const {t}=useTranslation()
+  const { t } = useTranslation()
   return (
     <HoverCard border={border}>
       <AutoColumn gap="12px">
@@ -354,7 +354,7 @@ export default function FullPositionCard(props: any, border: any) {
                   </TYPE.black>
                 </RowFixed>
                 <TYPE.black fontSize={14} color={theme.text1}>
-                {ethers.utils.formatUnits(props.pair.price,6)+" "+props.pair.Currency}
+                  {ethers.utils.formatUnits(props.pair.price, 6) + " " + props.pair.Currency}
                 </TYPE.black>
               </RowBetween>
             </FixedHeightRow>
@@ -363,11 +363,11 @@ export default function FullPositionCard(props: any, border: any) {
               <RowBetween>
                 <RowFixed>
                   <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                   {t('Sale Number')}
+                    {t('Sale Number')}
                   </TYPE.black>
                 </RowFixed>
                 <TYPE.black fontSize={14} color={theme.text1}>
-                {ethers.utils.formatUnits(props.pair.salenumber,mtoken?mtoken.decimals : 0)+" "+mtoken?.name}
+                  {ethers.utils.formatUnits(props.pair.salenumber, mtoken ? mtoken.decimals : 0) + " " + mtoken?.name}
                 </TYPE.black>
               </RowBetween>
             </FixedHeightRow>
@@ -406,9 +406,8 @@ export default function FullPositionCard(props: any, border: any) {
               <RowBetween>
                 <RowFixed>
                   <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                    {t('Seller SEC DEP')}
+                    {t("Seller's liquidated damage")}
                   </TYPE.black>
-                  <QuestionHelper text="A portion of each trade (0.30%) goes to liquidity providers as a protocol incentive." />
                 </RowFixed>
                 <TYPE.black fontSize={14} color={theme.text1}>
                   {ethers.utils.formatEther(props.pair.sellerLiquidataedDamages)} HYK
@@ -419,9 +418,8 @@ export default function FullPositionCard(props: any, border: any) {
               <RowBetween>
                 <RowFixed>
                   <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                    {t('Buyer SEC DEP')}
+                    {t("Buyer's liquidated damage")}
                   </TYPE.black>
-                  <QuestionHelper text="A portion of each trade (0.30%) goes to liquidity providers as a protocol incentive." />
                 </RowFixed>
                 <TYPE.black fontSize={14} color={theme.text1}>
                   {ethers.utils.formatEther(props.pair.buyerLiquidataedDamages)} HYK
@@ -438,7 +436,7 @@ export default function FullPositionCard(props: any, border: any) {
               </RowBetween>
             </FixedHeightRow>
             <HoverCard border={border}>
-            {HandleDescribe() ? HandleDescribe() : <></>}
+              {HandleDescribe() ? HandleDescribe() : <></>}
             </HoverCard>
             <FixedHeightRow>
               <RowBetween>
@@ -453,7 +451,7 @@ export default function FullPositionCard(props: any, border: any) {
               </RowBetween>
             </FixedHeightRow>
 
-           {handleLockButton()}
+            {handleLockButton()}
 
           </AutoColumn>
         )}

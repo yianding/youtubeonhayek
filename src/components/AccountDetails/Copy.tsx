@@ -32,7 +32,7 @@ export default function CopyHelper(props: { toCopy: string; children?: React.Rea
     <CopyIcon onClick={() => setCopied(props.toCopy)}>
       {isCopied ? (
         <TransactionStatusText>
-          <CheckCircle size={'16'} />
+          <CheckCircle size={'12'} />
           <TransactionStatusText>Copied</TransactionStatusText>
         </TransactionStatusText>
       ) : (

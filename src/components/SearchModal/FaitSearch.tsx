@@ -7,7 +7,6 @@ import { Text } from 'rebass'
 import { CloseIcon } from '../../theme'
 import { isAddress } from '../../utils'
 import Column from '../Column'
-import QuestionHelper from '../QuestionHelper'
 import  { RowBetween } from '../Row'
 import FaitList from './FaitList'
 import SortButton from './SortButton'
@@ -83,15 +82,14 @@ export function FaitSearch({
       <PaddedColumn gap="14px">
         <RowBetween>
           <Text fontWeight={500} fontSize={16}>
-            Select a token
-            <QuestionHelper text="Find a token by searching for its name or symbol or by pasting its address below." />
+           { t('Select Currency')}
           </Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
         <SearchInput
           type="text"
           id="token-search-input"
-          placeholder={t('tokenSearchPlaceholder')}
+          placeholder={t('Input Currency')}
           value={searchQuery}
           ref={inputRef as RefObject<HTMLInputElement>}
           onChange={handleInput}
@@ -99,7 +97,7 @@ export function FaitSearch({
     
         <RowBetween>
           <Text fontSize={14} fontWeight={500}>
-            Token Name 
+           {t('Currency')}
           </Text>
           <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder(iso => !iso)} />
         </RowBetween>

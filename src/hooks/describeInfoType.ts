@@ -10,24 +10,32 @@ export declare class INFOTYPE {
    logoURI:"https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico",
    Describe:"Wechat account"
 },
+{  InfoText:"Alipay",
+   logoURI:"https://img.alicdn.com/tfs/TB1qEwuzrj1gK0jSZFOXXc7GpXa-32-32.ico",
+   Describe:"Alipay"
+},
 {  InfoText:"QQ",
    logoURI:"https://qzonestyle.gtimg.cn/qzone/qzact/act/external/tiqq/logo.png",
    Describe:"QQ account"
 },
 {  InfoText:"CryptoContract",
-   logoURI:"/images/seccontract.jpg",
+   logoURI:"./images/seccontract.jpg",
    Describe:"Crypto Contract"
 },
 {  InfoText:"Bank Card Number",
-   logoURI:"/images/bankcard.png",
+   logoURI:"./images/bankcard.png",
    Describe:"Bank Card Number"
 },
+{  InfoText:"Bank Account",
+   logoURI:"./images/bankcard.png",
+   Describe:"Bank Account"
+},
 {  InfoText:"Bank Name",
-   logoURI:"/images/bank.png",
+   logoURI:"./images/bank.png",
    Describe:""
 },
 {  InfoText:"__",
-   logoURI:"/images/blankline.jpg",
+   logoURI:"./images/blankline.jpg",
    Describe:""
 },
 {  InfoText:"Telegram",
@@ -59,7 +67,7 @@ logoURI:"https://d29fhpw069ctt2.cloudfront.net/icon/image/84650/preview.svg",
 Describe:""
 },
 {  InfoText:"Full Name",
-logoURI:"/images/fullname.png",
+logoURI:"./images/fullname.png",
 Describe:""
 },
 {  InfoText:"Phone",

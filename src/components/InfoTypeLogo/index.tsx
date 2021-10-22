@@ -14,7 +14,7 @@ const StyledLogo = styled(Logo)<{ size: string }>`
 
 export default function InfoTypeLOGO({
   currency,
-  size = '24px',
+  size = '8px',
   style
 }: {
   currency?: INFOTYPE

@@ -84,7 +84,7 @@ export default function PutOrder() {
     const { wrapType, execute: onWrap } = useWrapPutCallback(ethers.utils.parseUnits(saleNumber ? saleNumber : "0", currencies[Field.INPUT]?.decimals).toString(), priceToWrap(), JSON.stringify(descInfo), "卖家联系方式", Currency, "0x2aCdAC1d723F307D22684bC69721822f875809AF", ERC20, BuyerD(), SellerD())
     function putOrder() {
         if (onWrap) { onWrap() }
-        console.log("ddds",descInfo)
+        console.log("ddds", descInfo)
     }
 
 
@@ -112,7 +112,7 @@ export default function PutOrder() {
         setSaleNumber(maxAmountInput ? maxAmountInput.toExact() : saleNumber)
         if (price != "") {
             settotalprice(ethers.utils.formatUnits(ethers.utils.parseUnits(maxAmountInput ? maxAmountInput.toExact() : saleNumber, 80).mul(ethers.utils.parseUnits(price, 6)), 86))
-         
+
         }
         maxAmountInput && onUserInput(Field.INPUT, maxAmountInput.toExact())
     }, [maxAmountInput, onUserInput])
@@ -210,8 +210,8 @@ export default function PutOrder() {
         },
         []
     )
-    
-  const { t } = useTranslation()
+
+    const { t } = useTranslation()
     return (
         <AppBody>
             <AddRemoveTabs adding={true} />
@@ -272,7 +272,7 @@ export default function PutOrder() {
                 value2={BuyerDeposit}
                 onUserInput={handleSellerDepositInput}
                 onUserInput2={handleBuyerDepositInput}
-                label={t('Seller Deposit')}
+                label={t("Seller's liquidated damage") + "(HYK)"}
                 id="swap-currency-output"
 
             />
@@ -308,6 +308,24 @@ export default function PutOrder() {
                                     {t('Complete Order Infos')}
                                 </ButtonLight>
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </AppBody>
     )
 }

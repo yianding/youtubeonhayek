@@ -1,5 +1,5 @@
 
-import React, {  RefObject, useCallback, useEffect, useRef, useState } from 'react'
+import React, {  useCallback, useEffect, useRef, useState } from 'react'
 import ReactGA from 'react-ga'
 import { useTranslation } from 'react-i18next'
 import { FixedSizeList } from 'react-window'
@@ -9,8 +9,7 @@ import { isAddress } from '../../utils'
 import Column from '../Column'
 import QuestionHelper from '../QuestionHelper'
 import  { RowBetween } from '../Row'
-import SortButton from './SortButton'
-import { PaddedColumn, SearchInput, Separator } from './styleds'
+import { PaddedColumn, Separator } from './styleds'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { INFOTYPE } from '../../hooks/describeInfoType'
 import InfoTypeList from './InfoTypeList'
@@ -28,14 +27,12 @@ export function InfoTypeSearch({
   selectedCurrency,
   onCurrencySelect,
   onDismiss,
-  isOpen,
-  onChangeList
-}: FIATSearchProps) {
+  isOpen}: FIATSearchProps) {
   const { t } = useTranslation()
 
   const fixedList = useRef<FixedSizeList>()
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const [invertSearchOrder, setInvertSearchOrder] = useState<boolean>(false)
+  //const [, setInvertSearchOrder] = useState<boolean>(false)
  
 
   // if they input an address, use it
@@ -68,13 +65,6 @@ export function InfoTypeSearch({
   }, [isOpen])
 
   // manage focus on modal show
-  const inputRef = useRef<HTMLInputElement>()
-  const handleInput = useCallback(event => {
-    const input = event.target.value
-    const checksummedInput = isAddress(input)
-    setSearchQuery(checksummedInput || input)
-    fixedList.current?.scrollTo(0)
-  }, [])
 
 
 
@@ -83,26 +73,14 @@ export function InfoTypeSearch({
       <PaddedColumn gap="14px">
         <RowBetween>
           <Text fontWeight={500} fontSize={16}>
-            Select a token
+            {t("Select item")}
             <QuestionHelper text="Find a token by searching for its name or symbol or by pasting its address below." />
           </Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
-        <SearchInput
-          type="text"
-          id="token-search-input"
-          placeholder={t('tokenSearchPlaceholder')}
-          value={searchQuery}
-          ref={inputRef as RefObject<HTMLInputElement>}
-          onChange={handleInput}
-        />
+ 
     
-        <RowBetween>
-          <Text fontSize={14} fontWeight={500}>
-            Token Name 
-          </Text>
-          <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder(iso => !iso)} />
-        </RowBetween>
+     
       </PaddedColumn>
 
       <Separator />
