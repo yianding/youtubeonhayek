@@ -8,6 +8,7 @@ import { MenuItem } from './styleds'
 import { AllFait, FIAT } from '../../hooks/fait'
 import FIATLOGO from '../FIATLOGO'
 import { RowBetween } from '../Row'
+import { useTranslation } from 'react-i18next'
 
 
 
@@ -75,6 +76,8 @@ function FaitRow({
   style: CSSProperties
 }) {
 
+  const { t } = useTranslation()
+
   // only show add or remove buttons if not on selected list
   return (
   <MenuItem
@@ -86,11 +89,11 @@ function FaitRow({
         <RowBetween>
       <FIATLOGO currency={currency} size={'24px'} />
       <Column>
-
+      <RowBetween>
         <text key={currency?.symbol} fontWeight={1000}>
-          {currency.symbol +" "+currency.describe+"!"}:
+          {currency.symbol +" "+ t(currency.describe)}
         </text>
- 
+        </RowBetween>
       </Column>
       <TokenTags currency={currency} />
       </RowBetween>
@@ -147,7 +150,7 @@ export default function FaitList({
       width="100%"
       itemData={itemDate}
       itemCount={itemDate.length}
-      itemSize={70}
+      itemSize={50}
       itemKey={itemKey}
     >
       
