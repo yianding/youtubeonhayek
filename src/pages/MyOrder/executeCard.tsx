@@ -19,6 +19,7 @@ import { useGetDisputeResultCallBack } from '../../hooks/useApproveCallback'
 import { useTranslation } from 'react-i18next'
 import { getInfoType, INFOTYPE } from '../../hooks/describeInfoType'
 import InfoTypeLOGO from '../../components/InfoTypeLogo'
+import { getJudge } from '../../hooks/judge'
 
 
 export const CryptoInput = styled.textarea`
@@ -121,7 +122,7 @@ export default function ExecuteCard(props: any, border: any) {
                 </ButtonSecondary>)
             } else {
                 return (<ButtonSecondary width="100%" onClick={execute} disabled={!(disputeResult?.result[2] ? disputeResult.result[2] : false)}>
-                    Execute {(disputeResult?.result ?(100-disputeResult.result[0]):"error")}% {disputeResult?.result ?(100-Number(disputeResult.result[1])): "error"}%
+                    Execute {(disputeResult?.result ? (100 - disputeResult.result[0]) : "error")}% {disputeResult?.result ? (100 - Number(disputeResult.result[1])) : "error"}%
                 </ButtonSecondary>)
             }
         } else {
@@ -130,18 +131,18 @@ export default function ExecuteCard(props: any, border: any) {
             </ButtonSecondary>)
         }
     }
-    const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapExecuteCallback(props.pair.id)
+    const { execute: onWrap } = useWrapExecuteCallback(props.pair.id)
     function execute() {
-        console.log("fffffffff", wrapType, "fffffffffff", wrapInputError, "fffffffff", onWrap)
+
         if (onWrap) { onWrap() }
     }
-    const { wrapType1, execute: onWrap1, inputError: wrapInputError1 } = useWrapSurrenderCallback(props.pair.id)
+    const { execute: onWrap1 } = useWrapSurrenderCallback(props.pair.id)
     function surrender() {
-        console.log("fffffffff", wrapType1, "fffffffffff", wrapInputError1, "fffffffff", onWrap1)
+
         if (onWrap1) { onWrap1() }
     }
 
-    const {t}= useTranslation()
+    const { t } = useTranslation()
     return (
         <HoverCard border={border}>
             <AutoColumn gap="12px">
@@ -290,7 +291,7 @@ export default function ExecuteCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                    {t("Buyer's liquidated damage")}
+                                        {t("Buyer's liquidated damage")}
                                     </TYPE.black>
                                     <QuestionHelper text="Buyer Security Deposit" />
                                 </RowFixed>
@@ -303,7 +304,20 @@ export default function ExecuteCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                    {t('Locked Block Number')}
+                                        {t("法院")}
+                                    </TYPE.black>
+                                </RowFixed>
+                                <TYPE.black fontSize={14} color={theme.text1}>
+                                {getJudge(props.pair.arbitration)?(getJudge(props.pair.arbitration)?.name):"未验证的法院"}
+               {getJudge(props.pair.arbitration)?<a href={getJudge(props.pair.arbitration)?.URL} target="_blank">法院网址</a>:<></>}
+                                </TYPE.black>
+                            </RowBetween>
+                        </FixedHeightRow>
+                        <FixedHeightRow>
+                            <RowBetween>
+                                <RowFixed>
+                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                        {t('Locked Block Number')}
                                     </TYPE.black>
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
@@ -326,7 +340,7 @@ export default function ExecuteCard(props: any, border: any) {
                         {HandleExecuteButton()}
 
                         <ButtonSecondary width="100%" onClick={surrender}>
-                        {t('Surrender')}
+                            {t('Surrender')}
                         </ButtonSecondary>
 
                     </AutoColumn>

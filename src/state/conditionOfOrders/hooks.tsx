@@ -18,7 +18,6 @@ export function MyTokenlist(address:String):TokenInfo|undefined {
   tokenlist.byUrl["https://hayek.link/hayekcoinlist.json"].current?.tokens.map((token)=>{
    
    if(token.address.toString()===address){
-    console.log("GGGGGGGGGGGG",token)
      re= token
    }
   } )

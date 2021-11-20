@@ -36,6 +36,7 @@ const VersionToggle = styled(({ enabled, ...rest }: VersionToggleProps) => <Link
   width: fit-content;
   margin-left: 0.5rem;
   text-decoration: none;
+  cursor:pointer;
   :hover {
     text-decoration: none;
   }
@@ -59,7 +60,7 @@ export default function VersionSwitch() {
 
   const handleClick = useCallback(
     e => {
-      window.location.href="https://hayek.link/trade";
+      window.location.href="https://hayek.link/trade/#/swap";
       if (!versionSwitchAvailable) e.preventDefault()
     },
     [versionSwitchAvailable]

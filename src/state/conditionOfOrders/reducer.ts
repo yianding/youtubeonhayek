@@ -17,11 +17,11 @@ function getDefaultWrapToken(): WrappedTokenInfo {
   const taginfo: TagInfo[] = [];
   const tokenInfo: TokenInfo = {
     chainId: ChainId.HAYEK,
-    address: "0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0",
-    name: "USDT",
-    decimals: 8,
-    symbol: "USDT",
-    logoURI: "https://hayek.link/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+    address: "0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C",
+    name: "WHYK",
+    decimals: 18,
+    symbol: "WHYK",
+    logoURI: "https://hayek.link/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png"
   }
   return new WrappedTokenInfo(tokenInfo, taginfo)
 }

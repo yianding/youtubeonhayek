@@ -2,14 +2,14 @@
 import React, { useState, useContext, useCallback } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import { darken } from 'polished'
-import FaitSearchModal from '../SearchModal/FaitSearchModal'
+
 import { RowBetween } from '../Row'
 import { TYPE } from '../../theme'
-import { Input as NumericalInput } from '../NumericalInput'
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
-import { FIAT } from '../../hooks/fait'
 import { useTranslation } from 'react-i18next'
-import FIATLOGO from '../FIATLOGO'
+import { JUDGE } from '../../hooks/judge'
+import ListLogo from '../ListLogo'
+import JudgeSearchModal from '../SearchModal/JudgeSearchModal'
 
 const StyledTokenName = styled.span<{ active?: boolean }>`
   ${({ active }) => (active ? '  margin: 0 0.25rem 0 0.75rem;' : '  margin: 0 0.25rem 0 0.25rem;')}
@@ -91,22 +91,18 @@ const Container = styled.div<{ hideInput: boolean }>`
 
 
 interface FIATInputPanelProps {
-  price: string
-  onUserInput: (value: string) => void
   showMaxButton: boolean
   label?: string
-  onCurrencySelect?: (currency: FIAT) => void
-  currency?: FIAT | null
+  onCurrencySelect?: (currency: JUDGE) => void
+  currency?: JUDGE | null
   disableCurrencySelect?: boolean
   hideInput?: boolean
-  otherCurrency?: FIAT | null
+  otherCurrency?: JUDGE | null
   id: string
   showCommonBases?: boolean
 }
 
-export default function FIATInputPanel({
-  price,
-  onUserInput,
+export default function JudgeInputPanel({
   label = 'Input',
   onCurrencySelect,
   currency,
@@ -140,18 +136,7 @@ export default function FIATInputPanel({
           </LabelRow>
         )}
         <InputRow style={hideInput ? { padding: '0', borderRadius: '8px' } : {}} selected={false}>
-          {!hideInput && (
-            <>
-              <NumericalInput
-                className="token-amount-input"
-                value={price}
-                onUserInput={val => {
-                  onUserInput(val)
-                }}
-              />
 
-            </>
-          )}
           <CurrencySelect
             selected={!!currency}
             className="open-currency-select-button"
@@ -162,11 +147,11 @@ export default function FIATInputPanel({
             }}
           >
             <Aligner>
-              <FIATLOGO currency={currency ? currency : undefined} size={'24px'} />
+              <ListLogo logoURI={currency?.logoURI} size={'24px'} />
               {
 
-                <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
-                  {(currency?.symbol) || t('selectToken')}
+                <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.name)}>
+                  {(currency?.name) || t("选择法院")}
                 </StyledTokenName>
               }
               {!disableCurrencySelect && <StyledDropDown selected={!!currency} />}
@@ -175,7 +160,7 @@ export default function FIATInputPanel({
         </InputRow>
       </Container>
       {!disableCurrencySelect && onCurrencySelect && (
-        <FaitSearchModal
+        <JudgeSearchModal
           isOpen={modalOpen}
           onDismiss={handleDismissSearch}
           onCurrencySelect={onCurrencySelect}

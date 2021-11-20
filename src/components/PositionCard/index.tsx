@@ -24,6 +24,8 @@ import { ethers } from "ethers";
 import { useTranslation } from 'react-i18next'
 import { getInfoType, INFOTYPE } from '../../hooks/describeInfoType'
 import InfoTypeLOGO from '../InfoTypeLogo'
+import { getJudge } from '../../hooks/judge'
+//import { getJudge } from '../../hooks/judge'
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
 `
@@ -280,10 +282,10 @@ export default function FullPositionCard(props: any, border: any) {
   }
 
 
-  const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapCallback1(props.pair.id, contactInfo, props.pair.buyerLiquidataedDamages)
+  const { execute: onWrap } = useWrapCallback1(props.pair.id, contactInfo, props.pair.buyerLiquidataedDamages)
   function lock() {
     if (hashComfirm == 0 || hashComfirm == 3) {
-      console.log("fffffffff", wrapType, "fffffffffff", wrapInputError, "fffffffff", onWrap)
+
       if (onWrap) { onWrap() }
     }
   }
@@ -414,6 +416,7 @@ export default function FullPositionCard(props: any, border: any) {
                 </TYPE.black>
               </RowBetween>
             </FixedHeightRow>
+
             <FixedHeightRow>
               <RowBetween>
                 <RowFixed>
@@ -426,6 +429,22 @@ export default function FullPositionCard(props: any, border: any) {
                 </TYPE.black>
               </RowBetween>
             </FixedHeightRow>
+
+            <FixedHeightRow>
+              <RowBetween>
+                <RowFixed>
+                  <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                    {t("法院")}
+                  </TYPE.black>
+                </RowFixed>
+               
+                <TYPE.black fontSize={14} color={theme.text1}>
+                  {getJudge(props.pair.arbitration)?(getJudge(props.pair.arbitration)?.name):"未验证的法院"}
+               {getJudge(props.pair.arbitration)?<a href={getJudge(props.pair.arbitration)?.URL} target="_blank">法院网址</a>:<></>}
+                </TYPE.black>
+              </RowBetween>
+            </FixedHeightRow>
+
             <FixedHeightRow>
               <RowBetween>
                 <RowFixed>

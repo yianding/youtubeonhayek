@@ -232,7 +232,7 @@ try {
     addIcon();
      console.log("uuuu",typeof window.ethereum)
   }else{
-      window.location.href="http://hayek.link/"
+      window.location.href="https://hayek.link/"
     }
   
   }

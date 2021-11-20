@@ -26,7 +26,6 @@ export default function FIATLOGO({
   const srcs: string[] = useMemo(() => {
         return [...uriLocations, currency? currency.logoURI:""]
     
-
   }, [currency, uriLocations])
   
 if(currency==undefined){

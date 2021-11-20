@@ -20,6 +20,7 @@ import { useGetDisputeFeeCallBack } from '../../hooks/useApproveCallback'
 import { useTranslation } from 'react-i18next'
 import { getInfoType, INFOTYPE } from '../../hooks/describeInfoType'
 import InfoTypeLOGO from '../../components/InfoTypeLogo'
+import { getJudge } from '../../hooks/judge'
 
 export const CryptoInput = styled.textarea`
 position: relative;
@@ -117,14 +118,14 @@ export default function BuyOrderCard(props: any, border: any) {
     }
     function HandleDisputeButton() {
         if ((props.pair.lockedblocknumber.add(props.BuyerDisputableBlockNumber)).gte(BlockNumber)) {
-            return (<ButtonSecondary width="100%" onClick={dispute} disabled={true}>{t("Please pay the seller,and notify the seller")} <QuestionHelper text={"You can dispute this order after " + props.pair.lockedblocknumber.add(props.BuyerDisputableBlockNumber).sub(BlockNumber).toString() + " blocks"} /></ButtonSecondary>)
+            return (<ButtonSecondary width="100%" onClick={dispute} disabled={true}>{t("Please pay the seller,and notify the seller")} <QuestionHelper text={"You can dispute this order after " + props.pair.lockedblocknumber.add(props.BuyerDisputableBlockNumber + 1).sub(BlockNumber).toString() + " blocks"} /></ButtonSecondary>)
         } else {
             return (<ButtonSecondary width="100%" onClick={dispute} >{t("Dispute")}</ButtonSecondary>)
         }
     }
-    const { wrapType1, execute: onWrap, inputError: wrapInputError } = useWrapDisputeCallback(props.pair.id, "0", "0", disputeFee)
+    const { execute: onWrap } = useWrapDisputeCallback(props.pair.id, "0", "0", disputeFee)
     function dispute() {
-        console.log("fffffffff", wrapType1, "fffffffffff", wrapInputError, "fffffffff", onWrap)
+
         if (onWrap) { onWrap() }
     }
 
@@ -278,6 +279,19 @@ export default function BuyOrderCard(props: any, border: any) {
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {ethers.utils.formatEther(props.pair.buyerLiquidataedDamages.toString())} HYK
+                                </TYPE.black>
+                            </RowBetween>
+                        </FixedHeightRow>
+                        <FixedHeightRow>
+                            <RowBetween>
+                                <RowFixed>
+                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                        {t("法院")}
+                                    </TYPE.black>
+                                </RowFixed>
+                                <TYPE.black fontSize={14} color={theme.text1}>
+                                {getJudge(props.pair.arbitration)?(getJudge(props.pair.arbitration)?.name):"未验证的法院"}
+               {getJudge(props.pair.arbitration)?<a href={getJudge(props.pair.arbitration)?.URL} target="_blank">法院网址</a>:<></>}
                                 </TYPE.black>
                             </RowBetween>
                         </FixedHeightRow>

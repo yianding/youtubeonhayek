@@ -20,6 +20,7 @@ import { useGetDisputeFeeCallBack } from '../../hooks/useApproveCallback'
 import { useTranslation } from 'react-i18next'
 import { getInfoType, INFOTYPE } from '../../hooks/describeInfoType'
 import InfoTypeLOGO from '../../components/InfoTypeLogo'
+import { getJudge } from '../../hooks/judge'
 export const CryptoInput = styled.textarea`
 position: relative;
 display: flex;
@@ -115,23 +116,23 @@ export default function SaleOrderLockedCard(props: any, border: any) {
     }
     function HandleDisputeButton() {
         if ((props.pair.lockedblocknumber.add(props.SellerDisputableBlockNumber)).gte(BlockNumber)) {
-            return (<ButtonSecondary width="100%" onClick={dispute} disabled={true}>Waitting buyer transfer<QuestionHelper text={"You can dispute this order after " + props.pair.lockedblocknumber.add(props.SellerDisputableBlockNumber).sub(BlockNumber).toString() + " blocks"} /></ButtonSecondary>)
+            return (<ButtonSecondary width="100%" onClick={dispute} disabled={true}>Waitting buyer transfer<QuestionHelper text={"You can dispute this order after " + props.pair.lockedblocknumber.add(props.SellerDisputableBlockNumber + 1).sub(BlockNumber).toString() + " blocks"} /></ButtonSecondary>)
         } else {
             return (<ButtonSecondary width="100%" onClick={dispute} >Dispute</ButtonSecondary>)
         }
     }
-    const { wrapType, execute: onWrap, inputError: wrapInputError } = useWrapConfirmCallback(props.pair.id)
+    const { execute: onWrap } = useWrapConfirmCallback(props.pair.id)
     function confirm() {
-        console.log("fffffffff", wrapType, "fffffffffff", wrapInputError, "fffffffff", onWrap)
+
         if (onWrap) { onWrap() }
     }
 
-    const { wrapType1, execute: onWrap1, inputError: wrapInputError1 } = useWrapDisputeCallback(props.pair.id, "0", "0", disputeFee)
+    const { execute: onWrap1 } = useWrapDisputeCallback(props.pair.id, "0", "0", disputeFee)
     function dispute() {
-        console.log("fffffffff", wrapType1, "fffffffffff", wrapInputError1, "fffffffff", onWrap1)
+
         if (onWrap1) { onWrap1() }
     }
-    const {t}= useTranslation()
+    const { t } = useTranslation()
     return (
         <HoverCard border={border}>
             <AutoColumn gap="12px">
@@ -230,7 +231,7 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                       {t('Seller Address')}
+                                        {t('Seller Address')}
                                     </TYPE.black>
 
                                 </RowFixed>
@@ -278,12 +279,26 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                       {t("Buyer's liquidated damage")}
+                                        {t("Buyer's liquidated damage")}
                                     </TYPE.black>
-                                    <QuestionHelper text={t("Buyer's liquidated damage")}/>
+                                    <QuestionHelper text={t("Buyer's liquidated damage")} />
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {ethers.utils.formatEther(props.pair.buyerLiquidataedDamages.toString())} HYK
+                                </TYPE.black>
+                            </RowBetween>
+                        </FixedHeightRow>
+
+                        <FixedHeightRow>
+                            <RowBetween>
+                                <RowFixed>
+                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                        {t("法院")}
+                                    </TYPE.black>
+                                </RowFixed>
+                                <TYPE.black fontSize={14} color={theme.text1}>
+                                {getJudge(props.pair.arbitration)?(getJudge(props.pair.arbitration)?.name):"未验证的法院"}
+               {getJudge(props.pair.arbitration)?<a href={getJudge(props.pair.arbitration)?.URL} target="_blank">法院网址</a>:<></>}
                                 </TYPE.black>
                             </RowBetween>
                         </FixedHeightRow>
@@ -314,7 +329,7 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                         <HoverCard border={border}>
                             {HandleDescribe() ? HandleDescribe() : <></>}
                         </HoverCard>
-                        
+
                         <ButtonSecondary width="100%" onClick={confirm}>
                             {t('Confirm')}
                         </ButtonSecondary>

@@ -21,6 +21,8 @@ import Loader from '../../components/Loader'
 import DescribeInputPanel from '../../components/DescribeInputPanel'
 import { TYPE } from '../../theme'
 import { useTranslation } from 'react-i18next'
+import JudgeInputPanel from '../../components/JudgeInputPanel'
+import { getJudge } from '../../hooks/judge'
 
 export const Input = styled.input`
   position: relative;
@@ -56,6 +58,7 @@ export default function PutOrder() {
     const [SellerDeposit, setSellerDeposit] = useState("");
     const [BuyerDeposit, setBuyerDeposit] = useState("");
     const [descInfo, setdescInfo] = useState<string[]>([]);
+    const [JudgeAddress, setJudgeAddress] = useState("");
 
     const SellerD = useCallback(() => {
         if (SellerDeposit == "") {
@@ -81,10 +84,10 @@ export default function PutOrder() {
     }, [price])
 
 
-    const { wrapType, execute: onWrap } = useWrapPutCallback(ethers.utils.parseUnits(saleNumber ? saleNumber : "0", currencies[Field.INPUT]?.decimals).toString(), priceToWrap(), JSON.stringify(descInfo), "卖家联系方式", Currency, "0x2aCdAC1d723F307D22684bC69721822f875809AF", ERC20, BuyerD(), SellerD())
+    const { wrapType, execute: onWrap } = useWrapPutCallback(ethers.utils.parseUnits(saleNumber ? saleNumber : "0", currencies[Field.INPUT]?.decimals).toString(), priceToWrap(), JSON.stringify(descInfo), "卖家联系方式", Currency, JudgeAddress, ERC20, BuyerD(), SellerD())
     function putOrder() {
         if (onWrap) { onWrap() }
-        console.log("ddds", descInfo)
+
     }
 
 
@@ -119,19 +122,25 @@ export default function PutOrder() {
 
     const handleTypeInput = useCallback(
         (value: string) => {
-
-            if (value.indexOf('.') != -1) {
-                if (value.length - value.indexOf('.') - 1 <= ERC20Decimal) {
-                    setSaleNumber(value)
-                    if (price != "") {
-                        settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 80).mul(ethers.utils.parseUnits(price, 6)), 86))
-                    }
+            if (value == ".") {
+                setSaleNumber("0.")
+                if (saleNumber != "") {
+                    settotalprice(ethers.utils.formatUnits("0"))
                 }
             } else {
-                if (value.length <= 78) {
-                    setSaleNumber(value)
-                    if (price != "") {
-                        settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 80).mul(ethers.utils.parseUnits(price, 6)), 86))
+                if (value.indexOf('.') != -1) {
+                    if (value.length - value.indexOf('.') - 1 <= ERC20Decimal) {
+                        setSaleNumber(value)
+                        if (price != "") {
+                            settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 80).mul(ethers.utils.parseUnits(price, 6)), 86))
+                        }
+                    }
+                } else {
+                    if (value.length <= 78) {
+                        setSaleNumber(value)
+                        if (price != "") {
+                            settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 80).mul(ethers.utils.parseUnits(price, 6)), 86))
+                        }
                     }
                 }
             }
@@ -149,18 +158,25 @@ export default function PutOrder() {
     )
     const handleFaitInput = useCallback(
         (value: string) => {
-            if (value.indexOf('.') != -1) {
-                if (value.length - value.indexOf('.') - 1 <= 6) {
-                    setPrice(value)
-                    if (saleNumber != "") {
-                        settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 6).mul(ethers.utils.parseUnits(saleNumber, 80)), 86))
-                    }
+            if (value == ".") {
+                setPrice("0.")
+                if (saleNumber != "") {
+                    settotalprice(ethers.utils.formatUnits("0"))
                 }
             } else {
-                if (value.length <= 60) {
-                    setPrice(value)
-                    if (saleNumber != "") {
-                        settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 6).mul(ethers.utils.parseUnits(saleNumber, 80)), 86))
+                if (value.indexOf('.') != -1) {
+                    if (value.length - value.indexOf('.') - 1 <= 6) {
+                        setPrice(value)
+                        if (saleNumber != "") {
+                            settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 6).mul(ethers.utils.parseUnits(saleNumber, 80)), 86))
+                        }
+                    }
+                } else {
+                    if (value.length <= 60) {
+                        setPrice(value)
+                        if (saleNumber != "") {
+                            settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 6).mul(ethers.utils.parseUnits(saleNumber, 80)), 86))
+                        }
                     }
                 }
             }
@@ -178,28 +194,42 @@ export default function PutOrder() {
     )
     const handleSellerDepositInput = useCallback(
         (value: string) => {
-            if (value.indexOf('.') != -1) {
-                if (value.length - value.indexOf('.') - 1 <= 18) {
-                    setSellerDeposit(value)
-                }
+            if (value == ".") {
+                setSellerDeposit("0.")
             } else {
-                if (value.length <= 78) {
-                    setSellerDeposit(value)
+                if (value.indexOf('.') != -1) {
+                    if (value.length - value.indexOf('.') - 1 <= 18) {
+                        setSellerDeposit(value)
+                    }
+                } else {
+                    if (value.length <= 78) {
+                        setSellerDeposit(value)
+                    }
                 }
             }
         }, []
     )
     const handleBuyerDepositInput = useCallback(
         (value: string) => {
-            if (value.indexOf('.') != -1) {
-                if (value.length - value.indexOf('.') - 1 <= 18) {
-                    setBuyerDeposit(value)
-                }
+            if (value == ".") {
+                setBuyerDeposit("0.")
             } else {
-                if (value.length <= 78) {
-                    setBuyerDeposit(value)
+                if (value.indexOf('.') != -1) {
+                    if (value.length - value.indexOf('.') - 1 <= 18) {
+                        setBuyerDeposit(value)
+                    }
+                } else {
+                    if (value.length <= 78) {
+                        setBuyerDeposit(value)
+                    }
                 }
             }
+        },
+        []
+    )
+    const handleJudgeInput = useCallback(
+        value => {
+            setJudgeAddress(value.address)
         },
         []
     )
@@ -230,9 +260,7 @@ export default function PutOrder() {
 
             <div style={{ height: "24px" }} />
 
-
             <FIATInputPanel
-
                 price={price}
                 onUserInput={handleFaitInput}
                 label={t('Unit Price')}
@@ -274,9 +302,18 @@ export default function PutOrder() {
                 onUserInput2={handleBuyerDepositInput}
                 label={t("Seller's liquidated damage") + "(HYK)"}
                 id="swap-currency-output"
-
+            />
+            <div style={{ height: "24px", width: "100%" }} />
+            <JudgeInputPanel
+                showMaxButton={false}
+                currency={getJudge(JudgeAddress)}
+                otherCurrency={getJudge(JudgeAddress)}
+                id="judgeInput"
+                onCurrencySelect={handleJudgeInput}
+                label={"判决"}
             />
             <div style={{ height: "24px" }} />
+
             <DescribeInputPanel
                 descInfo={descInfo}
                 handlesetdescInfo={handlesetdescInfo}
@@ -300,7 +337,7 @@ export default function PutOrder() {
                             <ButtonLight width="100%" disabled={true}>
                                 {t('Approve Pending')}{" "} <Loader></Loader>
                             </ButtonLight>
-                            : price != "" && Currency != "" && saleNumber != "" && SellerDeposit != "" && BuyerDeposit != "" ?
+                            : price != "" && Currency != "" && saleNumber != "" && SellerDeposit != "" && BuyerDeposit != ""&& JudgeAddress != ""  ?
                                 <ButtonLight onClick={putOrder} width="100%">
                                     {t('Comfirm')}
                                 </ButtonLight> :
@@ -308,23 +345,6 @@ export default function PutOrder() {
                                     {t('Complete Order Infos')}
                                 </ButtonLight>
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         </AppBody>
     )

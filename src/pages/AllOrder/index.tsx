@@ -18,10 +18,12 @@ import { FIAT } from '../../hooks/fait'
 import FilterTokenCurrency from '../../components/FilterTokenCurrency'
 import SetConditionPanel from '../../components/SetConditionPanel'
 import { useWalletModalToggle } from '../../state/application/hooks'
-import { ethers } from 'ethers'
+import { ethers, providers } from 'ethers'
 import { LinkStyledButton } from '../../components/DescribeInputPanel'
 import Loader from '../../components/Loader'
 import { useTranslation } from 'react-i18next'
+
+
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -55,12 +57,12 @@ export const MyHoverCard = styled(Card)`
 
 export default function AllOrders() {
 
-  const { account } = useActiveWeb3React()
+  const { account,connector } = useActiveWeb3React()
   const [conditionOfOrders, setconditionOfOrders] = useConditionOfOrders()
   const toggleWalletModal = useWalletModalToggle()
 
   const orders = useGetOrderDataCallBack()
-  const ordersMemo = useMemo(()=>orders,[orders])
+  const ordersMemo = useMemo(() => orders, [orders])
   const [pricemin, setpriceMin] = useState("");
   const [pricemax, setpriceMax] = useState("");
   const [nummin, setnumMin] = useState("");
@@ -72,46 +74,63 @@ export default function AllOrders() {
   const [lineNumber, setlineNumber] = useState(conditionOfOrders.linenumber);
 
   const handleInputPriceMin = (value: string) => {
-    if (value.indexOf('.') != -1) {
-      if (value.length - value.indexOf('.') - 1 <= 6) {
-        setpriceMin(value)
-      }
+    if (value == ".") {
+      setpriceMin("0.")
     } else {
-      if (value.length <= 60) {
-        setpriceMin(value)
+      if (value.indexOf('.') != -1) {
+        if (value.length - value.indexOf('.') - 1 <= 6) {
+          setpriceMin(value)
+        }
+      } else {
+        if (value.length <= 60) {
+          setpriceMin(value)
+        }
       }
     }
+
   }
   const handleInputPriceMax = (value: string) => {
-    if (value.indexOf('.') != -1) {
-      if (value.length - value.indexOf('.') - 1 <= 6) {
-        setpriceMax(value)
-      }
+    if (value == ".") {
+      setpriceMax("0.")
     } else {
-      if (value.length <= 60) {
-        setpriceMax(value)
+      if (value.indexOf('.') != -1) {
+        if (value.length - value.indexOf('.') - 1 <= 6) {
+          setpriceMax(value)
+        }
+      } else {
+        if (value.length <= 60) {
+          setpriceMax(value)
+        }
       }
     }
   }
   const handleInputNumMin = (value: string) => {
-    if (value.indexOf('.') != -1) {
-      if (value.length - value.indexOf('.') - 1 <= ERC20.decimals) {
-        setnumMin(value)
-      }
+    if (value == ".") {
+      setnumMin("0.")
     } else {
-      if (value.length <= 60) {
-        setnumMin(value)
+      if (value.indexOf('.') != -1) {
+        if (value.length - value.indexOf('.') - 1 <= ERC20.decimals) {
+          setnumMin(value)
+        }
+      } else {
+        if (value.length <= 60) {
+          setnumMin(value)
+        }
       }
     }
   }
   const handleInputNumMax = (value: string) => {
-    if (value.indexOf('.') != -1) {
-      if (value.length - value.indexOf('.') - 1 <= ERC20.decimals) {
-        setnumMax(value)
-      }
+    if (value == ".") {
+      setnumMax("0.")
     } else {
-      if (value.length <= 60) {
-        setnumMax(value)
+      if (value.indexOf('.') != -1) {
+        if (value.length - value.indexOf('.') - 1 <= ERC20.decimals) {
+          setnumMax(value)
+        }
+      } else {
+        if (value.length <= 60) {
+          setnumMax(value)
+        }
       }
     }
   }
@@ -121,24 +140,32 @@ export default function AllOrders() {
     }
   }
   const handleInputSellerDeposit = (value: string) => {
-    if (value.indexOf('.') != -1) {
-      if (value.length - value.indexOf('.') - 1 <= 18) {
-        setsellerDeposit(value)
-      }
+    if (value == ".") {
+      setsellerDeposit("0.")
     } else {
-      if (value.length <= 60) {
-        setsellerDeposit(value)
+      if (value.indexOf('.') != -1) {
+        if (value.length - value.indexOf('.') - 1 <= 18) {
+          setsellerDeposit(value)
+        }
+      } else {
+        if (value.length <= 60) {
+          setsellerDeposit(value)
+        }
       }
     }
   }
   const handleInputBuyerDeposit = (value: string) => {
-    if (value.indexOf('.') != -1) {
-      if (value.length - value.indexOf('.') - 1 <= 18) {
-        setbuyerDeposit(value)
-      }
+    if (value == ".") {
+      setbuyerDeposit("0.")
     } else {
-      if (value.length <= 60) {
-        setbuyerDeposit(value)
+      if (value.indexOf('.') != -1) {
+        if (value.length - value.indexOf('.') - 1 <= 18) {
+          setbuyerDeposit(value)
+        }
+      } else {
+        if (value.length <= 60) {
+          setbuyerDeposit(value)
+        }
       }
     }
   }
@@ -172,8 +199,54 @@ export default function AllOrders() {
   }
 
   const [showMore, setShowMore] = useState(false)
-  
+
   const { t } = useTranslation()
+  function test(){
+
+
+    
+
+    connector?.getProvider().then(async (aa)=>{
+      const provider = new providers.Web3Provider(aa);
+      const signer = provider.getSigner()
+//const address = await signer.getAddress();
+    //  console.log("GGGGGGGGGGG",address)
+    const originalMessage="0"
+      const signedMessage = await signer.signMessage(originalMessage)
+     const s= ethers.utils.splitSignature(signedMessage)
+      console.log("GGGGGGGGGGG",originalMessage,s.v,s.r,s.s)
+     
+    }
+    
+   )
+  //  connector?.getProvider().then(async (aa)=>{
+ 
+  //    const  rawMessage = "111";
+  //   const provider = new providers.Web3Provider(aa);
+  //   const signer = provider.getSigner()
+  //   const address = await signer.getAddress();
+
+  //   let signedMessage;
+  //   //if (web3.wc) {
+  //       signedMessage = await provider.send(
+  //           'personal_sign',
+  //           [ ethers.utils.hexlify(ethers.utils.toUtf8Bytes(rawMessage)), address.toLowerCase() ]
+  //       );
+  //  // }
+  //   // else { 
+  //   //     signedMessage = await signer.signMessage(rawMessage)
+  //   // }
+    
+  //   const verified = ethers.utils.verifyMessage(rawMessage, signedMessage);
+  //   console.log("GGGGGGGGGGG",signedMessage,verified,ethers.utils.toUtf8Bytes(rawMessage))
+  // }
+  
+ //)
+
+
+
+
+  }
   return (
     <>
       <AppBody>
@@ -255,7 +328,7 @@ export default function AllOrders() {
                               type="number"
                               id="lineNumber"
                               placeholder="lineNumber"
-                              style={{width:'200px'}}
+                              style={{ width: '200px' }}
                               value={lineNumber}
                               onChange={handleInputLineNumber}
                             />
@@ -288,21 +361,21 @@ export default function AllOrders() {
                   <div style={{ height: "2px" }} />
 
                   {ordersMemo ? ordersMemo.map((k) => {
-                    console.log("fffff", k.seller)
+                    
                     if (k.seller != "0x0000000000000000000000000000000000000000") {
                       return (
                         <FullPositionCard key={k.id} pair={k} />
                       )
                     } else { return }
                   }
-                  ) : 
-                  <Card >
-                    <AutoColumn gap="12px">
+                  ) :
+                    <Card >
+                      <AutoColumn gap="12px">
                         <div style={{ textAlign: "center" }}>
                           <Loader></Loader>
                         </div>
-                    </AutoColumn>
-                  </Card >}
+                      </AutoColumn>
+                    </Card >}
                   <div style={{ textAlign: "center" }}>
                     <LinkStyledButton onClick={handleMore} >{t('More')}</LinkStyledButton>
                   </div>
@@ -310,6 +383,8 @@ export default function AllOrders() {
               )}
           </AutoColumn>
         </AutoColumn>
+        <ButtonSecondary onClick={test}> test</ButtonSecondary>
+        <a href="sms:+8613007319696?body=http://192.168.1.148:3000/3727fdasjkjjfajkfkjkajffkdsajfkjdsakfjkdsajfkjdskafjajfkdsj"> Text </a>
       </AppBody>
     </>
   )

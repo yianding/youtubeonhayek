@@ -51,7 +51,7 @@ export default function MyBuyOrder() {
 
 
                     {orders?.map((k) => {
-                        console.log("fffff", k.seller)
+                    
                         if (k.seller != "0x0000000000000000000000000000000000000000" && k.state == 1) {
                             return (
                                 <BuyOrderCard key={k.id} pair={k} BuyerDisputableBlockNumber={BuyerDisputableBlockNumber}

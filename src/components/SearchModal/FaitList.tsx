@@ -123,7 +123,7 @@ export default function FaitList({
 
   const Row = useCallback(
     ({ data, index, style }) => {
-      console.log("faitList",data)
+     
       const currency: FIAT = data[index]
       const isSelected = Boolean(selectedCurrency && fiatEquals(selectedCurrency, currency))
       const otherSelected = Boolean(otherCurrency && fiatEquals(otherCurrency, currency))
