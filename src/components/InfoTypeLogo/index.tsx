@@ -35,3 +35,4 @@ if(currency==undefined){
   return <StyledLogo size={size} srcs={srcs} alt={`${currency?.InfoText ?? 'token'} logo`} style={style} />
 }
 }
+

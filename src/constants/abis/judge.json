@@ -1,5 +1,57 @@
 [
 	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "Fee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "allCase",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "precentSubjectToseller",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "precentDepositToseller",
+				"type": "uint8"
+			},
+			{
+				"internalType": "bool",
+				"name": "resultState",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "isDispute",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -44,7 +96,7 @@
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -86,7 +138,7 @@
 				"type": "bool"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -97,6 +149,180 @@
 				"internalType": "string",
 				"name": "",
 				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "linenumber",
+				"type": "uint256"
+			}
+		],
+		"name": "getWaitingForJudgingCase",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "r",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "judger",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "judgingCase",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "judgerAddr",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "state",
+				"type": "bool"
+			}
+		],
+		"name": "manageJudger",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "fee",
+				"type": "uint256"
+			}
+		],
+		"name": "setFee",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint8",
+				"name": "precentSubjectToseller",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint8",
+				"name": "precentDepositToseller",
+				"type": "uint8"
+			}
+		],
+		"name": "toJudge",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "url",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "num",
+				"type": "uint256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "nonpayable",

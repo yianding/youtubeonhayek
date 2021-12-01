@@ -1,3 +1,4 @@
+//0.8.10 default optimizer 100
 pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
 
@@ -108,7 +109,7 @@ contract trading{
        require(IERC20(erc20address).allowance(msg.sender,address(this))>=salenumber,"Out of allowance");
        require(isContract(erc20address),'wrong erc20address');
        require(!isContract(msg.sender),'seller can not be a contract');
-       require(salenumber!=0, 'Invalid salenumber');
+      // require(salenumber!=0, 'Invalid salenumber');
        bool r=IERC20(erc20address).transferFrom(msg.sender,address(this),salenumber);
        string memory buyerContactInfo;
        Order memory temporder = Order(salenumber,price,describe,sellerContactInfo,buyerContactInfo,0,currency,payable(msg.sender),payable(address(0)),0,arbitration,erc20address,msg.value,buyerLiquidataedDamages);
@@ -143,14 +144,8 @@ contract trading{
         require(allOrder[index].seller == msg.sender ,"you are not the seller of this transaction,can not comfirm");
         require(allOrder[index].state == 1,"state fault");
         allOrder[index].state=2;
-        uint a = (charge[allOrder[index].Currency].limit*(10^IERC20(allOrder[index].erc20address).decimals())*1000000)/allOrder[index].price ;
-        if(allOrder[index].salenumber>=a){
-            uint b=((allOrder[index].salenumber-a)*charge[allOrder[index].Currency].precent)/1000;
-            IERC20(allOrder[index].erc20address).transfer(vipfeeReceiver,b);
-            IERC20(allOrder[index].erc20address).transfer(allOrder[index].buyer,allOrder[index].salenumber-b);
-        }else{
-            IERC20(allOrder[index].erc20address).transfer(allOrder[index].buyer,allOrder[index].salenumber);
-        }
+        bool a=chargeFee(index,allOrder[index].salenumber);
+        require(a);
         allOrder[index].seller.transfer(allOrder[index].sellerLiquidataedDamages);
         allOrder[index].buyer.transfer(allOrder[index].buyerLiquidataedDamages);
         return true;
@@ -174,18 +169,12 @@ contract trading{
          require(allOrder[index].state==3,"Can not surrender now");
          allOrder[index].state=2;
          if(msg.sender==allOrder[index].seller){
-                uint a = (charge[allOrder[index].Currency].limit*(10^IERC20(allOrder[index].erc20address).decimals())*1000000)/allOrder[index].price ;
-                if(allOrder[index].salenumber>=a){
-                    uint b=((allOrder[index].salenumber-a)*charge[allOrder[index].Currency].precent)/1000;
-                    IERC20(allOrder[index].erc20address).transfer(vipfeeReceiver,b);
-                    IERC20(allOrder[index].erc20address).transfer(allOrder[index].buyer,allOrder[index].salenumber-b);
-               }else{
-                    IERC20(allOrder[index].erc20address).transfer(allOrder[index].buyer,allOrder[index].salenumber);
-               }
-                    allOrder[index].buyer.transfer(allOrder[index].buyerLiquidataedDamages+allOrder[index].sellerLiquidataedDamages);
-               return true;
-         }
-         if(msg.sender==allOrder[index].buyer){
+            bool result=chargeFee(index,allOrder[index].salenumber);
+            require(result);
+            allOrder[index].buyer.transfer(allOrder[index].buyerLiquidataedDamages+allOrder[index].sellerLiquidataedDamages);
+            return true;
+             
+         }else{
              IERC20(allOrder[index].erc20address).transfer(allOrder[index].seller,allOrder[index].salenumber);
              allOrder[index].seller.transfer(allOrder[index].buyerLiquidataedDamages+allOrder[index].sellerLiquidataedDamages);
              return true;
@@ -200,20 +189,14 @@ contract trading{
         uint8 y;
         bool z;
         (x,y,z)=judgeStandard(allOrder[index].arbitration).getResult(index);
-        require(z&&x<=100&&y<=100,"wrong return from judge");
+        require((z)&&(x<=100)&&(y<=100),"wrong return from judge");
         if((allOrder[index].salenumber*x)/100!=0){
             IERC20(allOrder[index].erc20address).transfer(allOrder[index].seller,(allOrder[index].salenumber*x)/100);
         }
         uint c=(allOrder[index].salenumber*(100-x))/100;
         if(c!=0){
-            uint a = (charge[allOrder[index].Currency].limit*(10^IERC20(allOrder[index].erc20address).decimals())*1000000)/allOrder[index].price ;
-            if(c>=a){
-               uint b=((c-a)*charge[allOrder[index].Currency].precent)/1000;
-               IERC20(allOrder[index].erc20address).transfer(vipfeeReceiver,b  );
-               IERC20(allOrder[index].erc20address).transfer(allOrder[index].buyer,c-b);
-            }else{
-                IERC20(allOrder[index].erc20address).transfer(allOrder[index].buyer,(allOrder[index].salenumber*(100-x))/100);
-            }
+           bool result=chargeFee(index,c);
+           require(result);
         }
         uint d=allOrder[index].buyerLiquidataedDamages+allOrder[index].sellerLiquidataedDamages;
         if((d*y)/100!=0){
@@ -224,6 +207,23 @@ contract trading{
         }
         return true;
     }
+    
+    function chargeFee(uint index,uint c) private returns(bool){
+        if(allOrder[index].price == 0){
+             IERC20(allOrder[index].erc20address).transfer(allOrder[index].buyer,c);
+        }else{
+            uint a = (charge[allOrder[index].Currency].limit*(10**IERC20(allOrder[index].erc20address).decimals())*1000000)/allOrder[index].price ;
+            if(c>=a){
+                uint b=((c-a)*charge[allOrder[index].Currency].precent)/1000;
+                IERC20(allOrder[index].erc20address).transfer(vipfeeReceiver,b);
+                IERC20(allOrder[index].erc20address).transfer(allOrder[index].buyer,c-b);
+            }else{
+                IERC20(allOrder[index].erc20address).transfer(allOrder[index].buyer,c);
+            }
+        }
+        return true;
+    }
+    
     
     function getMyBuyOrder(address sender,uint lineNumber) public view returns(Order2[] memory){
        Order2[] memory s=new Order2[](lineNumber);
@@ -286,9 +286,10 @@ contract trading{
         Order2[] memory s=new Order2[](lineNumber);
         Order memory d;
         uint x=0;
-        uint length=mySaleOrder[sender].length;
+        uint length=myBuyOrder[sender].length;
         for (uint i=0;i<length&&x<lineNumber; i++) {
-          d = allOrder[mySaleOrder[sender][length-i-1]];
+          d = allOrder[myBuyOrder[sender][length-i-1]];
+          if(d.buyer==sender){
               s[x].salenumber=d.salenumber;
               s[x].id=mySaleOrder[sender][length-i-1];
               s[x].price=d.price;
@@ -302,12 +303,14 @@ contract trading{
               s[x].sellerLiquidataedDamages=d.sellerLiquidataedDamages;
               s[x].buyerLiquidataedDamages=d.buyerLiquidataedDamages;
               x = x+1;
+          }
         }
+        length=mySaleOrder[sender].length;
         for (uint i=0;i<length&&x<lineNumber; i++) {
-          d = allOrder[myBuyOrder[sender][length-i-1]];
-          if(d.buyer==sender){
+          d = allOrder[mySaleOrder[sender][length-i-1]];
+          if(d.seller==sender){
               s[x].salenumber=d.salenumber;
-              s[x].id=myBuyOrder[sender][length-i-1];
+              s[x].id=mySaleOrder[sender][length-i-1];
               s[x].price=d.price;
               s[x].describe=d.describe;
               s[x].Currency=d.Currency;
@@ -354,5 +357,6 @@ contract trading{
     }
     
 }
+
 
 

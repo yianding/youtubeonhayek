@@ -138,7 +138,7 @@ export default function CurrencyInputPanel({
                                 fontSize={14}
                                 style={{ display: 'inline' }}
                             >
-                                Currency
+                               {t("Payment Currency")} 
                             </TYPE.body>
                         </RowBetween>
                     </LabelRow>

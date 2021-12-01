@@ -55,7 +55,7 @@ export default function PutOrder() {
     const [ERC20, setERC20] = useState(ss ? ss.token.address : "");
     const [ERC20Decimal, setERC20Decimal] = useState(ss ? (ss.token.decimals ? ss.token.decimals : 8) : 8)
     const [Currency, setcurrency] = useState("");
-    const [SellerDeposit, setSellerDeposit] = useState("");
+    const [SellerDeposit, setSellerDeposit] = useState("1000");
     const [BuyerDeposit, setBuyerDeposit] = useState("");
     const [descInfo, setdescInfo] = useState<string[]>([]);
     const [JudgeAddress, setJudgeAddress] = useState("");
@@ -247,7 +247,7 @@ export default function PutOrder() {
             <AddRemoveTabs adding={true} />
 
             <CurrencyInputPanel
-                label={t('Token')}
+                label={t('Amount')}
                 value={saleNumber}
                 showMaxButton={!atMaxAmountInput}
                 currency={currencies[Field.INPUT]}
@@ -310,7 +310,7 @@ export default function PutOrder() {
                 otherCurrency={getJudge(JudgeAddress)}
                 id="judgeInput"
                 onCurrencySelect={handleJudgeInput}
-                label={"判决"}
+                label={t('Court')}
             />
             <div style={{ height: "24px" }} />
 
@@ -337,9 +337,9 @@ export default function PutOrder() {
                             <ButtonLight width="100%" disabled={true}>
                                 {t('Approve Pending')}{" "} <Loader></Loader>
                             </ButtonLight>
-                            : price != "" && Currency != "" && saleNumber != "" && SellerDeposit != "" && BuyerDeposit != ""&& JudgeAddress != ""  ?
+                            : price != "" && Currency != "" && saleNumber != ""  &&  JudgeAddress != ""  ?
                                 <ButtonLight onClick={putOrder} width="100%">
-                                    {t('Comfirm')}
+                                    {t('Post My Order')}
                                 </ButtonLight> :
                                 <ButtonLight disabled={true} width="100%">
                                     {t('Complete Order Infos')}

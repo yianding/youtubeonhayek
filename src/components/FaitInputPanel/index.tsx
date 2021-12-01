@@ -166,7 +166,7 @@ export default function FIATInputPanel({
               {
 
                 <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.symbol)}>
-                  {(currency?.symbol) || t('selectToken')}
+                  {(currency?.symbol) || t('Select Currency')}
                 </StyledTokenName>
               }
               {!disableCurrencySelect && <StyledDropDown selected={!!currency} />}

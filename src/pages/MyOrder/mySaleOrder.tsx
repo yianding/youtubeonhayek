@@ -6,14 +6,17 @@ import ExecuteCard from './executeCard'
 import { useGetMySaleOrderDataCallBack, useGetSellerDisputeBlockNumberCallBack } from '../../hooks/useApproveCallback'
 import { LinkStyledButton } from '../../components/DescribeInputPanel';
 import { useConditionOfOrders } from '../../state/conditionOfOrders/hooks';
-import { Card } from 'rebass';
+import Card from '../../components/Card'
 import Loader from '../../components/Loader';
+import { useTranslation } from 'react-i18next';
 
 
 export default function MySaleOrder() {
 
-    let Orders = useGetMySaleOrderDataCallBack();
+    const { t } = useTranslation()
+    let orders = useGetMySaleOrderDataCallBack();
     let SellerDisputableBlockNumber = useGetSellerDisputeBlockNumberCallBack()
+    let OrderNum = 0
     const [conditionOfOrders, setconditionOfOrders] = useConditionOfOrders()
     const handleMore = () => {
         let a = {
@@ -36,26 +39,27 @@ export default function MySaleOrder() {
         <div>
             <AutoColumn gap="lg" justify="center">
                 <AutoColumn gap="6px" style={{ width: '100%' }}>
-                    {Orders ? Orders.map((k) => {
-                       
-                        if (k.seller != "0x0000000000000000000000000000000000000000" && k.state == 3) {
+                    {orders ? orders.map((k) => {
+                        if (k.state == 3) {
+                            OrderNum++
                             return (
                                 <ExecuteCard key={k.id} pair={k} isSeller={true} />
                             )
                         } else { return }
                     }
-                    ) : <Card >
-                        <AutoColumn gap="12px">
-                            <div style={{ textAlign: "center" }}>
-                                <Loader></Loader>
-                            </div>
-                        </AutoColumn>
-                    </Card >
-                    }
+                    ) :
+                        <Card >
+                            <AutoColumn gap="12px">
+                                <div style={{ textAlign: "center" }}>
+                                    <Loader></Loader>
+                                </div>
+                            </AutoColumn>
+                        </Card >}
 
-                    {Orders?.map((k) => {
-                     
-                        if (k.seller != "0x0000000000000000000000000000000000000000" && k.state == 1) {
+
+                    {orders?.map((k) => {
+                        if (k.state == 1) {
+                            OrderNum++
                             return (
                                 <SaleOrderLockedCard key={k.id} pair={k} SellerDisputableBlockNumber={SellerDisputableBlockNumber} />
                             )
@@ -63,18 +67,33 @@ export default function MySaleOrder() {
                     }
                     )}
 
-                    {Orders?.map((k) => {
-                    
+
+                    {orders ? <>{orders.map((k) => {
                         if (k.seller != "0x0000000000000000000000000000000000000000" && k.state == 0) {
+                            OrderNum++
                             return (
                                 <SaleOrderUnlockedCard key={k.id} pair={k} />
                             )
                         } else { return }
                     }
                     )}
-                    <div style={{ textAlign: "center" }}>
-                        <LinkStyledButton onClick={handleMore} >More</LinkStyledButton>
-                    </div>
+                        {OrderNum == 0 ?
+                            <>
+                                <Card >
+                                    <AutoColumn gap="12px">
+                                        <div style={{ textAlign: "center" }}>
+                                            {t("No qualified order at present")}
+                                        </div>
+                                    </AutoColumn>
+                                </Card >
+                            </>
+                            :
+                            <div style={{ textAlign: "center" }}>
+                                <LinkStyledButton onClick={handleMore} >{t("More")}</LinkStyledButton>
+                            </div>
+                        }</> : <></>
+                    }
+
                 </AutoColumn>
             </AutoColumn>
 

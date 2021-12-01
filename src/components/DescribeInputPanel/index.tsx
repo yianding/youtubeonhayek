@@ -243,12 +243,14 @@ export default function DescribeInputPanel({
         <div style={{ marginRight: "4%", marginLeft: "4%" }}>
           {descInfo.map((row, index) => {
             const info = (a: string) => {
-              if (a.length > 23) {
+              let infotype: string = a?.split(':')[0];
+              let translateInfo= t(infotype)+": "+a?.split(':')[1]
+              if (translateInfo.length > 28) {
                 return (
                   <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
                     {a && (
-                      <Copy toCopy={a}>
-                        <span style={{ marginLeft: '4px' }}> {a.substring(0, 20) + "..."}</span>
+                      <Copy toCopy={translateInfo}>
+                        <span style={{ marginLeft: '4px' }}> {translateInfo.substring(0, 20) + "..."}</span>
                       </Copy>
                     )}
                   </TYPE.black>)
@@ -256,8 +258,9 @@ export default function DescribeInputPanel({
               }
               return (
                 <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                  {a}
-                </TYPE.black>)
+                {translateInfo}
+              </TYPE.black>
+               )
             }
             return (
               <FixedHeightRow key={index}>
@@ -265,7 +268,7 @@ export default function DescribeInputPanel({
                   <RowFixed>
                     {info(row)}
                   </RowFixed>
-                  <LinkStyledButton onClick={() => handledelete(index)}>delete</LinkStyledButton>
+                  <LinkStyledButton style={{fontSize:"21px"}} onClick={() => handledelete(index)}>×</LinkStyledButton>
                 </RowBetween>
               </FixedHeightRow>
             )
@@ -286,7 +289,7 @@ export default function DescribeInputPanel({
               <InfoTypeLOGO currency={describeInfoType} size={'24px'} />
               {
                 <StyledTokenName className="token-symbol-container" active={Boolean(describeInfoType && describeInfoType.InfoText)}>
-                  {(describeInfoType?.InfoText) || t('Info Type')}
+                  {t(describeInfoType?.InfoText) || t('Info Type')}
                 </StyledTokenName>
               }
               <StyledDropDown selected={!!describeInfoType} />
@@ -301,6 +304,10 @@ export default function DescribeInputPanel({
           onChange={handledescribeInfo}
           placeholder={t("Please input Crypto contract")}
         /> : <></>
+        }
+        {describeInfoType?.InfoText == "WeChat" ? <text  style={{float:"right",paddingLeft:'4%',paddingRight:'2%',paddingBottom:'2%',color:'#FF6000',display:"inline-block"}}>{t('You must input wechat account,not phone number.')}</text>: <></>
+        }
+                {describeInfoType?.InfoText == "Alipay" ? <text style={{float:"right",paddingLeft:'4%',paddingRight:'2%',paddingBottom:'2%',color:'#FF6000',display:"inline-block"}}>{t('You must input Alipay account,not phone number or e-mail.')}</text>: <></>
         }
         <div style={{ marginRight: "4%", marginLeft: "4%", marginBottom: "4%" }}>
           <ButtonSecondary onClick={handleadd} > {t('Add Info')} </ButtonSecondary>

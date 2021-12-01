@@ -30,14 +30,19 @@ export default function ListUpdatePopup({
   const dispatch = useDispatch<AppDispatch>()
 
   const handleAcceptUpdate = useCallback(() => {
-    if (auto) return
-    ReactGA.event({
-      category: 'Lists',
-      action: 'Update List from Popup',
-      label: listUrl
-    })
-    dispatch(acceptListUpdate(listUrl))
-    removeThisPopup()
+    try {
+      if (auto) return
+      ReactGA.event({
+        category: 'Lists',
+        action: 'Update List from Popup',
+        label: listUrl
+      })
+      dispatch(acceptListUpdate(listUrl))
+      removeThisPopup()
+    } catch (error) {
+      console.log("ListUpdate",error)
+    }
+   
   }, [auto, dispatch, listUrl, removeThisPopup])
   handleAcceptUpdate()
 

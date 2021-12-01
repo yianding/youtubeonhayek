@@ -6,12 +6,15 @@ import { useGetBuyerDisputeBlockNumberCallBack, useGetMyBuyOrderDataCallBack } f
 import { LinkStyledButton } from '../../components/DescribeInputPanel';
 import { useConditionOfOrders } from '../../state/conditionOfOrders/hooks';
 import Loader from '../../components/Loader';
-import { Card } from 'rebass';
+import Card from '../../components/Card'
+import { useTranslation } from 'react-i18next';
 
 export default function MyBuyOrder() {
 
+    const { t } = useTranslation()
     let orders = useGetMyBuyOrderDataCallBack()
     let BuyerDisputableBlockNumber = useGetBuyerDisputeBlockNumberCallBack()
+    let OrderNum=0
     const [conditionOfOrders, setconditionOfOrders] = useConditionOfOrders()
     const handleMore = () => {
         let a = {
@@ -34,7 +37,8 @@ export default function MyBuyOrder() {
             <AutoColumn gap="lg" justify="center">
                 <AutoColumn gap="6px" style={{ width: '100%' }}>
                     {orders ? orders.map((k) => {
-                        if (k.seller != "0x0000000000000000000000000000000000000000" && k.state == 3) {
+                        if (k.state == 3) {
+                            OrderNum++
                             return (
                                 <ExecuteCard key={k.id} pair={k} isSeller={false} />
                             )
@@ -50,9 +54,10 @@ export default function MyBuyOrder() {
                         </Card >}
 
 
-                    {orders?.map((k) => {
+                    {orders?<>{orders.map((k) => {
                     
-                        if (k.seller != "0x0000000000000000000000000000000000000000" && k.state == 1) {
+                        if (k.state == 1) {
+                            OrderNum++
                             return (
                                 <BuyOrderCard key={k.id} pair={k} BuyerDisputableBlockNumber={BuyerDisputableBlockNumber}
                                 />
@@ -60,9 +65,22 @@ export default function MyBuyOrder() {
                         } else { return }
                     }
                     )}
+                    {OrderNum==0?
+                    <>
+                      <Card >
+                      <AutoColumn gap="12px">
+                        <div style={{ textAlign: "center" }}>
+                          {t("No qualified order at present")}
+                        </div>
+                      </AutoColumn>
+                    </Card >
+                    </>
+                    :
                     <div style={{ textAlign: "center" }}>
-                        <LinkStyledButton onClick={handleMore} >More</LinkStyledButton>
+                        <LinkStyledButton onClick={handleMore} >{t("More")}</LinkStyledButton>
                     </div>
+                    }</>:<></>
+                    }
                 </AutoColumn>
             </AutoColumn>
 

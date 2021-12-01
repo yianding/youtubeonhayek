@@ -2,11 +2,12 @@ import React, { CSSProperties, MutableRefObject, useCallback } from 'react'
 import { FixedSizeList } from 'react-window'
 import Column from '../Column'
 import { MenuItem } from './styleds'
-import { RowBetween, RowFixed } from '../Row'
+import { RowBetween } from '../Row'
 import { AllJudge, JUDGE } from '../../hooks/judge'
 import ListLogo from '../ListLogo'
 import styled from 'styled-components'
 import { Text } from 'rebass'
+import { useTranslation } from 'react-i18next'
 
 
 const StyledDepositText = styled(Text)`
@@ -14,6 +15,8 @@ const StyledDepositText = styled(Text)`
   overflow: hidden;
   max-width: 5rem;
   text-overflow: ellipsis;
+  display:inline-block;
+  float:left;
 `
 
 function FaitRow({
@@ -31,7 +34,7 @@ function FaitRow({
 }) {
 
 
-
+  const { t } = useTranslation()
   // only show add or remove buttons if not on selected list
   return (
     <MenuItem
@@ -45,14 +48,13 @@ function FaitRow({
       <Column>
         <RowBetween>
           <text key={currency?.name} fontWeight={1000}>
-            {currency.name + " "}
-            <a href={currency.URL} target="_blank">法院网址</a>
+          
+             {currency.name}
           </text>
         </RowBetween>
       </Column>
-      <RowFixed  style={{ justifySelf: 'flex-end' }} >
-      <StyledDepositText >  {currency?.deposit}</StyledDepositText>HYK
-      </RowFixed>  
+      <StyledDepositText >  {currency?.deposit}HYK</StyledDepositText>
+      <a href={currency.URL} target="_blank" > <Text>{t('Website')}</Text></a>
     </MenuItem>
 
   )
@@ -114,5 +116,4 @@ export default function FaitList({
     </FixedSizeList>
   )
 }
-
 

@@ -17,11 +17,11 @@ function getDefaultWrapToken(): WrappedTokenInfo {
   const taginfo: TagInfo[] = [];
   const tokenInfo: TokenInfo = {
     chainId: ChainId.HAYEK,
-    address: "0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C",
-    name: "WHYK",
-    decimals: 18,
-    symbol: "WHYK",
-    logoURI: "https://hayek.link/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png"
+    address: "0xa5E265Bf313b24476dA9681D61bDbdC03c66F271",
+    name: "USDT",
+    decimals: 8,
+    symbol: "USDT",
+    logoURI: "https://hayek.link/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
   }
   return new WrappedTokenInfo(tokenInfo, taginfo)
 }
@@ -33,7 +33,7 @@ export const initialState: conditionOfOrdersState = {
     price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
     currency: {
       symbol: "CNY",
-      logoURI: "https://hayek.link/0xC1b231Fdfc5227de9c1555BE657EF00b2b9886BC.png",
+      logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
       describe: "Chinese currency,人民币",
       sign: "￥"
     }, linenumber: 100, erc20: getDefaultWrapToken(),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),

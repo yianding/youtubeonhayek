@@ -52,6 +52,12 @@ export const HoverCard = styled(Card)`
     border: 1px solid ${({ theme }) => darken(0.06, theme.bg2)};
   }
 `
+const A = styled.a`
+text-Decoration: none;
+:hover {
+  text-Decoration:underline;
+}
+`
 
 
 interface PositionCardProps {
@@ -165,7 +171,7 @@ function Crypto(props: { info: React.Key | undefined, handleHashComfirm: any }) 
             <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
               {t('Please Input Crypto Contract Item')}
             </TYPE.black>
-            <QuestionHelper text="This order include a crypto contract item.please contact this seller to get this crypto contract item" />
+            <QuestionHelper text={t("This order include a crypto contract item.please contact this seller to get this crypto contract item")} />
           </RowFixed>
         </RowBetween>
       </FixedHeightRow>
@@ -190,12 +196,12 @@ export default function FullPositionCard(props: any, border: any) {
 
   })
   function infoDescribe(infotype: string, info: string, i: number, infodescribe: string, tempINFOTYPE?: INFOTYPE): ReactNode | undefined {
-    const ellipsis = (a: string) => {
-      if (a.length > 20) {
-        return a.substring(0, 20) + "..."
-      }
-      return a
-    }
+    // const ellipsis = (a: string) => {
+    //   if (a.length > 20) {
+    //     return a.substring(0, 20) + "..."
+    //   }
+    //   return a
+    // }
 
     return (
 
@@ -205,24 +211,24 @@ export default function FullPositionCard(props: any, border: any) {
 
             <InfoTypeLOGO currency={tempINFOTYPE} size={'12px'} />
             <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-              {t(infotype)}:
+              {t(infotype)+" "}:
             </TYPE.black>
             {infodescribe ? <QuestionHelper text={t(infodescribe)} /> : null}
           </RowFixed>
           {infotype === "Telegram" ? (
             <TYPE.black fontSize={14} color={theme.text1}>
               {info && (
-                <a href={"https://t.me/" + info} target="_blank">{info}</a>
+                <a href={"https://t.me/" + info} style={{color:theme.text1}} target="_blank">{info}</a>
               )} </TYPE.black>) : infotype === "QQ" ? (
                 <TYPE.black fontSize={14} color={theme.text1}>
                   {info && (
-                    <a href={"https://wpa.qq.com/msgrd?v=3&uin=" + info + "&site=qq&menu=yes"} target="_blank">{info}</a>
+                    <a href={"https://wpa.qq.com/msgrd?v=3&uin=" + info + "&site=qq&menu=yes"} style={{color:theme.text1}} target="_blank">{info}</a>
                   )} </TYPE.black>)
             : (<TYPE.black fontSize={14} color={theme.text1}>
               {info && (
-                <Copy toCopy={info}>
-                  <span style={{ marginLeft: '3px' }}> {ellipsis(info)}</span>
-                </Copy>
+              
+                  <span style={{ marginLeft: '3px' }}> {t('Show after locked')}</span>
+              
               )} </TYPE.black>)}
 
         </RowBetween>
@@ -340,7 +346,7 @@ export default function FullPositionCard(props: any, border: any) {
                   <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
                     {t('Order ID')}
                   </TYPE.black>
-                  <QuestionHelper text="Each order has a unique ID." />
+                  <QuestionHelper text={t("Each order has a unique ID.")} />
                 </RowFixed>
                 <TYPE.black fontSize={14} color={theme.text1}>
                   {props.pair.id.toString()}
@@ -380,7 +386,7 @@ export default function FullPositionCard(props: any, border: any) {
                   <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
                     {t('Total Amount')}
                   </TYPE.black>
-                  <QuestionHelper text="Total Amount = Price * saleNumber" />
+                  <QuestionHelper text={t("Total Amount = Price × saleNumber")}/>
                 </RowFixed>
                 {generateTotalAmount()}
               </RowBetween>
@@ -434,13 +440,13 @@ export default function FullPositionCard(props: any, border: any) {
               <RowBetween>
                 <RowFixed>
                   <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                    {t("法院")}
+                    {t("Court")}
                   </TYPE.black>
                 </RowFixed>
                
                 <TYPE.black fontSize={14} color={theme.text1}>
-                  {getJudge(props.pair.arbitration)?(getJudge(props.pair.arbitration)?.name):"未验证的法院"}
-               {getJudge(props.pair.arbitration)?<a href={getJudge(props.pair.arbitration)?.URL} target="_blank">法院网址</a>:<></>}
+            
+               {getJudge(props.pair.arbitration)?<A href={getJudge(props.pair.arbitration)?.URL}  target="_blank">{getJudge(props.pair.arbitration)?(getJudge(props.pair.arbitration)?.name):t("Unverified Court")}</A>:<></>}
                 </TYPE.black>
               </RowBetween>
             </FixedHeightRow>
@@ -463,7 +469,7 @@ export default function FullPositionCard(props: any, border: any) {
                   <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
                     {t('Buyer contact info')}
                   </TYPE.black>
-                  <QuestionHelper text="Your contact info" />
+                  <QuestionHelper text={t("Your contact info")} />
                 </RowFixed>
                 <input onChange={(e) => { setcontactInfo(e.target.value) }}>
                 </input>

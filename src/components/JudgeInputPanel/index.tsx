@@ -103,7 +103,7 @@ interface FIATInputPanelProps {
 }
 
 export default function JudgeInputPanel({
-  label = 'Input',
+  label,
   onCurrencySelect,
   currency,
   disableCurrencySelect = false,
@@ -151,7 +151,7 @@ export default function JudgeInputPanel({
               {
 
                 <StyledTokenName className="token-symbol-container" active={Boolean(currency && currency.name)}>
-                  {(currency?.name) || t("选择法院")}
+                  {(currency?.name) || t("Select Court")}
                 </StyledTokenName>
               }
               {!disableCurrencySelect && <StyledDropDown selected={!!currency} />}

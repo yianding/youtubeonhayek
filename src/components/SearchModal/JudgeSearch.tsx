@@ -82,14 +82,14 @@ export function JudgeSearch({
       <PaddedColumn gap="14px">
         <RowBetween>
           <Text fontWeight={500} fontSize={16}>
-           { t('选择法院')}
+           { t('Select Court')}
           </Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
         <SearchInput
           type="text"
           id="token-search-input"
-          placeholder={t('Input address')}
+          placeholder={t('Custom Court Smart Contract Address')}
           value={searchQuery}
           ref={inputRef as RefObject<HTMLInputElement>}
           onChange={handleInput}
@@ -97,7 +97,7 @@ export function JudgeSearch({
     
         <RowBetween>
           <Text fontSize={14} fontWeight={500}>
-           {t('Currency')}
+           {t('Court List')}
           </Text>
           <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder(iso => !iso)} />
         </RowBetween>

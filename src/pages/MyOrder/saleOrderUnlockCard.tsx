@@ -46,7 +46,12 @@ export const HoverCard = styled(Card)`
     border: 1px solid ${({ theme }) => darken(0.06, theme.bg2)};
   }
 `
-
+const A = styled.a`
+text-Decoration: none;
+:hover {
+  text-Decoration:underline;
+}
+`
 export default function SaleOrderUnlockedCard(props: any, border: any) {
     const theme = useContext(ThemeContext)
     const [showMore, setShowMore] = useState(false)
@@ -78,11 +83,11 @@ export default function SaleOrderUnlockedCard(props: any, border: any) {
                     {infotype === "Telegram" ? (
                         <TYPE.black fontSize={14} color={theme.text1}>
                             {info && (
-                                <a href={"https://t.me/" + info} target="_blank">{info}</a>
+                                <a href={"https://t.me/" + info} style={{color:theme.text1}} target="_blank">{info}</a>
                             )} </TYPE.black>) : infotype === "QQ" ? (
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {info && (
-                                        <a href={"http://wpa.qq.com/msgrd?v=3&uin=" + info + "&site=qq&menu=yes"} target="_blank">{info}</a>
+                                        <a href={"http://wpa.qq.com/msgrd?v=3&uin=" + info + "&site=qq&menu=yes"} style={{color:theme.text1}} target="_blank">{info}</a>
                                     )} </TYPE.black>)
                         : (<TYPE.black fontSize={14} color={theme.text1}>
                             {info && (
@@ -163,7 +168,7 @@ export default function SaleOrderUnlockedCard(props: any, border: any) {
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
                                         {t('Order ID')}
                                     </TYPE.black>
-                                    <QuestionHelper text="Each order has a unique ID." />
+                                    <QuestionHelper text={t("Each order has a unique ID.")} />
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {props.pair.id.toString()}
@@ -204,7 +209,7 @@ export default function SaleOrderUnlockedCard(props: any, border: any) {
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
                                         {t('Total Amount')}
                                     </TYPE.black>
-                                    <QuestionHelper text="Total Amount = Price * saleNumber" />
+                                    <QuestionHelper text={t("Total Amount = Price × saleNumber")} />
                                 </RowFixed>
 
                                 {generateTotalAmount()}
@@ -261,14 +266,12 @@ export default function SaleOrderUnlockedCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t("法院")}
+                                        {t("Court")}
                                     </TYPE.black>
                                 </RowFixed>
 
                                 <TYPE.black fontSize={14} color={theme.text1}>
-
-                                {getJudge(props.pair.arbitration)?(getJudge(props.pair.arbitration)?.name):"未验证的法院"}
-               {getJudge(props.pair.arbitration)?<a href={getJudge(props.pair.arbitration)?.URL} target="_blank">法院网址</a>:<></>}
+               {getJudge(props.pair.arbitration)?<A href={getJudge(props.pair.arbitration)?.URL} target="_blank"> {getJudge(props.pair.arbitration)?(getJudge(props.pair.arbitration)?.name):t("Unverified Court")}</A>:<></>}
                                 </TYPE.black>
                             </RowBetween>
                         </FixedHeightRow>

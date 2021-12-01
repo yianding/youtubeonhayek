@@ -18,7 +18,7 @@ import { FIAT } from '../../hooks/fait'
 import FilterTokenCurrency from '../../components/FilterTokenCurrency'
 import SetConditionPanel from '../../components/SetConditionPanel'
 import { useWalletModalToggle } from '../../state/application/hooks'
-import { ethers, providers } from 'ethers'
+import { ethers } from 'ethers'
 import { LinkStyledButton } from '../../components/DescribeInputPanel'
 import Loader from '../../components/Loader'
 import { useTranslation } from 'react-i18next'
@@ -57,12 +57,17 @@ export const MyHoverCard = styled(Card)`
 
 export default function AllOrders() {
 
-  const { account,connector } = useActiveWeb3React()
+  const { account } = useActiveWeb3React()
   const [conditionOfOrders, setconditionOfOrders] = useConditionOfOrders()
   const toggleWalletModal = useWalletModalToggle()
+  const [showMore, setShowMore] = useState(false)
+
+  const { t } = useTranslation()
 
   const orders = useGetOrderDataCallBack()
   const ordersMemo = useMemo(() => orders, [orders])
+  let OrderNum: number = 0
+
   const [pricemin, setpriceMin] = useState("");
   const [pricemax, setpriceMax] = useState("");
   const [nummin, setnumMin] = useState("");
@@ -71,7 +76,7 @@ export default function AllOrders() {
   const [ERC20, setERC20] = useState<Token>(conditionOfOrders.erc20);
   const [sellerDeposit, setsellerDeposit] = useState("");
   const [buyerDeposit, setbuyerDeposit] = useState("");
-  const [lineNumber, setlineNumber] = useState(conditionOfOrders.linenumber);
+  const [lineNumber] = useState(conditionOfOrders.linenumber);
 
   const handleInputPriceMin = (value: string) => {
     if (value == ".") {
@@ -134,11 +139,7 @@ export default function AllOrders() {
       }
     }
   }
-  const handleInputLineNumber = (e: any) => {
-    if (e.target.value.indexOf('.') == (-1)) {
-      setlineNumber(parseFloat(e.target.value))
-    }
-  }
+
   const handleInputSellerDeposit = (value: string) => {
     if (value == ".") {
       setsellerDeposit("0.")
@@ -198,55 +199,6 @@ export default function AllOrders() {
     setconditionOfOrders(a);
   }
 
-  const [showMore, setShowMore] = useState(false)
-
-  const { t } = useTranslation()
-  function test(){
-
-
-    
-
-    connector?.getProvider().then(async (aa)=>{
-      const provider = new providers.Web3Provider(aa);
-      const signer = provider.getSigner()
-//const address = await signer.getAddress();
-    //  console.log("GGGGGGGGGGG",address)
-    const originalMessage="0"
-      const signedMessage = await signer.signMessage(originalMessage)
-     const s= ethers.utils.splitSignature(signedMessage)
-      console.log("GGGGGGGGGGG",originalMessage,s.v,s.r,s.s)
-     
-    }
-    
-   )
-  //  connector?.getProvider().then(async (aa)=>{
- 
-  //    const  rawMessage = "111";
-  //   const provider = new providers.Web3Provider(aa);
-  //   const signer = provider.getSigner()
-  //   const address = await signer.getAddress();
-
-  //   let signedMessage;
-  //   //if (web3.wc) {
-  //       signedMessage = await provider.send(
-  //           'personal_sign',
-  //           [ ethers.utils.hexlify(ethers.utils.toUtf8Bytes(rawMessage)), address.toLowerCase() ]
-  //       );
-  //  // }
-  //   // else { 
-  //   //     signedMessage = await signer.signMessage(rawMessage)
-  //   // }
-    
-  //   const verified = ethers.utils.verifyMessage(rawMessage, signedMessage);
-  //   console.log("GGGGGGGGGGG",signedMessage,verified,ethers.utils.toUtf8Bytes(rawMessage))
-  // }
-  
- //)
-
-
-
-
-  }
   return (
     <>
       <AppBody>
@@ -276,7 +228,7 @@ export default function AllOrders() {
                   {showMore && (
                     <div>
                       <FilterTokenCurrency
-                        label={t("Token")}
+                        label={t("Selling Token")}
                         currency={ERC20}
                         fiat={currency}
                         onTokenSelect={onTokenSelect}
@@ -319,21 +271,7 @@ export default function AllOrders() {
 
                       <AutoColumn gap="8px">
 
-                        <FixedHeightRow>
-                          <RowFixed>
-                            <Text fontWeight={500} fontSize={20}>{t('Lines Limit')}</Text>
-                          </RowFixed>
-                          <RowFixed>
-                            <Input
-                              type="number"
-                              id="lineNumber"
-                              placeholder="lineNumber"
-                              style={{ width: '200px' }}
-                              value={lineNumber}
-                              onChange={handleInputLineNumber}
-                            />
-                          </RowFixed>
-                        </FixedHeightRow>
+
 
                         <ButtonSecondary width="100%"
                           onClick={() => {
@@ -360,15 +298,33 @@ export default function AllOrders() {
 
                   <div style={{ height: "2px" }} />
 
-                  {ordersMemo ? ordersMemo.map((k) => {
-                    
+                  {ordersMemo ? <>{ordersMemo.map((k) => {
+
                     if (k.seller != "0x0000000000000000000000000000000000000000") {
+                      OrderNum++
                       return (
                         <FullPositionCard key={k.id} pair={k} />
                       )
                     } else { return }
+
                   }
-                  ) :
+
+                  )}
+                    {OrderNum == 0 ? <>
+                      <Card >
+                      <AutoColumn gap="12px">
+                        <div style={{ textAlign: "center" }}>
+                          {t("No qualified order at present")}
+                        </div>
+                      </AutoColumn>
+                    </Card >
+                    </>
+                      : <div style={{ textAlign: "center" }}>
+                        <LinkStyledButton onClick={handleMore} >{t('More')}</LinkStyledButton>
+                      </div>}
+
+                  </>
+                    :
                     <Card >
                       <AutoColumn gap="12px">
                         <div style={{ textAlign: "center" }}>
@@ -376,15 +332,11 @@ export default function AllOrders() {
                         </div>
                       </AutoColumn>
                     </Card >}
-                  <div style={{ textAlign: "center" }}>
-                    <LinkStyledButton onClick={handleMore} >{t('More')}</LinkStyledButton>
-                  </div>
                 </>
               )}
           </AutoColumn>
         </AutoColumn>
-        <ButtonSecondary onClick={test}> test</ButtonSecondary>
-        <a href="sms:+8613007319696?body=http://192.168.1.148:3000/3727fdasjkjjfajkfkjkajffkdsajfkjdsakfjkdsajfkjdskafjajfkdsj"> Text </a>
+
       </AppBody>
     </>
   )
