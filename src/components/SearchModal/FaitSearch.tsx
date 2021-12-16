@@ -97,7 +97,7 @@ export function FaitSearch({
     
         <RowBetween>
           <Text fontSize={14} fontWeight={500}>
-           {t('Currency')}
+           {t('Currency List')}
           </Text>
           <SortButton ascending={invertSearchOrder} toggleSortOrder={() => setInvertSearchOrder(iso => !iso)} />
         </RowBetween>

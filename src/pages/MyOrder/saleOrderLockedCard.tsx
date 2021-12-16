@@ -1,5 +1,5 @@
 
-import React, { ReactNode, useContext, useState } from 'react'
+import React, { ReactNode, useCallback, useContext, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import { darken } from 'polished'
 import styled, { ThemeContext } from 'styled-components'
@@ -8,7 +8,6 @@ import Card from '../../components/Card'
 import { TYPE } from '../../theme'
 import { AutoColumn } from '../../components/Column'
 import Row, { RowBetween, RowFixed } from '../../components/Row'
-import { MyTokenlist } from '../../state/conditionOfOrders/hooks'
 import QuestionHelper from '../../components/QuestionHelper'
 import Copy from '../../components/AccountDetails/Copy'
 import ListLogo from '../../components/ListLogo'
@@ -21,22 +20,11 @@ import { useTranslation } from 'react-i18next'
 import { getInfoType, INFOTYPE } from '../../hooks/describeInfoType'
 import InfoTypeLOGO from '../../components/InfoTypeLogo'
 import { getJudge } from '../../hooks/judge'
-export const CryptoInput = styled.textarea`
-position: relative;
-display: flex;
-padding: 16px;
-align-items: center;
-width: 100%;
-white-space: nowrap;
-background: none;
-border: 1px solid;
-outline: none;
-border-radius: 12px;
-text-align: left
--webkit-appearance: none;
-font-size: 14px;
+import { useActiveWeb3React } from '../../hooks'
+import { ConfirmationPendingContent, TransactionErrorContent, TransactionSubmittedContent } from '../../components/TransactionConfirmationModal'
+import Modal from '../../components/Modal'
+import { MyTokenlist } from '../../hooks/coinlist'
 
-`
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
 `
@@ -115,31 +103,95 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                 let infodescribe: string | undefined = getInfoType(infotype)?.Describe;
                 let info: string = item1?.split(':')[1];
                 return (
-                    infoDescribe(infotype, info, i, infodescribe ? infodescribe : "", tempINFOTYPE)
+                    infoDescribe(infotype?infotype:"", info?info:"", i, infodescribe ? infodescribe : "", tempINFOTYPE)
                 )
             })
         )
     }
     function HandleDisputeButton() {
         if ((props.pair.lockedblocknumber.add(props.SellerDisputableBlockNumber)).gte(BlockNumber)) {
-            return (<ButtonSecondary width="100%" onClick={dispute} disabled={true}>Waitting buyer transfer<QuestionHelper text={"You can dispute this order after " + props.pair.lockedblocknumber.add(props.SellerDisputableBlockNumber.add(1)).sub(BlockNumber).toString() + " blocks"} /></ButtonSecondary>)
+            return (<ButtonSecondary width="100%" onClick={dispute} disabled={true}>{t("Please wait buyer transfer to you")}<QuestionHelper text={t("You can dispute this order after ") + props.pair.lockedblocknumber.add(props.SellerDisputableBlockNumber.add(1)).sub(BlockNumber).toString() + t(" blocks")+t(", only if you still have not receive the transfer of buyer.")} /></ButtonSecondary>)
         } else {
             return (<ButtonSecondary width="100%" onClick={dispute} >{t("Dispute")}</ButtonSecondary>)
         }
     }
     const { execute: onWrap } = useWrapConfirmCallback(props.pair.id)
-    function confirm() {
-
-        if (onWrap) { onWrap() }
-    }
-
     const { execute: onWrap1 } = useWrapDisputeCallback(props.pair.id, "0", "0", disputeFee)
-    function dispute() {
 
-        if (onWrap1) { onWrap1() }
-    }
     const { t } = useTranslation()
+
+    const [{ showConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
+        showConfirm: boolean
+        attemptingTxn: boolean
+        swapErrorMessage: string | undefined
+        txHash: string | undefined
+    }>({
+        showConfirm: false,
+        attemptingTxn: false,
+        swapErrorMessage: undefined,
+        txHash: undefined
+    })
+    const [pendingText,setPendingText] = useState<string>('')
+    
+    function confirm() {
+        if (onWrap) {
+            setPendingText(`${t('Confirmming Order')} ${props.pair.id.toString()}`)
+            setSwapState({ attemptingTxn: true, showConfirm: true, swapErrorMessage: undefined, txHash: undefined })
+            onWrap().then(hash => {
+                setSwapState({ attemptingTxn: false, showConfirm: true, swapErrorMessage: undefined, txHash: hash })
+            }).catch(error => {
+                setSwapState({
+                    attemptingTxn: false,
+                    showConfirm: true,
+                    swapErrorMessage: error.message,
+                    txHash: undefined
+                })
+
+            })
+        }
+    }
+    function dispute() {
+        if (onWrap1) {
+            setPendingText(`${t('Disputing Order')} ${props.pair.id.toString()}`)
+            setSwapState({ attemptingTxn: true, showConfirm: true, swapErrorMessage: undefined, txHash: undefined })
+            onWrap1().then(hash => {
+                setSwapState({ attemptingTxn: false, showConfirm: true, swapErrorMessage: undefined, txHash: hash })
+            }).catch(error => {
+                setSwapState({
+                    attemptingTxn: false,
+                    showConfirm: true,
+                    swapErrorMessage: error.message,
+                    txHash: undefined
+                })
+
+            })
+        }
+    }
+
+    const { chainId } = useActiveWeb3React()
+    const onDismiss = () => {
+        setSwapState({ showConfirm: false, attemptingTxn, swapErrorMessage, txHash })
+    }
+
+    const confirmationContent = useCallback(
+        () =>
+            swapErrorMessage ? (
+                <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} />
+            ) : null
+        , [onDismiss, swapErrorMessage]
+    )
     return (
+        <>
+        {showConfirm ? <Modal isOpen={showConfirm} onDismiss={onDismiss} maxHeight={90}>
+        {attemptingTxn ? (
+            <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
+        ) : txHash ? (
+            <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={onDismiss} />
+        ) : (
+            confirmationContent()
+        )}
+    </Modal> : null
+    }
         <HoverCard border={border}>
             <AutoColumn gap="12px">
                 <FixedHeightRow onClick={() => setShowMore(!showMore)} style={{ cursor: 'pointer' }}>
@@ -169,7 +221,7 @@ export default function SaleOrderLockedCard(props: any, border: any) {
 
                     <RowFixed>
                         <Row>
-                            <TYPE.main id="Locked" fontSize='10px'>Locked</TYPE.main>
+                            <TYPE.main id="Locked" fontSize='10px'>{t("Locked")}</TYPE.main>
                         </Row>
                     </RowFixed>
                     <RowFixed>
@@ -272,9 +324,9 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t("Seller's liquidated damage")}
+                                        {t("Seller's Deposit")}
                                     </TYPE.black>
-                                    <QuestionHelper text={t("Seller's liquidated damage")} />
+                                    <QuestionHelper text={t("In the event of a dispute, the margin will be used as the compensation of the negligent party in the transaction to the non-negligence party.")} />
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {ethers.utils.formatEther(props.pair.sellerLiquidataedDamages.toString())} HYK
@@ -285,9 +337,9 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                             <RowBetween>
                                 <RowFixed>
                                     <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t("Buyer's liquidated damage")}
+                                        {t("Buyer's Deposit")}
                                     </TYPE.black>
-                                    <QuestionHelper text={t("Buyer's liquidated damage")} />
+                                    <QuestionHelper text={t("In the event of a dispute, the margin will be used as the compensation of the negligent party in the transaction to the non-negligence party.")} />
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {ethers.utils.formatEther(props.pair.buyerLiquidataedDamages.toString())} HYK
@@ -303,7 +355,7 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                                     </TYPE.black>
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
-               {getJudge(props.pair.arbitration)?<A href={getJudge(props.pair.arbitration)?.URL} target="_blank"> {getJudge(props.pair.arbitration)?(getJudge(props.pair.arbitration)?.name):t("Unverified Court")}</A>:<></>}
+                                {<A href={getJudge(props.pair.arbitration)?getJudge(props.pair.arbitration)?.URL:"https://explorer.hayek.link/address/"+props.pair.arbitration.toString()} target="_blank">{getJudge(props.pair.arbitration) ? (getJudge(props.pair.arbitration)?.name) : t("Unverified Court")}</A>}
                                 </TYPE.black>
                             </RowBetween>
                         </FixedHeightRow>
@@ -344,5 +396,6 @@ export default function SaleOrderLockedCard(props: any, border: any) {
                 )}
             </AutoColumn>
         </HoverCard>
+        </>
     )
 }

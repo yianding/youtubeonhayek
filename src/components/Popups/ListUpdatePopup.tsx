@@ -1,6 +1,7 @@
 import { diffTokenLists, TokenList } from '@uniswap/token-lists'
 import React, { useCallback, useMemo } from 'react'
 import ReactGA from 'react-ga'
+import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { Text } from 'rebass'
 import { AppDispatch } from '../../state'
@@ -28,9 +29,10 @@ export default function ListUpdatePopup({
   const removePopup = useRemovePopup()
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
   const dispatch = useDispatch<AppDispatch>()
-
+  const {t}= useTranslation()
   const handleAcceptUpdate = useCallback(() => {
     try {
+      
       if (auto) return
       ReactGA.event({
         category: 'Lists',
@@ -40,11 +42,11 @@ export default function ListUpdatePopup({
       dispatch(acceptListUpdate(listUrl))
       removeThisPopup()
     } catch (error) {
-      console.log("ListUpdate",error)
+      alert("ListUpdate")
     }
    
   }, [auto, dispatch, listUrl, removeThisPopup])
-  handleAcceptUpdate()
+ // handleAcceptUpdate()
 
   const { added: tokensAdded, changed: tokensChanged, removed: tokensRemoved } = useMemo(() => {
     return diffTokenLists(oldList.tokens, newList.tokens)
@@ -60,15 +62,15 @@ export default function ListUpdatePopup({
       <AutoColumn style={{ flex: '1' }} gap="8px">
         {auto ? (
           <TYPE.body fontWeight={500}>
-            The token list &quot;{oldList.name}&quot; has been updated to{' '}
+            {t("The token list")} &quot;{oldList.name}&quot;  {t("has been updated to")}{' '}
             <strong>{listVersionLabel(newList.version)}</strong>.
           </TYPE.body>
         ) : (
           <>
             <div>
               <Text>
-                An update is available for the token list &quot;{oldList.name}&quot; (
-                {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
+              {t("An update is available for the token list")} &quot;{oldList.name}&quot; (
+                {listVersionLabel(oldList.version)} {t("to")} {listVersionLabel(newList.version)}).
               </Text>
               <ul>
                 {tokensAdded.length > 0 ? (
@@ -79,7 +81,7 @@ export default function ListUpdatePopup({
                         {i === tokensAdded.length - 1 ? null : ', '}
                       </React.Fragment>
                     ))}{' '}
-                    added
+                    {t("added")}
                   </li>
                 ) : null}
                 {
@@ -95,16 +97,14 @@ export default function ListUpdatePopup({
                 //   </li>
                 // ) : null
                 }
-                {numTokensChanged > 0 ? <li>{numTokensChanged} tokens updated</li> : null}
+                {numTokensChanged > 0 ? <li>{numTokensChanged} {t("tokens updated")}</li> : null}
               </ul>
             </div>
             <AutoRow>
               <div style={{ flexGrow: 1, marginRight: 12 }}>
-                <ButtonSecondary onClick={handleAcceptUpdate}>Accept update</ButtonSecondary>
+                <ButtonSecondary onClick={handleAcceptUpdate}>{t('Accept update')}</ButtonSecondary>
               </div>
-              <div style={{ flexGrow: 1 }}>
-                <ButtonSecondary onClick={removeThisPopup}>Dismiss</ButtonSecondary>
-              </div>
+         
             </AutoRow>
           </>
         )}

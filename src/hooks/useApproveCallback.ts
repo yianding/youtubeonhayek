@@ -12,7 +12,7 @@ import { calculateGasMargin } from '../utils'
 import { useTokenContract } from './useContract'
 import { useActiveWeb3React } from './index'
 import { Version } from './useToggledVersion'
-import { useBuyerDisputeBlockNumberData, useDisputeFeeData, useDisputeResultData, useMyBuyTradeOrderData, useMySaleTradeOrderData, useSellerDisputeBlockNumberData, useTradeOrderData } from '../data/tradeOrderData'
+import { useBuyerDisputeBlockNumberData, useDisputeFeeData, useDisputeResultData, useMyBuyTradeOrderData, useMySaleTradeOrderData, useOrderByIdData, useSellerDisputeBlockNumberData, useTradeOrderData } from '../data/tradeOrderData'
 import { TRADE_ADDRESS } from '../constants/abis/trade'
 
 export enum ApprovalState {
@@ -25,13 +25,26 @@ export enum ApprovalState {
 export function useGetOrderDataCallBack():any[]|undefined{
   const order=useTradeOrderData()
 
-  let r:any|undefined=undefined
+  let r:any|undefined
   if(order){
     if(order[0].result)
        r=order[0].result[0]
   }
   return r
 }
+export function useGetOrderByIdCallBack(id:string):any[]|undefined{
+  
+  const order=useOrderByIdData(id)
+
+  let r:any|undefined=undefined
+  if(order){
+    if(order[0].result)
+       r=order[0].result[0]
+  }
+  console.log("dd",r)
+  return r
+}
+
 
 export function useGetMyBuyOrderDataCallBack():any[]|undefined{
   const order=useMyBuyTradeOrderData()

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react'
+import React, {  useRef, useContext } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 
 import QuestionHelper from '../QuestionHelper'
@@ -7,16 +7,10 @@ import { AutoColumn } from '../Column'
 import { RowBetween, RowFixed } from '../Row'
 
 import { darken } from 'polished'
+import { useTranslation } from 'react-i18next'
+import { useConditionOfOrders } from '../../state/conditionOfOrders/hooks'
 
-enum SlippageError {
-  InvalidInput = 'InvalidInput',
-  RiskyLow = 'RiskyLow',
-  RiskyHigh = 'RiskyHigh'
-}
 
-enum DeadlineError {
-  InvalidInput = 'InvalidInput'
-}
 
 const FancyButton = styled.button`
   color: ${({ theme }) => theme.text1};
@@ -78,175 +72,416 @@ const OptionCustom = styled(FancyButton)<{ active?: boolean; warning?: boolean }
   }
 `
 
-const SlippageEmojiContainer = styled.span`
-  color: #f3841e;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;  
-  `}
-`
 
-export interface SlippageTabsProps {
-  rawSlippage: number
-  setRawSlippage: (rawSlippage: number) => void
-  deadline: number
-  setDeadline: (deadline: number) => void
-}
 
-export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, setDeadline }: SlippageTabsProps) {
+
+
+export default function SlippageTabs() {
   const theme = useContext(ThemeContext)
 
   const inputRef = useRef<HTMLInputElement>()
+  const [conditionOfOrders, setconditionOfOrders] = useConditionOfOrders()
 
-  const [slippageInput, setSlippageInput] = useState('')
-  const [deadlineInput, setDeadlineInput] = useState('')
 
-  const slippageInputIsValid =
-    slippageInput === '' || (rawSlippage / 100).toFixed(2) === Number.parseFloat(slippageInput).toFixed(2)
-  const deadlineInputIsValid = deadlineInput === '' || (deadline / 60).toString() === deadlineInput
-
-  let slippageError: SlippageError | undefined
-  if (slippageInput !== '' && !slippageInputIsValid) {
-    slippageError = SlippageError.InvalidInput
-  } else if (slippageInputIsValid && rawSlippage < 50) {
-    slippageError = SlippageError.RiskyLow
-  } else if (slippageInputIsValid && rawSlippage > 500) {
-    slippageError = SlippageError.RiskyHigh
-  } else {
-    slippageError = undefined
-  }
-
-  let deadlineError: DeadlineError | undefined
-  if (deadlineInput !== '' && !deadlineInputIsValid) {
-    deadlineError = DeadlineError.InvalidInput
-  } else {
-    deadlineError = undefined
-  }
-
-  function parseCustomSlippage(value: string) {
-    setSlippageInput(value)
-
-    try {
-      const valueAsIntFromRoundedFloat = Number.parseInt((Number.parseFloat(value) * 100).toString())
-      if (!Number.isNaN(valueAsIntFromRoundedFloat) && valueAsIntFromRoundedFloat < 5000) {
-        setRawSlippage(valueAsIntFromRoundedFloat)
-      }
-    } catch {}
-  }
-
-  function parseCustomDeadline(value: string) {
-    setDeadlineInput(value)
-
-    try {
-      const valueAsInt: number = Number.parseInt(value) * 60
-      if (!Number.isNaN(valueAsInt) && valueAsInt > 0) {
-        setDeadline(valueAsInt)
-      }
-    } catch {}
-  }
-
+  const {t} = useTranslation()
   return (
     <AutoColumn gap="md">
       <AutoColumn gap="sm">
         <RowFixed>
           <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-            Slippage tolerance
+            {t("Line number of Sale Orders")}
           </TYPE.black>
-          <QuestionHelper text="Your transaction will revert if the price changes unfavorably by more than this percentage." />
+          <QuestionHelper text={t("Too high number will affect the performance of the website")} />
         </RowFixed>
         <RowBetween>
           <Option
             onClick={() => {
-              setSlippageInput('')
-              setRawSlippage(10)
+              let a = {
+                quantity_min: conditionOfOrders.quantity_min,
+                quanity_max: conditionOfOrders.quanity_max,
+                price_min: conditionOfOrders.price_min,
+                price_max: conditionOfOrders.price_max,
+                currency: conditionOfOrders.currency,
+                erc20: conditionOfOrders.erc20,
+                sellerDeposit: conditionOfOrders.sellerDeposit,
+                buyerDeposit: conditionOfOrders.buyerDeposit,
+                linenumber: 50,
+                mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
+                myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+              }
+              setconditionOfOrders(a);
             }}
-            active={rawSlippage === 10}
+            active={conditionOfOrders.linenumber === 50}
           >
-            0.1%
+            50
           </Option>
           <Option
             onClick={() => {
-              setSlippageInput('')
-              setRawSlippage(50)
+              let a = {
+                quantity_min: conditionOfOrders.quantity_min,
+                quanity_max: conditionOfOrders.quanity_max,
+                price_min: conditionOfOrders.price_min,
+                price_max: conditionOfOrders.price_max,
+                currency: conditionOfOrders.currency,
+                erc20: conditionOfOrders.erc20,
+                sellerDeposit: conditionOfOrders.sellerDeposit,
+                buyerDeposit: conditionOfOrders.buyerDeposit,
+                linenumber: 100,
+                mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
+                myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+              }
+              setconditionOfOrders(a);
             }}
-            active={rawSlippage === 50}
+            active={conditionOfOrders.linenumber === 100}
           >
-            0.5%
+            100
           </Option>
           <Option
             onClick={() => {
-              setSlippageInput('')
-              setRawSlippage(100)
+              let a = {
+                quantity_min: conditionOfOrders.quantity_min,
+                quanity_max: conditionOfOrders.quanity_max,
+                price_min: conditionOfOrders.price_min,
+                price_max: conditionOfOrders.price_max,
+                currency: conditionOfOrders.currency,
+                erc20: conditionOfOrders.erc20,
+                sellerDeposit: conditionOfOrders.sellerDeposit,
+                buyerDeposit: conditionOfOrders.buyerDeposit,
+                linenumber: 200,
+                mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
+                myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+              }
+              setconditionOfOrders(a);
             }}
-            active={rawSlippage === 100}
+            active={conditionOfOrders.linenumber === 200}
           >
-            1%
+            200
           </Option>
-          <OptionCustom active={![10, 50, 100].includes(rawSlippage)} warning={!slippageInputIsValid} tabIndex={-1}>
-            <RowBetween>
-              {!!slippageInput &&
-              (slippageError === SlippageError.RiskyLow || slippageError === SlippageError.RiskyHigh) ? (
-                <SlippageEmojiContainer>
-                  <span role="img" aria-label="warning">
-                    ⚠️
-                  </span>
-                </SlippageEmojiContainer>
-              ) : null}
+          <OptionCustom active={conditionOfOrders.linenumber!==50&&conditionOfOrders.linenumber!==100&&conditionOfOrders.linenumber!==200} warning={false} tabIndex={-1}>
+            <RowBetween >
               {/* https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451 */}
+            <text>  {t("Customize")}</text>
               <Input
+                type="number"
                 ref={inputRef as any}
-                placeholder={(rawSlippage / 100).toFixed(2)}
-                value={slippageInput}
-                onBlur={() => {
-                  parseCustomSlippage((rawSlippage / 100).toFixed(2))
+                placeholder={t("Customize")}
+                value={conditionOfOrders.linenumber}
+                onChange={e => {
+                  if(e.target.value==""){
+                    let a = {
+                      quantity_min: conditionOfOrders.quantity_min,
+                      quanity_max: conditionOfOrders.quanity_max,
+                      price_min: conditionOfOrders.price_min,
+                      price_max: conditionOfOrders.price_max,
+                      currency: conditionOfOrders.currency,
+                      erc20: conditionOfOrders.erc20,
+                      sellerDeposit: conditionOfOrders.sellerDeposit,
+                      buyerDeposit: conditionOfOrders.buyerDeposit,
+                      linenumber: 0,
+                      mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
+                      myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+                    }
+                    setconditionOfOrders(a);
+                  }
+                  if (e.target.value.indexOf('.') == (-1)){
+                  let a = {
+                  quantity_min: conditionOfOrders.quantity_min,
+                  quanity_max: conditionOfOrders.quanity_max,
+                  price_min: conditionOfOrders.price_min,
+                  price_max: conditionOfOrders.price_max,
+                  currency: conditionOfOrders.currency,
+                  erc20: conditionOfOrders.erc20,
+                  sellerDeposit: conditionOfOrders.sellerDeposit,
+                  buyerDeposit: conditionOfOrders.buyerDeposit,
+                  linenumber: e.target.value,
+                  mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
+                  myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+                }
+                setconditionOfOrders(a);}
                 }}
-                onChange={e => parseCustomSlippage(e.target.value)}
-                color={!slippageInputIsValid ? 'red' : ''}
+                color={conditionOfOrders.linenumber>300 ? 'red' : ''}
               />
-              %
+              
             </RowBetween>
           </OptionCustom>
         </RowBetween>
-        {!!slippageError && (
+        {conditionOfOrders.linenumber>300 && (
           <RowBetween
             style={{
               fontSize: '14px',
               paddingTop: '7px',
-              color: slippageError === SlippageError.InvalidInput ? 'red' : '#F3841E'
+              color:'#F3841E'
             }}
           >
-            {slippageError === SlippageError.InvalidInput
-              ? 'Enter a valid slippage percentage'
-              : slippageError === SlippageError.RiskyLow
-              ? 'Your transaction may fail'
-              : 'Your transaction may be frontrun'}
+           {t("Too high number will affect the performance of the website")}
+          </RowBetween>
+        )}
+      </AutoColumn>
+      <AutoColumn gap="sm">
+        <RowFixed>
+          <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
+            {t("Line number of My Sale Orders")}
+          </TYPE.black>
+          <QuestionHelper text={t("Too high number will affect the performance of the website")} />
+        </RowFixed>
+        <RowBetween>
+          <Option
+            onClick={() => {
+              let a = {
+                quantity_min: conditionOfOrders.quantity_min,
+                quanity_max: conditionOfOrders.quanity_max,
+                price_min: conditionOfOrders.price_min,
+                price_max: conditionOfOrders.price_max,
+                currency: conditionOfOrders.currency,
+                erc20: conditionOfOrders.erc20,
+                sellerDeposit: conditionOfOrders.sellerDeposit,
+                buyerDeposit: conditionOfOrders.buyerDeposit,
+                linenumber: conditionOfOrders.linenumber,
+                mySellOrderLineNumber: 25,
+                myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+              }
+              setconditionOfOrders(a);
+            }}
+            active={conditionOfOrders.mySellOrderLineNumber === 25}
+          >
+            25
+          </Option>
+          <Option
+            onClick={() => {
+              let a = {
+                quantity_min: conditionOfOrders.quantity_min,
+                quanity_max: conditionOfOrders.quanity_max,
+                price_min: conditionOfOrders.price_min,
+                price_max: conditionOfOrders.price_max,
+                currency: conditionOfOrders.currency,
+                erc20: conditionOfOrders.erc20,
+                sellerDeposit: conditionOfOrders.sellerDeposit,
+                buyerDeposit: conditionOfOrders.buyerDeposit,
+                linenumber: conditionOfOrders.linenumber,
+                mySellOrderLineNumber: 50,
+                myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+              }
+              setconditionOfOrders(a);
+            }}
+            active={conditionOfOrders.mySellOrderLineNumber === 50}
+          >
+            50
+          </Option>
+          <Option
+            onClick={() => {
+              let a = {
+                quantity_min: conditionOfOrders.quantity_min,
+                quanity_max: conditionOfOrders.quanity_max,
+                price_min: conditionOfOrders.price_min,
+                price_max: conditionOfOrders.price_max,
+                currency: conditionOfOrders.currency,
+                erc20: conditionOfOrders.erc20,
+                sellerDeposit: conditionOfOrders.sellerDeposit,
+                buyerDeposit: conditionOfOrders.buyerDeposit,
+                linenumber: conditionOfOrders.linenumber,
+                mySellOrderLineNumber: 100,
+                myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+              }
+              setconditionOfOrders(a);
+            }}
+            active={conditionOfOrders.mySellOrderLineNumber === 100}
+          >
+            100
+          </Option>
+          <OptionCustom active={conditionOfOrders.mySellOrderLineNumber!==25&&conditionOfOrders.mySellOrderLineNumber!==50&&conditionOfOrders.mySellOrderLineNumber!==100} warning={true} tabIndex={-1}>
+            <RowBetween>
+              {/* https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451 */}
+              {t("Customize")}
+              <Input
+                type="number"
+                ref={inputRef as any}
+                placeholder={t("Customize")}
+                value={conditionOfOrders.mySellOrderLineNumber}
+                onChange={e => {
+                  if(e.target.value==""){
+                    let a = {
+                      quantity_min: conditionOfOrders.quantity_min,
+                      quanity_max: conditionOfOrders.quanity_max,
+                      price_min: conditionOfOrders.price_min,
+                      price_max: conditionOfOrders.price_max,
+                      currency: conditionOfOrders.currency,
+                      erc20: conditionOfOrders.erc20,
+                      sellerDeposit: conditionOfOrders.sellerDeposit,
+                      buyerDeposit: conditionOfOrders.buyerDeposit,
+                      linenumber: conditionOfOrders.linenumber,
+                      mySellOrderLineNumber: 0,
+                      myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+                    }
+                    setconditionOfOrders(a);
+                  }
+                  if (e.target.value.indexOf('.') == (-1)){
+                  let a = {
+                  quantity_min: conditionOfOrders.quantity_min,
+                  quanity_max: conditionOfOrders.quanity_max,
+                  price_min: conditionOfOrders.price_min,
+                  price_max: conditionOfOrders.price_max,
+                  currency: conditionOfOrders.currency,
+                  erc20: conditionOfOrders.erc20,
+                  sellerDeposit: conditionOfOrders.sellerDeposit,
+                  buyerDeposit: conditionOfOrders.buyerDeposit,
+                  linenumber: conditionOfOrders.linenumber,
+                  mySellOrderLineNumber: e.target.value,
+                  myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+                }
+                setconditionOfOrders(a);}
+                }}
+                color={conditionOfOrders.mySellOrderLineNumber>150 ? 'red' : ''}
+              />
+              
+            </RowBetween>
+          </OptionCustom>
+        </RowBetween>
+        {conditionOfOrders.mySellOrderLineNumber>150 && (
+          <RowBetween
+            style={{
+              fontSize: '14px',
+              paddingTop: '7px',
+              color:'#F3841E'
+            }}
+          >
+           {t("Too high number will affect the performance of the website")}
           </RowBetween>
         )}
       </AutoColumn>
 
+
       <AutoColumn gap="sm">
         <RowFixed>
-          <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-            Transaction deadline
+          <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
+            {t("Line number of My Buy Orders")}
           </TYPE.black>
-          <QuestionHelper text="Your transaction will revert if it is pending for more than this long." />
+          <QuestionHelper text={t("Too high number will affect the performance of the website")} />
         </RowFixed>
-        <RowFixed>
-          <OptionCustom style={{ width: '80px' }} tabIndex={-1}>
-            <Input
-              color={!!deadlineError ? 'red' : undefined}
-              onBlur={() => {
-                parseCustomDeadline((deadline / 60).toString())
-              }}
-              placeholder={(deadline / 60).toString()}
-              value={deadlineInput}
-              onChange={e => parseCustomDeadline(e.target.value)}
-            />
+        <RowBetween>
+          <Option
+            onClick={() => {
+              let a = {
+                quantity_min: conditionOfOrders.quantity_min,
+                quanity_max: conditionOfOrders.quanity_max,
+                price_min: conditionOfOrders.price_min,
+                price_max: conditionOfOrders.price_max,
+                currency: conditionOfOrders.currency,
+                erc20: conditionOfOrders.erc20,
+                sellerDeposit: conditionOfOrders.sellerDeposit,
+                buyerDeposit: conditionOfOrders.buyerDeposit,
+                linenumber: conditionOfOrders.linenumber,
+                mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
+                myBuyOrderLineNumber: 25
+              }
+              setconditionOfOrders(a);
+            }}
+            active={conditionOfOrders.myBuyOrderLineNumber === 25}
+          >
+            25
+          </Option>
+          <Option
+            onClick={() => {
+              let a = {
+                quantity_min: conditionOfOrders.quantity_min,
+                quanity_max: conditionOfOrders.quanity_max,
+                price_min: conditionOfOrders.price_min,
+                price_max: conditionOfOrders.price_max,
+                currency: conditionOfOrders.currency,
+                erc20: conditionOfOrders.erc20,
+                sellerDeposit: conditionOfOrders.sellerDeposit,
+                buyerDeposit: conditionOfOrders.buyerDeposit,
+                linenumber: conditionOfOrders.linenumber,
+                mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
+                myBuyOrderLineNumber: 50
+              }
+              setconditionOfOrders(a);
+            }}
+            active={conditionOfOrders.myBuyOrderLineNumber === 50}
+          >
+            50
+          </Option>
+          <Option
+            onClick={() => {
+              let a = {
+                quantity_min: conditionOfOrders.quantity_min,
+                quanity_max: conditionOfOrders.quanity_max,
+                price_min: conditionOfOrders.price_min,
+                price_max: conditionOfOrders.price_max,
+                currency: conditionOfOrders.currency,
+                erc20: conditionOfOrders.erc20,
+                sellerDeposit: conditionOfOrders.sellerDeposit,
+                buyerDeposit: conditionOfOrders.buyerDeposit,
+                linenumber: conditionOfOrders.linenumber,
+                mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
+                myBuyOrderLineNumber: 100
+              }
+              setconditionOfOrders(a);
+            }}
+            active={conditionOfOrders.myBuyOrderLineNumber === 100}
+          >
+            100
+          </Option>
+          <OptionCustom active={conditionOfOrders.myBuyOrderLineNumber!==25&&conditionOfOrders.myBuyOrderLineNumber!==50&&conditionOfOrders.myBuyOrderLineNumber!==100} warning={true} tabIndex={-1}>
+          
+            <RowBetween >
+            {t("Customize")}
+              <Input
+                type="number"
+                ref={inputRef as any}
+                placeholder={t("Customize")}
+                value={conditionOfOrders.myBuyOrderLineNumber}
+                onChange={e => {
+                  if(e.target.value==""){
+                    let a = {
+                      quantity_min: conditionOfOrders.quantity_min,
+                      quanity_max: conditionOfOrders.quanity_max,
+                      price_min: conditionOfOrders.price_min,
+                      price_max: conditionOfOrders.price_max,
+                      currency: conditionOfOrders.currency,
+                      erc20: conditionOfOrders.erc20,
+                      sellerDeposit: conditionOfOrders.sellerDeposit,
+                      buyerDeposit: conditionOfOrders.buyerDeposit,
+                      linenumber: conditionOfOrders.linenumber,
+                      mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
+                      myBuyOrderLineNumber: 0
+                    }
+                    setconditionOfOrders(a);
+                  }
+                  if (e.target.value.indexOf('.') == (-1)){
+                  let a = {
+                  quantity_min: conditionOfOrders.quantity_min,
+                  quanity_max: conditionOfOrders.quanity_max,
+                  price_min: conditionOfOrders.price_min,
+                  price_max: conditionOfOrders.price_max,
+                  currency: conditionOfOrders.currency,
+                  erc20: conditionOfOrders.erc20,
+                  sellerDeposit: conditionOfOrders.sellerDeposit,
+                  buyerDeposit: conditionOfOrders.buyerDeposit,
+                  linenumber: conditionOfOrders.linenumber,
+                  mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
+                  myBuyOrderLineNumber: e.target.value
+                }
+                setconditionOfOrders(a);}
+                }}
+                color={conditionOfOrders.myBuyOrderLineNumber>150 ? 'red' : ''}
+              />
+              
+            </RowBetween>
           </OptionCustom>
-          <TYPE.body style={{ paddingLeft: '8px' }} fontSize={14}>
-            minutes
-          </TYPE.body>
-        </RowFixed>
+        </RowBetween>
+        {conditionOfOrders.myBuyOrderLineNumber>150 && (
+          <RowBetween
+            style={{
+              fontSize: '14px',
+              paddingTop: '7px',
+              color:'#F3841E'
+            }}
+          >
+           {t("Too high number will affect the performance of the website")}
+          </RowBetween>
+        )}
       </AutoColumn>
+
     </AutoColumn>
   )
 }

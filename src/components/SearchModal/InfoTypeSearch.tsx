@@ -7,7 +7,6 @@ import { Text } from 'rebass'
 import { CloseIcon } from '../../theme'
 import { isAddress } from '../../utils'
 import Column from '../Column'
-import QuestionHelper from '../QuestionHelper'
 import  { RowBetween } from '../Row'
 import { PaddedColumn, Separator } from './styleds'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -74,7 +73,6 @@ export function InfoTypeSearch({
         <RowBetween>
           <Text fontWeight={500} fontSize={16}>
             {t("Select item")}
-            <QuestionHelper text="Find a token by searching for its name or symbol or by pasting its address below." />
           </Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>

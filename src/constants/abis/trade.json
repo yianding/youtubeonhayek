@@ -21,90 +21,6 @@
 		"type": "constructor"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "allOrder",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "salenumber",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "describe",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "sellerContactInfo",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "buyerContactInfo",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "lockedblocknumber",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "Currency",
-				"type": "string"
-			},
-			{
-				"internalType": "address payable",
-				"name": "seller",
-				"type": "address"
-			},
-			{
-				"internalType": "address payable",
-				"name": "buyer",
-				"type": "address"
-			},
-			{
-				"internalType": "uint8",
-				"name": "state",
-				"type": "uint8"
-			},
-			{
-				"internalType": "address",
-				"name": "arbitration",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "erc20address",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "sellerLiquidataedDamages",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "buyerLiquidataedDamages",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "buyerdisputeblocknum",
 		"outputs": [
@@ -129,7 +45,7 @@
 		"outputs": [
 			{
 				"internalType": "bool",
-				"name": "rr",
+				"name": "r",
 				"type": "bool"
 			}
 		],
@@ -236,14 +152,9 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "string",
-						"name": "describe",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "Currency",
-						"type": "string"
+						"internalType": "uint256",
+						"name": "lockedblocknumber",
+						"type": "uint256"
 					},
 					{
 						"internalType": "address",
@@ -254,11 +165,6 @@
 						"internalType": "address",
 						"name": "buyer",
 						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "state",
-						"type": "uint8"
 					},
 					{
 						"internalType": "address",
@@ -281,19 +187,19 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "uint256",
-						"name": "lockedblocknumber",
-						"type": "uint256"
-					},
-					{
 						"internalType": "string",
-						"name": "sellerContactInfo",
+						"name": "describe",
 						"type": "string"
 					},
 					{
 						"internalType": "string",
-						"name": "buyerContactInfo",
+						"name": "Currency",
 						"type": "string"
+					},
+					{
+						"internalType": "uint8",
+						"name": "state",
+						"type": "uint8"
 					}
 				],
 				"internalType": "struct trading.Order2[]",
@@ -337,14 +243,9 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "string",
-						"name": "describe",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "Currency",
-						"type": "string"
+						"internalType": "uint256",
+						"name": "lockedblocknumber",
+						"type": "uint256"
 					},
 					{
 						"internalType": "address",
@@ -355,11 +256,6 @@
 						"internalType": "address",
 						"name": "buyer",
 						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "state",
-						"type": "uint8"
 					},
 					{
 						"internalType": "address",
@@ -382,19 +278,19 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "uint256",
-						"name": "lockedblocknumber",
-						"type": "uint256"
-					},
-					{
 						"internalType": "string",
-						"name": "sellerContactInfo",
+						"name": "describe",
 						"type": "string"
 					},
 					{
 						"internalType": "string",
-						"name": "buyerContactInfo",
+						"name": "Currency",
 						"type": "string"
+					},
+					{
+						"internalType": "uint8",
+						"name": "state",
+						"type": "uint8"
 					}
 				],
 				"internalType": "struct trading.Order2[]",
@@ -438,14 +334,9 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "string",
-						"name": "describe",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "Currency",
-						"type": "string"
+						"internalType": "uint256",
+						"name": "lockedblocknumber",
+						"type": "uint256"
 					},
 					{
 						"internalType": "address",
@@ -456,11 +347,6 @@
 						"internalType": "address",
 						"name": "buyer",
 						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "state",
-						"type": "uint8"
 					},
 					{
 						"internalType": "address",
@@ -483,19 +369,19 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "uint256",
-						"name": "lockedblocknumber",
-						"type": "uint256"
-					},
-					{
 						"internalType": "string",
-						"name": "sellerContactInfo",
+						"name": "describe",
 						"type": "string"
 					},
 					{
 						"internalType": "string",
-						"name": "buyerContactInfo",
+						"name": "Currency",
 						"type": "string"
+					},
+					{
+						"internalType": "uint8",
+						"name": "state",
+						"type": "uint8"
 					}
 				],
 				"internalType": "struct trading.Order2[]",
@@ -512,11 +398,87 @@
 				"internalType": "uint256",
 				"name": "index",
 				"type": "uint256"
-			},
+			}
+		],
+		"name": "getOrderInfo",
+		"outputs": [
 			{
-				"internalType": "string",
-				"name": "buyerContactInfo",
-				"type": "string"
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "salenumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "lockedblocknumber",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address payable",
+						"name": "seller",
+						"type": "address"
+					},
+					{
+						"internalType": "address payable",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "arbitration",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "erc20address",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "sellerLiquidataedDamages",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "buyerLiquidataedDamages",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "describe",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "Currency",
+						"type": "string"
+					},
+					{
+						"internalType": "uint8",
+						"name": "state",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct trading.Order",
+				"name": "r",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
 			}
 		],
 		"name": "lockSaleOrder",
@@ -593,11 +555,6 @@
 			{
 				"internalType": "string",
 				"name": "describe",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "sellerContactInfo",
 				"type": "string"
 			},
 			{
@@ -700,14 +657,9 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "string",
-						"name": "describe",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "Currency",
-						"type": "string"
+						"internalType": "uint256",
+						"name": "lockedblocknumber",
+						"type": "uint256"
 					},
 					{
 						"internalType": "address",
@@ -718,11 +670,6 @@
 						"internalType": "address",
 						"name": "buyer",
 						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "state",
-						"type": "uint8"
 					},
 					{
 						"internalType": "address",
@@ -745,19 +692,19 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "uint256",
-						"name": "lockedblocknumber",
-						"type": "uint256"
-					},
-					{
 						"internalType": "string",
-						"name": "sellerContactInfo",
+						"name": "describe",
 						"type": "string"
 					},
 					{
 						"internalType": "string",
-						"name": "buyerContactInfo",
+						"name": "Currency",
 						"type": "string"
+					},
+					{
+						"internalType": "uint8",
+						"name": "state",
+						"type": "uint8"
 					}
 				],
 				"internalType": "struct trading.Order2[]",
@@ -779,6 +726,25 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "x",
+				"type": "bool"
+			}
+		],
+		"name": "setLock",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -819,25 +785,6 @@
 			}
 		],
 		"name": "setbuyerdisputeblocknum",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bool",
-				"name": "x",
-				"type": "bool"
-			}
-		],
-		"name": "setlockLock",
 		"outputs": [
 			{
 				"internalType": "bool",

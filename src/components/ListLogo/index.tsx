@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import useHttpLocations from '../../hooks/useHttpLocations'
 
@@ -20,7 +20,16 @@ export default function ListLogo({
   style?: React.CSSProperties
   alt?: string
 }) {
-  const srcs: string[] = useHttpLocations(logoURI)
+
+  const uriLocations = useHttpLocations(logoURI )
+
+  const srcs: string[] = useMemo(() => {
+        return [...uriLocations, logoURI?logoURI:""]
+    
+
+  }, [uriLocations])
+  
 
   return logoURI?<StyledListLogo alt={alt} size={size} srcs={srcs} style={style} />:<></>
+  
 }

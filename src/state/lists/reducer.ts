@@ -43,7 +43,7 @@ const initialState: ListsState = {
       pendingUpdate: null
     }
   },
-  selectedListUrl: undefined
+  selectedListUrl: 'https://hayek.link/coinlist.json'
 }
 
 export default createReducer(initialState, builder =>

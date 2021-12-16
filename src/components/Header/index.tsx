@@ -19,7 +19,7 @@ import Menu from '../Menu'
 
 import Row, { RowBetween } from '../Row'
 import Web3Status from '../Web3Status'
-import VersionSwitch from './VersionSwitch'
+import {VersionSwitch,Video} from './VersionSwitch'
 
 
 const HeaderFrame = styled.div`
@@ -172,6 +172,7 @@ export default function Header() {
         </HeaderElement>
         <HeaderControls>
           <HeaderElement>
+          <Video/>
             <TestnetWrapper>
               {!isMobile && chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
             </TestnetWrapper>

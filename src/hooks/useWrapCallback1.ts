@@ -1,12 +1,20 @@
 
 import { ethers } from 'ethers'
 import { useMemo } from 'react'
-import { MyTokenlist } from '../state/conditionOfOrders/hooks'
+import { useTranslation } from 'react-i18next'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
+import { MyTokenlist } from './coinlist'
 import { useActiveWeb3React } from './index'
 import { useTradeContract } from './useContract'
 
+interface ErrorConstructor {
+  new(message?: string): Error;
+  (message?: string): Error;
+  readonly prototype: Error;
+}
+
+declare var Error: ErrorConstructor;
 export enum WrapType {
   NOT_APPLICABLE,
   WRAP,
@@ -22,14 +30,14 @@ const NOT_APPLICABLE = { wrapType: WrapType.NOT_APPLICABLE }
  * @param typedValue the user input value
  */
 export default function useWrapCallback1(
-  id: string, info:string,mvalue: string
-): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
-  const { chainId, account } = useActiveWeb3React()
-  console.log(account)
+  id: string,mvalue: string
+): { wrapType: WrapType; execute?: undefined | (() => Promise<string>); inputError?: string } {
+  const { chainId } = useActiveWeb3React()
+
   const wethContract = useTradeContract()
   const balance = useCurrencyBalance()
   const addTransaction = useTransactionAdder()
-
+  const { t } = useTranslation()
   return useMemo(() => {
     if (!wethContract || !chainId) return NOT_APPLICABLE
 
@@ -43,13 +51,18 @@ export default function useWrapCallback1(
             ? async () => {
               try {
                
-                const txReceipt = await wethContract.lockSaleOrder(id,info, { value: mvalue })
+                const txReceipt = await wethContract.lockSaleOrder(id, { value: mvalue })
                 console.log("txxx",txReceipt)
-                addTransaction(txReceipt, { summary: `LOCK ORDER: ${id} with ${ethers.utils.formatEther(mvalue)} HYK ` })
-          
+                addTransaction(txReceipt, { summary: `${t("LOCK")} ${t("OREDER")}: ${id} ${t("with")} ${ethers.utils.formatEther(mvalue)} HYK` })
+                return txReceipt.hash
               } catch (error) {
-                console.log('Could not deposit', error)
-                alert("ERRER:" + error?.data?.message)
+                if (error?.code === 4001) {
+                  throw new Error(t('Transaction rejected.'))
+                } else {
+                  console.log("sss",error)
+                  throw new Error(`${t("Lock Order")}${id} ${t("failed")}: ${t(error.data.message.split(":")[1])}`)
+                  
+                }
               }
             }
             : undefined,
@@ -58,18 +71,18 @@ export default function useWrapCallback1(
     } else {
       return NOT_APPLICABLE
     }
-  }, [wethContract, chainId, balance, addTransaction, mvalue, id,info])
+  }, [wethContract, chainId, balance, addTransaction, mvalue, id])
 }
 
 export  function useWrapConfirmCallback(
   id: string
-): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
+): { wrapType: WrapType; execute?: undefined | (() => Promise<string>); inputError?: string } {
   const { chainId, account } = useActiveWeb3React()
   console.log(account)
   const wethContract = useTradeContract()
   const balance = useCurrencyBalance()
   const addTransaction = useTransactionAdder()
-
+  const { t } = useTranslation()
   return useMemo(() => {
     if (!wethContract || !chainId) return NOT_APPLICABLE
 
@@ -84,11 +97,15 @@ export  function useWrapConfirmCallback(
               try {
                
                 const txReceipt = await wethContract.comfirmTransaction(id)
-                addTransaction(txReceipt, { summary: `CONFIRM ORDER: ${id}  ` })
-          
+                addTransaction(txReceipt, { summary: `${t("CONFIRM")} ${t("OREDER")}: ${id}` })
+                return txReceipt.hash
               } catch (error) {
-                console.log('Could not deposit', error)
-                alert("ERRER:" + error?.data?.message)
+                if (error?.code === 4001) {
+                  throw new Error(t('Transaction rejected.'))
+                } else {
+                  throw new Error(`${t("Confirm Order")}${id} ${t("failed")}: ${error.data.message.split(":")[1]}`)
+                  
+                }
               }
             }
             : undefined,
@@ -101,13 +118,13 @@ export  function useWrapConfirmCallback(
 }
 export  function useWrapCancelCallback(
   id: string
-): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
+): { wrapType: WrapType; execute?: undefined | (() => Promise<string>); inputError?: string } {
   const { chainId, account } = useActiveWeb3React()
   console.log(account)
   const wethContract = useTradeContract()
   const balance = useCurrencyBalance()
   const addTransaction = useTransactionAdder()
-
+  const { t } = useTranslation()
   return useMemo(() => {
     if (!wethContract || !chainId) return NOT_APPLICABLE
 
@@ -122,11 +139,15 @@ export  function useWrapCancelCallback(
               try {
                
                 const txReceipt = await wethContract.cancelSaleOrder(id)
-                addTransaction(txReceipt, { summary: `CANCEL ORDER: ${id}  ` })
-          
+                addTransaction(txReceipt, { summary: `${t("CANCEL")} ${t("OREDER")}: ${id}` })
+                return txReceipt.hash
               } catch (error) {
-                console.log('Could not deposit', error)
-                alert("ERRER:" + error?.data?.message)
+                if (error?.code === 4001) {
+                  throw new Error(t('Transaction rejected.'))
+                } else {
+                  throw new Error(`${t("Cancel order")} ${id} ${t("failed")}: ${t(error.data.message.split(":")[1])}`)
+                  
+                }
               }
             }
             : undefined,
@@ -138,15 +159,14 @@ export  function useWrapCancelCallback(
   }, [wethContract, chainId, balance, addTransaction, id])
 }
 export function useWrapPutCallback(
-  salenumber:string,price:string,describe:string,sellerContactInfo:string,currency:string,arbitration:string,erc20address:string,buyerLiquidataedDamages:string,mvalue: string
-): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
-  const { chainId, account } = useActiveWeb3React()
+  salenumber:string,price:string,totalprice:string,describe:string,currency:string,arbitration:string,erc20address:string,buyerLiquidataedDamages:string,mvalue: string
+): { wrapType: WrapType; execute?: undefined | (() => Promise<string>); inputError?: string } {
+  const { chainId } = useActiveWeb3React()
   const mtoken = MyTokenlist(erc20address);
-  console.log(account)
   const wethContract = useTradeContract()
   const balance = useCurrencyBalance()
   const addTransaction = useTransactionAdder()
-
+  const { t } = useTranslation()
   return useMemo(() => {
     if (!wethContract || !chainId) return NOT_APPLICABLE
 
@@ -160,12 +180,15 @@ export function useWrapPutCallback(
             ? async () => {
               try {
                
-                const txReceipt = await wethContract.putSaleOrder(salenumber,price,describe,sellerContactInfo,currency,arbitration,erc20address,buyerLiquidataedDamages, { value: mvalue })
-                addTransaction(txReceipt, { summary: `PUT ORDER:${ethers.utils.formatUnits(salenumber.toString(), mtoken?.decimals)} ${mtoken?.name} for ${ethers.utils.formatUnits(price.toString(), 6)} ${currency} per ${mtoken?.name} ` })
-          
+                const txReceipt = await wethContract.putSaleOrder(salenumber,price,describe,currency,arbitration,erc20address,buyerLiquidataedDamages, { value: mvalue })
+                addTransaction(txReceipt, { summary: `${t("PUT")} ${t("OREDER")}: ${t("sell")}${ethers.utils.formatUnits(salenumber.toString(), mtoken?.decimals)} ${mtoken?.name} ${t("for totally")} ${totalprice} ${currency}` })
+                return txReceipt.hash
               } catch (error) {
-                console.log('Could not deposit', error)
-                alert("ERRER:" + error?.data?.message)
+                if (error?.code === 4001) {
+                  throw new Error(t('Transaction rejected.'))
+                } else {
+                  throw new Error(`${t("Put order")} ${t("failed")}: ${t(error.data.message.split(":")[1])}`)
+                }
               }
             }
             : undefined,
@@ -174,16 +197,16 @@ export function useWrapPutCallback(
     } else {
       return NOT_APPLICABLE
     }
-  }, [wethContract, chainId, balance, addTransaction, mvalue, salenumber,price,describe,sellerContactInfo,currency,arbitration,erc20address,buyerLiquidataedDamages])
+  }, [wethContract, chainId, balance, addTransaction, mvalue, salenumber,price,totalprice,describe,currency,arbitration,erc20address,buyerLiquidataedDamages])
 }
 export function useWrapDisputeCallback(
   id: string, x:string,y:string,mvalue:string
-): { wrapType1: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
+): { wrapType1: WrapType; execute?: undefined | (() => Promise<string>); inputError?: string } {
   const { chainId } = useActiveWeb3React()
   const wethContract = useTradeContract()
   const balance = useCurrencyBalance()
   const addTransaction = useTransactionAdder()
-
+  const { t } = useTranslation()
   return useMemo(() => {
     if (!wethContract || !chainId) return NOT_APPLICABLE1
 
@@ -198,11 +221,14 @@ export function useWrapDisputeCallback(
               try {
                
                 const txReceipt = await wethContract.dispute(id,x,y,{ value: mvalue })
-                addTransaction(txReceipt, { summary: `DISPUTE ORDER: ${id}  ` })
-          
+                addTransaction(txReceipt, { summary: `${t("DISPUTE")} ${t("OREDER")}: ${id}` })
+              return txReceipt.hash
               } catch (error) {
-                console.log('Could not deposit', error)
-                alert("ERRER:" + error?.data?.message)
+                if (error?.code === 4001) {
+                  throw new Error(t('Transaction rejected.'))
+                } else {
+                  throw new Error(`${t("Dispute order")}${id} ${t("failed")}: ${t(error.data.message.split(":")[1])}`)
+                }
               }
             }
             : undefined,
@@ -215,12 +241,12 @@ export function useWrapDisputeCallback(
 
 export function useWrapSurrenderCallback(
   id: string
-): { wrapType1: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
+): { wrapType1: WrapType; execute?: undefined | (() => Promise<string>); inputError?: string } {
   const { chainId } = useActiveWeb3React()
   const wethContract = useTradeContract()
   const balance = useCurrencyBalance()
   const addTransaction = useTransactionAdder()
-
+  const { t } = useTranslation()
   return useMemo(() => {
     if (!wethContract || !chainId) return NOT_APPLICABLE1
 
@@ -235,11 +261,14 @@ export function useWrapSurrenderCallback(
               try {
                
                 const txReceipt = await wethContract.surrender(id)
-                addTransaction(txReceipt, { summary: `SURRENDER ORDER: ${id}  ` })
-          
+                addTransaction(txReceipt, { summary: `${t("Surrender")} ${t("OREDER")}: ${id}` })
+                return txReceipt.hash
               } catch (error) {
-                console.log('Could not deposit', error)
-                alert("ERRER:" + error?.data?.message)
+                if (error?.code === 4001) {
+                  throw new Error(t('Transaction rejected.'))
+                } else {
+                  throw new Error(`${t("Surrender  order")} ${id} ${t("failed")}: ${t(error.data.message.split(":")[1])}`)
+                }
               }
             }
             : undefined,
@@ -252,13 +281,13 @@ export function useWrapSurrenderCallback(
 
 export function useWrapExecuteCallback(
   id: string
-): { wrapType: WrapType; execute?: undefined | (() => Promise<void>); inputError?: string } {
+): { wrapType: WrapType; execute?: undefined | (() => Promise<string>); inputError?: string } {
   const { chainId, account } = useActiveWeb3React()
   console.log(account)
   const wethContract = useTradeContract()
   const balance = useCurrencyBalance()
   const addTransaction = useTransactionAdder()
-
+  const { t } = useTranslation()
   return useMemo(() => {
     if (!wethContract || !chainId) return NOT_APPLICABLE
 
@@ -273,15 +302,18 @@ export function useWrapExecuteCallback(
               try {
                
                 const txReceipt = await wethContract.execute(id)
-                addTransaction(txReceipt, { summary: `EXECUTE ORDER: ${id}  ` })
-          
+                addTransaction(txReceipt, { summary: `${t("Execute judgment")} ${t("OREDER")}: ${id}` })
+                return txReceipt.hash
               } catch (error) {
-                console.log('Could not deposit', error)
-                alert("ERRER:" + error?.data?.message)
+                if (error?.code === 4001) {
+                  throw new Error(t('Transaction rejected.'))
+                } else {
+                  throw new Error(`${t("Execute judgment order")}${id} ${t("failed")} : ${t(error.data.message.split(":")[1])}`)
+                }
               }
             }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient ETH balance'
+        inputError: sufficientBalance ? undefined : 'Insufficient HYK balance'
       }
     } else {
       return NOT_APPLICABLE

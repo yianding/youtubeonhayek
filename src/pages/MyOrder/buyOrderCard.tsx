@@ -1,5 +1,5 @@
 
-import React, { ReactNode, useContext, useState } from 'react'
+import React, { ReactNode, useCallback, useContext, useState } from 'react'
 import { ChevronDown, ChevronUp } from 'react-feather'
 import { darken } from 'polished'
 import styled, { ThemeContext } from 'styled-components'
@@ -8,7 +8,6 @@ import Card from '../../components/Card'
 import { TYPE } from '../../theme'
 import { AutoColumn } from '../../components/Column'
 import Row, { RowBetween, RowFixed } from '../../components/Row'
-import { MyTokenlist } from '../../state/conditionOfOrders/hooks'
 import QuestionHelper from '../../components/QuestionHelper'
 import Copy from '../../components/AccountDetails/Copy'
 import ListLogo from '../../components/ListLogo'
@@ -21,23 +20,11 @@ import { useTranslation } from 'react-i18next'
 import { getInfoType, INFOTYPE } from '../../hooks/describeInfoType'
 import InfoTypeLOGO from '../../components/InfoTypeLogo'
 import { getJudge } from '../../hooks/judge'
+import { useActiveWeb3React } from '../../hooks'
+import { ConfirmationPendingContent, TransactionErrorContent, TransactionSubmittedContent } from '../../components/TransactionConfirmationModal'
+import Modal from '../../components/Modal'
+import { MyTokenlist } from '../../hooks/coinlist'
 
-export const CryptoInput = styled.textarea`
-position: relative;
-display: flex;
-padding: 16px;
-align-items: center;
-width: 100%;
-white-space: nowrap;
-background: none;
-border: 1px solid;
-outline: none;
-border-radius: 12px;
-text-align: left
--webkit-appearance: none;
-font-size: 14px;
-
-`
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
 `
@@ -89,11 +76,11 @@ export default function BuyOrderCard(props: any, border: any) {
                     {infotype === "Telegram" ? (
                         <TYPE.black fontSize={14} color={theme.text1}>
                             {info && (
-                                <a href={"https://t.me/" + info} style={{color:theme.text1}} target="_blank">{info}</a>
+                                <a href={"https://t.me/" + info} style={{ color: theme.text1 }} target="_blank">{info}</a>
                             )} </TYPE.black>) : infotype === "QQ" ? (
                                 <TYPE.black fontSize={14} color={theme.text1}>
                                     {info && (
-                                        <a href={"http://wpa.qq.com/msgrd?v=3&uin=" + info + "&site=qq&menu=yes"} style={{color:theme.text1}} target="_blank">{info}</a>
+                                        <a href={"http://wpa.qq.com/msgrd?v=3&uin=" + info + "&site=qq&menu=yes"} style={{ color: theme.text1 }} target="_blank">{info}</a>
                                     )} </TYPE.black>)
                         : (<TYPE.black fontSize={14} color={theme.text1}>
                             {info && (
@@ -117,7 +104,7 @@ export default function BuyOrderCard(props: any, border: any) {
                 let infodescribe: string | undefined = getInfoType(infotype)?.Describe;
                 let info: string = item1?.split(':')[1];
                 return (
-                    infoDescribe(infotype, info, i, infodescribe ? infodescribe : "", tempINFOTYPE)
+                    infoDescribe(infotype ? infotype : "", info ? info : "", i, infodescribe ? infodescribe : "", tempINFOTYPE)
                 )
 
             })
@@ -126,215 +113,268 @@ export default function BuyOrderCard(props: any, border: any) {
     function HandleDisputeButton() {
 
         if ((props.pair.lockedblocknumber.add(props.BuyerDisputableBlockNumber)).gte(BlockNumber)) {
-            return (<ButtonSecondary width="100%" onClick={dispute} disabled={true}>{t("Please pay the seller,and notify the seller")} <QuestionHelper text={"You can dispute this order after " + props.pair.lockedblocknumber.add(props.BuyerDisputableBlockNumber.add(1)).sub(BlockNumber).toString() + " blocks"} /></ButtonSecondary>)
+            return (<ButtonSecondary width="100%" onClick={dispute} disabled={true}>{t("Please pay the seller,and notify the seller")} <QuestionHelper text={t("You can dispute this order after ") + props.pair.lockedblocknumber.add(props.BuyerDisputableBlockNumber.add(1)).sub(BlockNumber).toString() + t(" blocks")+t(", only if you paid the buyer but he or she don't confirm the order to transfer the selling token to you.")} /></ButtonSecondary>)
         } else {
             return (<ButtonSecondary width="100%" onClick={dispute} >{t("Dispute")}</ButtonSecondary>)
         }
 
     }
-    const { execute: onWrap } = useWrapDisputeCallback(props.pair.id, "0", "0", disputeFee)
-    function dispute() {
 
-        if (onWrap) { onWrap() }
-    }
 
     const { t } = useTranslation()
+
+    const [{ showConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
+        showConfirm: boolean
+        attemptingTxn: boolean
+        swapErrorMessage: string | undefined
+        txHash: string | undefined
+    }>({
+        showConfirm: false,
+        attemptingTxn: false,
+        swapErrorMessage: undefined,
+        txHash: undefined
+    })
+
+    const { execute: onWrap } = useWrapDisputeCallback(props.pair.id, "0", "0", disputeFee)
+    function dispute() {
+        if (onWrap) {
+            setSwapState({ attemptingTxn: true, showConfirm: true, swapErrorMessage: undefined, txHash: undefined })
+            onWrap().then(hash => {
+                setSwapState({ attemptingTxn: false, showConfirm: true, swapErrorMessage: undefined, txHash: hash })
+            }).catch(error => {
+                setSwapState({
+                    attemptingTxn: false,
+                    showConfirm: true,
+                    swapErrorMessage: error.message,
+                    txHash: undefined
+                })
+
+            })
+        }
+
+    }
+
+    const { chainId } = useActiveWeb3React()
+    const onDismiss = () => {
+        setSwapState({ showConfirm: false, attemptingTxn, swapErrorMessage, txHash })
+    }
+
+    let pendingText: string = `${t("Disputing Order")} ${props.pair.id.toString()}`
+
+    const confirmationContent = useCallback(
+        () =>
+            swapErrorMessage ? (
+                <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} />
+            ) : null
+        , [onDismiss, swapErrorMessage]
+    )
     return (
-        <HoverCard border={border}>
-            <AutoColumn gap="12px">
-                <FixedHeightRow onClick={() => setShowMore(!showMore)} style={{ cursor: 'pointer' }}>
-                    <RowFixed>
-                        <Row>
-                            {mtoken ? (
-                                <ListLogo
-                                    style={{ marginRight: 12 }}
-                                    logoURI={mtoken.logoURI ? mtoken.logoURI : ""}
-                                    alt={`${mtoken.name} list logo`}
-                                />
-                            ) : null
-                            }
-                            <TYPE.main id="ERC20">{mtoken?.name}</TYPE.main>
-                        </Row>
-                    </RowFixed>
-                    <RowFixed>
-                        <Row>
-                            <TYPE.main id="num">{ethers.utils.formatUnits(props.pair.salenumber.toString(), mtoken?.decimals)}</TYPE.main>
-                        </Row>
-                    </RowFixed>
-                    <RowFixed>
-                        <Row>
-                            <TYPE.main id="price">{ethers.utils.formatUnits(props.pair.price.toString(), 6)}{getFait(props.pair.Currency)?.sign}</TYPE.main>
-                        </Row>
-                    </RowFixed>
-
-
-                    <RowFixed>
-                        {showMore ? (
-                            <ChevronUp size="20" style={{ marginLeft: '10px' }} />
-                        ) : (
-                            <ChevronDown size="20" style={{ marginLeft: '10px' }} />
-                        )}
-                    </RowFixed>
-                </FixedHeightRow>
-                {showMore && (
-                    <AutoColumn gap="8px">
-
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Order ID')}
-                                    </TYPE.black>
-                                    <QuestionHelper text={t("Each order has a unique ID.")} />
-                                </RowFixed>
-                                <TYPE.black fontSize={14} color={theme.text1}>
-                                    {props.pair.id.toString()}
-                                </TYPE.black>
-                            </RowBetween>
-                        </FixedHeightRow>
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Price')}
-                                    </TYPE.black>
-                                </RowFixed>
-                                <TYPE.black fontSize={14} color={theme.text1}>
-                                    {ethers.utils.formatUnits(props.pair.price, 6) + " " + props.pair.Currency}
-                                </TYPE.black>
-                            </RowBetween>
-                        </FixedHeightRow>
-
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Sale Number')}
-                                    </TYPE.black>
-                                </RowFixed>
-                                <TYPE.black fontSize={14} color={theme.text1}>
-                                    {ethers.utils.formatUnits(props.pair.salenumber, mtoken ? mtoken.decimals : 0) + " " + mtoken?.name}
-                                </TYPE.black>
-                            </RowBetween>
-                        </FixedHeightRow>
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Total Amount')}
-                                    </TYPE.black>
-                                    <QuestionHelper text={t("Total Amount = Price × saleNumber")} />
-                                </RowFixed>
-                                {generateTotalAmount()}
-                            </RowBetween>
-                        </FixedHeightRow>
-
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Seller Address')}
-                                    </TYPE.black>
-
-                                </RowFixed>
-                                <TYPE.black fontSize={14} color={theme.text1}>
-                                    {props.pair.seller.toString() && (
-                                        <Copy toCopy={props.pair.seller.toString()}>
-                                            <span style={{ marginLeft: '4px' }}> {props.pair.seller.toString().substring(0, 6) + "..." + props.pair.seller.toString().substring(38)}</span>
-                                        </Copy>
-                                    )} </TYPE.black>
-
-                            </RowBetween>
-                        </FixedHeightRow>
-
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Buyer Address')}
-                                    </TYPE.black>
-
-                                </RowFixed>
-                                <TYPE.black fontSize={14} color={theme.text1}>
-                                    {props.pair.buyer.toString() && (
-                                        <Copy toCopy={props.pair.buyer.toString()}>
-                                            <span style={{ marginLeft: '4px' }}> {props.pair.buyer.toString().substring(0, 6) + "..." + props.pair.buyer.toString().substring(38)}</span>
-                                        </Copy>
-                                    )} </TYPE.black>
-                            </RowBetween>
-                        </FixedHeightRow>
-
-
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t("Seller's liquidated damage")}
-                                    </TYPE.black>
-                                    <QuestionHelper text="Seller's liquidated damage" />
-                                </RowFixed>
-                                <TYPE.black fontSize={14} color={theme.text1}>
-                                    {ethers.utils.formatEther(props.pair.sellerLiquidataedDamages.toString())} HYK
-                                </TYPE.black>
-                            </RowBetween>
-                        </FixedHeightRow>
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t("Buyer's liquidated damage")}
-                                    </TYPE.black>
-                                    <QuestionHelper text="Buyer's liquidated damage" />
-                                </RowFixed>
-                                <TYPE.black fontSize={14} color={theme.text1}>
-                                    {ethers.utils.formatEther(props.pair.buyerLiquidataedDamages.toString())} HYK
-                                </TYPE.black>
-                            </RowBetween>
-                        </FixedHeightRow>
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t("Court")}
-                                    </TYPE.black>
-                                </RowFixed>
-                                <TYPE.black fontSize={14} color={theme.text1}>
-                                    {getJudge(props.pair.arbitration) ? <A href={getJudge(props.pair.arbitration)?.URL} target="_blank"> {getJudge(props.pair.arbitration) ? (getJudge(props.pair.arbitration)?.name) : t("Unverified Court")}</A> : <></>}
-                                </TYPE.black>
-                            </RowBetween>
-                        </FixedHeightRow>
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Locked Block Number')}
-                                    </TYPE.black>
-                                    <QuestionHelper text="The Block Number of Buyer locked this order" />
-                                </RowFixed>
-                                <TYPE.black fontSize={14} color={theme.text1}>
-                                    {props.pair.lockedblocknumber.toString()}
-                                </TYPE.black>
-                            </RowBetween>
-                        </FixedHeightRow>
-                        <FixedHeightRow>
-                            <RowBetween>
-                                <RowFixed>
-                                    <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
-                                        {t('Describe')}:
-                                    </TYPE.black>
-                                </RowFixed>
-                            </RowBetween>
-                        </FixedHeightRow>
-                        <HoverCard border={border}>
-                            {HandleDescribe() ? HandleDescribe() : <></>}
-                        </HoverCard>
-                        {HandleDisputeButton()}
-
-
-                    </AutoColumn>
+        <>
+            {showConfirm ? <Modal isOpen={showConfirm} onDismiss={onDismiss} maxHeight={90}>
+                {attemptingTxn ? (
+                    <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
+                ) : txHash ? (
+                    <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={onDismiss} />
+                ) : (
+                    confirmationContent()
                 )}
-            </AutoColumn>
-        </HoverCard>
+            </Modal> : null
+            }
+            <HoverCard border={border}>
+                <AutoColumn gap="12px">
+                    <FixedHeightRow onClick={() => setShowMore(!showMore)} style={{ cursor: 'pointer' }}>
+                        <RowFixed>
+                            <Row>
+                                {mtoken ? (
+                                    <ListLogo
+                                        style={{ marginRight: 12 }}
+                                        logoURI={mtoken.logoURI ? mtoken.logoURI : ""}
+                                        alt={`${mtoken.name} list logo`}
+                                    />
+                                ) : null
+                                }
+                                <TYPE.main id="ERC20">{mtoken?.name}</TYPE.main>
+                            </Row>
+                        </RowFixed>
+                        <RowFixed>
+                            <Row>
+                                <TYPE.main id="num">{ethers.utils.formatUnits(props.pair.salenumber.toString(), mtoken?.decimals)}</TYPE.main>
+                            </Row>
+                        </RowFixed>
+                        <RowFixed>
+                            <Row>
+                                <TYPE.main id="price">{ethers.utils.formatUnits(props.pair.price.toString(), 6)}{getFait(props.pair.Currency)?.sign}</TYPE.main>
+                            </Row>
+                        </RowFixed>
+
+
+                        <RowFixed>
+                            {showMore ? (
+                                <ChevronUp size="20" style={{ marginLeft: '10px' }} />
+                            ) : (
+                                <ChevronDown size="20" style={{ marginLeft: '10px' }} />
+                            )}
+                        </RowFixed>
+                    </FixedHeightRow>
+                    {showMore && (
+                        <AutoColumn gap="8px">
+
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t('Order ID')}
+                                        </TYPE.black>
+                                        <QuestionHelper text={t("Each order has a unique ID.")} />
+                                    </RowFixed>
+                                    <TYPE.black fontSize={14} color={theme.text1}>
+                                        {props.pair.id.toString()}
+                                    </TYPE.black>
+                                </RowBetween>
+                            </FixedHeightRow>
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t('Price')}
+                                        </TYPE.black>
+                                    </RowFixed>
+                                    <TYPE.black fontSize={14} color={theme.text1}>
+                                        {ethers.utils.formatUnits(props.pair.price, 6) + " " + props.pair.Currency}
+                                    </TYPE.black>
+                                </RowBetween>
+                            </FixedHeightRow>
+
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t('Sale Number')}
+                                        </TYPE.black>
+                                    </RowFixed>
+                                    <TYPE.black fontSize={14} color={theme.text1}>
+                                        {ethers.utils.formatUnits(props.pair.salenumber, mtoken ? mtoken.decimals : 0) + " " + mtoken?.name}
+                                    </TYPE.black>
+                                </RowBetween>
+                            </FixedHeightRow>
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t('Total Amount')}
+                                        </TYPE.black>
+                                        <QuestionHelper text={t("Total Amount = Price × saleNumber")} />
+                                    </RowFixed>
+                                    {generateTotalAmount()}
+                                </RowBetween>
+                            </FixedHeightRow>
+
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t('Seller Address')}
+                                        </TYPE.black>
+
+                                    </RowFixed>
+                                    <TYPE.black fontSize={14} color={theme.text1}>
+                                        {props.pair.seller.toString() && (
+                                            <Copy toCopy={props.pair.seller.toString()}>
+                                                <span style={{ marginLeft: '4px' }}> {props.pair.seller.toString().substring(0, 6) + "..." + props.pair.seller.toString().substring(38)}</span>
+                                            </Copy>
+                                        )} </TYPE.black>
+
+                                </RowBetween>
+                            </FixedHeightRow>
+
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t('Buyer Address')}
+                                        </TYPE.black>
+
+                                    </RowFixed>
+                                    <TYPE.black fontSize={14} color={theme.text1}>
+                                        {props.pair.buyer.toString() && (
+                                            <Copy toCopy={props.pair.buyer.toString()}>
+                                                <span style={{ marginLeft: '4px' }}> {props.pair.buyer.toString().substring(0, 6) + "..." + props.pair.buyer.toString().substring(38)}</span>
+                                            </Copy>
+                                        )} </TYPE.black>
+                                </RowBetween>
+                            </FixedHeightRow>
+
+
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t("Seller's Deposit")}
+                                        </TYPE.black>
+                                        <QuestionHelper text= {t("In the event of a dispute, the margin will be used as the compensation of the negligent party in the transaction to the non-negligence party.")} />
+                                    </RowFixed>
+                                    <TYPE.black fontSize={14} color={theme.text1}>
+                                        {ethers.utils.formatEther(props.pair.sellerLiquidataedDamages.toString())} HYK
+                                    </TYPE.black>
+                                </RowBetween>
+                            </FixedHeightRow>
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t("Buyer's Deposit")}
+                                        </TYPE.black>
+                                        <QuestionHelper text= {t("In the event of a dispute, the margin will be used as the compensation of the negligent party in the transaction to the non-negligence party.")} />
+                                    </RowFixed>
+                                    <TYPE.black fontSize={14} color={theme.text1}>
+                                        {ethers.utils.formatEther(props.pair.buyerLiquidataedDamages.toString())} HYK
+                                    </TYPE.black>
+                                </RowBetween>
+                            </FixedHeightRow>
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t("Court")}
+                                        </TYPE.black>
+                                    </RowFixed>
+                                    <TYPE.black fontSize={14} color={theme.text1}>
+                                        {<A href={getJudge(props.pair.arbitration) ? getJudge(props.pair.arbitration)?.URL : "https://explorer.hayek.link/address/" + props.pair.arbitration.toString()} target="_blank">{getJudge(props.pair.arbitration) ? (getJudge(props.pair.arbitration)?.name) : t("Unverified Court")}</A>}
+                                    </TYPE.black>
+                                </RowBetween>
+                            </FixedHeightRow>
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t('Locked Block Number')}
+                                        </TYPE.black>
+                                        <QuestionHelper text="The Block Number of Buyer locked this order" />
+                                    </RowFixed>
+                                    <TYPE.black fontSize={14} color={theme.text1}>
+                                        {props.pair.lockedblocknumber.toString()}
+                                    </TYPE.black>
+                                </RowBetween>
+                            </FixedHeightRow>
+                            <FixedHeightRow>
+                                <RowBetween>
+                                    <RowFixed>
+                                        <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
+                                            {t('Describe')}:
+                                        </TYPE.black>
+                                    </RowFixed>
+                                </RowBetween>
+                            </FixedHeightRow>
+                            <HoverCard border={border}>
+                                {HandleDescribe() ? HandleDescribe() : <></>}
+                            </HoverCard>
+                            {HandleDisputeButton()}
+
+                        </AutoColumn>
+                    )}
+                </AutoColumn>
+            </HoverCard>
+        </>
     )
 }
 

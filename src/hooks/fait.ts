@@ -12,10 +12,21 @@ export declare class FIAT {
     protected constructor(symbol: string, logoURI: string, sign: string, describe: string);
 }
 const ALLFIAT: FIAT[] = [
-
-    { logoURI: "https://www.xe.com/static-images/usd.static.e8b657d1161a08a32415d284a8e1dc89.svg", symbol: "USD", sign: "USD", describe: "US Dollar" },
-    { logoURI: "https://www.xe.com/static-images/eur.static.7c6f881c3b6506b03bcbda3644485094.svg", symbol: "EUR", sign: "EUR", describe: "Euro" },
     { logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg", symbol: "CNY", sign: "CNY", describe: "Chinese Yuan Renminbi" },
+    { logoURI: "https://www.xe.com/static-images/usd.static.e8b657d1161a08a32415d284a8e1dc89.svg", symbol: "USD", sign: "USD", describe: "US Dollar" },
+    {
+        symbol: "USDT(ETH)",
+        logoURI: "./images/USDT.png",
+        describe: "USDT on Ethererum",
+        sign: "USDT"
+    },
+    {
+        symbol: "USDT(HECO)",
+        logoURI: "./images/USDT.png",
+        describe: "USDT on HECO",
+        sign: "USDT"
+    },
+    { logoURI: "https://www.xe.com/static-images/eur.static.7c6f881c3b6506b03bcbda3644485094.svg", symbol: "EUR", sign: "EUR", describe: "Euro" },
     { logoURI: "https://www.xe.com/static-images/gbp.static.da0ca3d1b6d9e74642276a0ea3cde603.svg", symbol: "GBP", sign: "GBP", describe: "British Pound" },
     { logoURI: "https://www.xe.com/static-images/cad.static.0bfb6a6d0adf4f3b1c28c0c90248b18b.svg", symbol: "CAD", sign: "CAD", describe: "Canadian Dollar" },
     { logoURI: "https://www.xe.com/static-images/aud.static.6e69da30d2a4593d811f765c491964af.svg", symbol: "AUD", sign: "AUD", describe: "Australian Dollar" },
@@ -191,18 +202,7 @@ const ALLFIAT: FIAT[] = [
     { logoURI: "https://www.xe.com/static-images/zmk.static.55eaea806877e79c3349cf90a550f1c9.svg", symbol: "ZMK", sign: "ZMK", describe: "Zambian Kwacha" },
     { logoURI: "https://www.xe.com/static-images/zmw.static.55eaea806877e79c3349cf90a550f1c9.svg", symbol: "ZMW", sign: "ZMW", describe: "Zambian Kwacha" },
     { logoURI: "https://www.xe.com/static-images/zwd.static.9535b6fcd130e3b3d8d3366f6519f6ec.svg", symbol: "ZWD", sign: "ZWD", describe: "Zimbabwean Dollar" },
-    {
-        symbol: "USDT(ETH)",
-        logoURI: "./images/USDT.png",
-        describe: "USDT on Ethererum",
-        sign: "USDT"
-    },
-    {
-        symbol: "USDT(HECO)",
-        logoURI: "./images/USDT.png",
-        describe: "USDT on HECO",
-        sign: "USDT"
-    }
+
 
 ]
 export function AllFait(): FIAT[] {

@@ -9,10 +9,11 @@ import { useDarkModeManager } from '../../state/user/hooks'
 
 import listLight from '../../assets/images/token-list/lists-light.png'
 import listDark from '../../assets/images/token-list/lists-dark.png'
+import { useTranslation } from 'react-i18next'
 
 export default function ListIntroduction({ onSelectList }: { onSelectList: () => void }) {
   const [isDark] = useDarkModeManager()
-
+  const {t} = useTranslation()
   return (
     <Column style={{ width: '100%', flex: '1 1' }}>
       <PaddedColumn>
@@ -28,10 +29,10 @@ export default function ListIntroduction({ onSelectList }: { onSelectList: () =>
             alt="token-list-preview"
           />
           <Text style={{ marginBottom: '8px', textAlign: 'center' }}>
-            Uniswap now supports token lists. You can add your own custom lists via IPFS, HTTPS and ENS.{' '}
+            {t("D-OTC now supports token lists. You can add your own custom lists via IPFS, HTTPS and ENS.")}{' '}
           </Text>
           <ButtonPrimary onClick={onSelectList} id="list-introduction-choose-a-list">
-            Choose a list
+            {t("Choose a list")}
           </ButtonPrimary>
           <OutlineCard style={{ marginBottom: '8px', padding: '1rem' }}>
             <Text fontWeight={400} fontSize={14} style={{ textAlign: 'center' }}>

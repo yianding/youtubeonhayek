@@ -37,9 +37,16 @@ export function useTradeOrderData(): CallState[] | undefined {
   const inputs = useMemo(() => [quantity_min, quanity_max, price_min, price_max, currency, linenumber, erc20address,sellerDeposit,buyerDeposit],
     [quantity_min, quanity_max, price_min, price_max, currency, linenumber, erc20address,sellerDeposit,buyerDeposit]
   )
-
   const order = useSingleContractMultipleData(contract, 'queryOrder', [inputs])
+  return useMemo(() => (order ? order : undefined), order)
+}
 
+export function useOrderByIdData(index:string): CallState[] | undefined {
+  const contract = useTradeContract(false)
+  const inputs = useMemo(() => [index],
+    [index]
+  )
+  const order = useSingleContractMultipleData(contract, 'getOrderInfo', [inputs])
   return useMemo(() => (order ? order : undefined), order)
 }
 

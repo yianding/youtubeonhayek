@@ -3,15 +3,12 @@ import { Settings, X } from 'react-feather'
 import styled from 'styled-components'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import {
-  useUserSlippageTolerance,
   useExpertModeManager,
-  useUserDeadline,
   useDarkModeManager
 } from '../../state/user/hooks'
 import TransactionSettings from '../TransactionSettings'
 import { RowFixed, RowBetween } from '../Row'
 import { TYPE } from '../../theme'
-import QuestionHelper from '../QuestionHelper'
 import Toggle from '../Toggle'
 import { ThemeContext } from 'styled-components'
 import { AutoColumn } from '../Column'
@@ -128,9 +125,6 @@ export default function SettingsTab() {
   const toggle = useToggleSettingsMenu()
 
   const theme = useContext(ThemeContext)
-  const [userSlippageTolerance, setUserslippageTolerance] = useUserSlippageTolerance()
-
-  const [deadline, setDeadline] = useUserDeadline()
 
   const [expertMode, toggleExpertMode] = useExpertModeManager()
 
@@ -197,38 +191,10 @@ export default function SettingsTab() {
             <Text fontWeight={600} fontSize={14}>
               {t('Settings')}
             </Text>
-            <TransactionSettings
-              rawSlippage={userSlippageTolerance}
-              setRawSlippage={setUserslippageTolerance}
-              deadline={deadline}
-              setDeadline={setDeadline}
-            />
+            <TransactionSettings/>
             <Text fontWeight={600} fontSize={14}>
               {t('Interface Settings')}
             </Text>
-            <RowBetween>
-              <RowFixed>
-                <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>
-                  {t('Toggle Expert Mode')}
-                </TYPE.black>
-                <QuestionHelper text="Bypasses confirmation modals and allows high slippage trades. Use at your own risk." />
-              </RowFixed>
-              <Toggle
-                id="toggle-expert-mode-button"
-                isActive={expertMode}
-                toggle={
-                  expertMode
-                    ? () => {
-                        toggleExpertMode()
-                        setShowConfirmation(false)
-                      }
-                    : () => {
-                        toggle()
-                        setShowConfirmation(true)
-                      }
-                }
-              />
-            </RowBetween>
             <RowBetween>
               <RowFixed>
                 <TYPE.black fontWeight={400} fontSize={14} color={theme.text2}>

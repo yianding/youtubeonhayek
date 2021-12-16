@@ -6,9 +6,17 @@ export declare class INFOTYPE {
     protected constructor( InfoText: string,logoURI:string,Describe:string);
 }
  const ALLINFOTYPE:INFOTYPE[]=[
+{  InfoText:"Telegram",
+    logoURI:"https://telegram.org/favicon.ico?4",
+    Describe:""
+ },
 {  InfoText:"WeChat",
    logoURI:"https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico",
-   Describe:"Wechat account"
+   Describe:"WeChat account"
+},         
+{  InfoText:"Secret WeChat",
+   logoURI:"https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico",
+   Describe:"Secret WeChat account"
 },
 {  InfoText:"Alipay",
    logoURI:"https://img.alicdn.com/tfs/TB1qEwuzrj1gK0jSZFOXXc7GpXa-32-32.ico",
@@ -18,6 +26,10 @@ export declare class INFOTYPE {
    logoURI:"https://qzonestyle.gtimg.cn/qzone/qzact/act/external/tiqq/logo.png",
    Describe:"QQ account"
 },
+{  InfoText:"Bank Card Cash Deposit",
+   logoURI:"./images/seccontract.jpg",
+   Describe:"Bank Card Cash Deposit"
+},
 {  InfoText:"CryptoContract",
    logoURI:"./images/seccontract.jpg",
    Describe:"Crypto Contract"
@@ -26,22 +38,18 @@ export declare class INFOTYPE {
    logoURI:"./images/bankcard.png",
    Describe:"Bank Card Number"
 },
-{  InfoText:"Bank Account",
-   logoURI:"./images/bankcard.png",
-   Describe:"Bank Account"
-},
+// {  InfoText:"Bank Account",
+//    logoURI:"./images/bankcard.png",
+//    Describe:"Bank Account"
+// },
 {  InfoText:"Bank Name",
    logoURI:"./images/bank.png",
    Describe:""
 },
-{  InfoText:"__",
-   logoURI:"./images/blankline.jpg",
-   Describe:""
-},
-{  InfoText:"Telegram",
-   logoURI:"https://telegram.org/favicon.ico?4",
-   Describe:""
-},
+// {  InfoText:"__",
+//    logoURI:"./images/blankline.jpg",
+//    Describe:""
+// },
 {  InfoText:"Line",
    logoURI:"https://line.me/apple-touch-icon-57x57.png",
    Describe:""

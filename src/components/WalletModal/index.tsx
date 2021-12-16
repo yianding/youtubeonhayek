@@ -18,6 +18,8 @@ import { injected, fortmatic, portis } from '../../connectors'
 import { OVERLAY_READY } from '../../connectors/Fortmatic'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { AbstractConnector } from '@web3-react/abstract-connector'
+import { Trans, useTranslation } from 'react-i18next'
+import { LightCard } from '../Card'
 
 const CloseIcon = styled.div`
   position: absolute;
@@ -137,7 +139,7 @@ export default function WalletModal({
   const toggleWalletModal = useWalletModalToggle()
 
   const previousAccount = usePrevious(account)
-
+  const { t } = useTranslation()
   // close on connection, when logged out before
   useEffect(() => {
     if (account && !previousAccount && walletModalOpen) {
@@ -294,13 +296,13 @@ export default function WalletModal({
           <CloseIcon onClick={toggleWalletModal}>
             <CloseColor />
           </CloseIcon>
-          <HeaderRow>{error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}</HeaderRow>
+          <HeaderRow>{error instanceof UnsupportedChainIdError ? <>{t("Wrong Network")}</> : <>{t("Error connecting")}</>}</HeaderRow>
           <ContentWrapper>
             {error instanceof UnsupportedChainIdError ? (
-              <h5>Please connect to the appropriate Ethereum network.</h5>
-            ) : (
-              'Error connecting. Try refreshing the page.'
-            )}
+              <h5>{t("Please connect to the appropriate Ethereum network.")}</h5>
+            ) :
+              <>{t("Error connecting. Try refreshing the page.")}</>
+            }
           </ContentWrapper>
         </UpperSection>
       )
@@ -329,15 +331,24 @@ export default function WalletModal({
                 setWalletView(WALLET_VIEWS.ACCOUNT)
               }}
             >
-              Back
+              {t("Back")}
             </HoverText>
           </HeaderRow>
         ) : (
           <HeaderRow>
-            <HoverText>Connect to a wallet</HoverText>
+            <HoverText>{t("Connect to a wallet")}</HoverText>
           </HeaderRow>
         )}
         <ContentWrapper>
+          <LightCard>
+            <Trans>
+              {t("By connecting a wallet, you agree to D-OTC’s")}{' '}
+              <ExternalLink href="https://uniswap.org/terms-of-service/">{t("Terms of Service")}</ExternalLink>
+              {t("and acknowledge that you have read and understand the D-OTC")}{' '}
+              <ExternalLink href="https://uniswap.org/disclaimer/">{t("Protocol Disclaimer")}</ExternalLink>{t('.')}
+            </Trans>
+          </LightCard>
+          <div style={{ height: "10px" }} />
           {walletView === WALLET_VIEWS.PENDING ? (
             <PendingView
               connector={pendingWallet}
@@ -350,8 +361,8 @@ export default function WalletModal({
           )}
           {walletView !== WALLET_VIEWS.PENDING && (
             <Blurb>
-              <span>New to Ethereum? &nbsp;</span>{' '}
-              <ExternalLink href="https://ethereum.org/wallets/">Learn more about wallets</ExternalLink>
+              <span>{t("New to BlockChain")}? &nbsp;</span>{' '}
+              <ExternalLink href="https://ethereum.org/wallets/">{t("Learn more about wallets")}</ExternalLink>
             </Blurb>
           )}
         </ContentWrapper>

@@ -114,11 +114,7 @@ export function AddRemoveTabs({ adding }: { adding: boolean }) {
         </HistoryLink>
         <ActiveText>{t('Publish sale order')}</ActiveText>
         <QuestionHelper
-          text={
-            adding
-              ? ''
-              : ''
-          }
+          text={t("The order you put will show in <Sale Orders> And <My Sale Orders>")}
         />
       </RowBetween>
     </Tabs>

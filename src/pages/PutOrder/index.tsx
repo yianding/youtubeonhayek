@@ -23,6 +23,8 @@ import { TYPE } from '../../theme'
 import { useTranslation } from 'react-i18next'
 import JudgeInputPanel from '../../components/JudgeInputPanel'
 import { getJudge } from '../../hooks/judge'
+import { ConfirmationPendingContent, TransactionErrorContent, TransactionSubmittedContent } from '../../components/TransactionConfirmationModal'
+import Modal from '../../components/Modal'
 
 export const Input = styled.input`
   position: relative;
@@ -60,36 +62,25 @@ export default function PutOrder() {
     const [descInfo, setdescInfo] = useState<string[]>([]);
     const [JudgeAddress, setJudgeAddress] = useState("");
 
-    const SellerD = useCallback(() => {
-        if (SellerDeposit == "") {
-            return "0";
-        } else {
-            return ethers.utils.parseEther(SellerDeposit).toString()
-        }
-    }, [SellerDeposit])
-    const BuyerD = useCallback(() => {
-        if (BuyerDeposit == "") {
-            return "0";
-        } else {
-            return ethers.utils.parseEther(BuyerDeposit).toString()
-        }
-    }, [BuyerDeposit])
-
-    const priceToWrap = useCallback(() => {
-        if (price != "") {
-            return ethers.utils.parseUnits(price, 6).toString()
-        } else {
+    const saleNumberToWrap = useCallback(() => {
+        try {
+            return ethers.utils.parseUnits(saleNumber ? saleNumber : "0", currencies[Field.INPUT]?.decimals).toString()
+        } catch (error) {
+            setSaleNumber("")
             return "0"
         }
-    }, [price])
-
-
-    const { wrapType, execute: onWrap } = useWrapPutCallback(ethers.utils.parseUnits(saleNumber ? saleNumber : "0", currencies[Field.INPUT]?.decimals).toString(), priceToWrap(), JSON.stringify(descInfo), "卖家联系方式", Currency, JudgeAddress, ERC20, BuyerD(), SellerD())
-    function putOrder() {
-        if (onWrap) { onWrap() }
-
-    }
-
+    }, [saleNumber,currencies[Field.INPUT]?.decimals])
+ 
+    const { wrapType, execute: onWrap } = useWrapPutCallback(saleNumberToWrap(),
+                                                             ethers.utils.parseUnits(price?price:"0", 6).toString(),
+                                                             totalprice,
+                                                             JSON.stringify(descInfo), 
+                                                             Currency,
+                                                             JudgeAddress,
+                                                             ERC20,
+                                                             ethers.utils.parseEther(BuyerDeposit?BuyerDeposit:"0").toString(),
+                                                             ethers.utils.parseEther(SellerDeposit?SellerDeposit:"0").toString()
+                                                             )
 
     const { onUserInput, onCurrencySelection } = useSwapActionHandlers()
     const [approval, approveCallback] = useMyApproveCallbackFromTrade(currencyBalances[Field.INPUT])
@@ -108,8 +99,7 @@ export default function PutOrder() {
         }
     const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
     const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
-    const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
-    console.log("approvalSubmitted", approvalSubmitted);
+ 
 
     const handleMaxInput = useCallback(() => {
         setSaleNumber(maxAmountInput ? maxAmountInput.toExact() : saleNumber)
@@ -151,7 +141,6 @@ export default function PutOrder() {
         inputCurrency => {
             setERC20(inputCurrency.address)
             setERC20Decimal(inputCurrency.decimals)
-            setApprovalSubmitted(false) // reset 2 step UI for approvals
             onCurrencySelection(Field.INPUT, inputCurrency)
         },
         [onCurrencySelection]
@@ -187,7 +176,6 @@ export default function PutOrder() {
     const handleFaitInputSelect = useCallback(
         inputCurrency => {
             setcurrency(inputCurrency.symbol)
-            setApprovalSubmitted(false) // reset 2 step UI for approvals
             onCurrencySelection(Field.OUTPUT, inputCurrency)
         },
         [onCurrencySelection]
@@ -242,10 +230,65 @@ export default function PutOrder() {
     )
 
     const { t } = useTranslation()
+
+    const [{ showConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
+        showConfirm: boolean
+        attemptingTxn: boolean
+        swapErrorMessage: string | undefined
+        txHash: string | undefined
+    }>({
+        showConfirm: false,
+        attemptingTxn: false,
+        swapErrorMessage: undefined,
+        txHash: undefined
+    })
+    const [pendingText,setPendingText] = useState<string>('')
+    
+    function putOrder() {
+        if (onWrap) {
+            setPendingText(`${t("Putting order") + ": " + t("sell")} ${saleNumber} ${currencies[Field.INPUT]?.name} ${t("for totally")} ${totalprice} ${Currency}  `)
+            setSwapState({ attemptingTxn: true, showConfirm: true, swapErrorMessage: undefined, txHash: undefined })
+            onWrap().then(hash => {
+                setSwapState({ attemptingTxn: false, showConfirm: true, swapErrorMessage: undefined, txHash: hash })
+            }).catch(error => {
+                setSwapState({
+                    attemptingTxn: false,
+                    showConfirm: true,
+                    swapErrorMessage: error.message,
+                    txHash: undefined
+                })
+
+            })
+        }
+    }
+
+    const { chainId } = useActiveWeb3React()
+    const onDismiss = () => {
+        setSwapState({ showConfirm: false, attemptingTxn, swapErrorMessage, txHash })
+    }
+
+    const confirmationContent = useCallback(
+        () =>
+            swapErrorMessage ? (
+                <TransactionErrorContent onDismiss={onDismiss} message={swapErrorMessage} />
+            ) : null
+        , [onDismiss, swapErrorMessage]
+    )
+
     return (
+        <>
+        {showConfirm ? <Modal isOpen={showConfirm} onDismiss={onDismiss} maxHeight={90}>
+        {attemptingTxn ? (
+            <ConfirmationPendingContent onDismiss={onDismiss} pendingText={pendingText} />
+        ) : txHash ? (
+            <TransactionSubmittedContent chainId={chainId} hash={txHash} onDismiss={onDismiss} />
+        ) : (
+            confirmationContent()
+        )}
+    </Modal> : null
+    }
         <AppBody>
             <AddRemoveTabs adding={true} />
-
             <CurrencyInputPanel
                 label={t('Amount')}
                 value={saleNumber}
@@ -300,10 +343,11 @@ export default function PutOrder() {
                 value2={BuyerDeposit}
                 onUserInput={handleSellerDepositInput}
                 onUserInput2={handleBuyerDepositInput}
-                label={t("Seller's liquidated damage") + "(HYK)"}
+                label={t("Seller's Deposit") + "(HYK)"}
                 id="swap-currency-output"
             />
             <div style={{ height: "24px", width: "100%" }} />
+         
             <JudgeInputPanel
                 showMaxButton={false}
                 currency={getJudge(JudgeAddress)}
@@ -335,7 +379,7 @@ export default function PutOrder() {
                         </ButtonLight>) :
                         approval == ApprovalState.PENDING ?
                             <ButtonLight width="100%" disabled={true}>
-                                {t('Approve Pending')}{" "} <Loader></Loader>
+                                {t('Approve Pending')} <Loader></Loader>
                             </ButtonLight>
                             : price != "" && Currency != "" && saleNumber != ""  &&  JudgeAddress != ""  ?
                                 <ButtonLight onClick={putOrder} width="100%">
@@ -347,6 +391,7 @@ export default function PutOrder() {
             }
 
         </AppBody>
+        </>
     )
 }
 

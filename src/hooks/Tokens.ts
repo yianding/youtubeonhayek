@@ -13,9 +13,11 @@ export function useAllTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
   const userAddedTokens = useUserAddedTokens()
   const allTokens = useSelectedTokenList()
-
   return useMemo(() => {
+    
     if (!chainId) return {}
+    // if (listUrl=="https://hayek.link/coinlist.json") {console.log("bbs",listUrl)
+    // return {}}
     return (
       userAddedTokens
         // reduce into all ALL_TOKENS filtered by the current chain

@@ -28,6 +28,16 @@
 		"name": "allCase",
 		"outputs": [
 			{
+				"internalType": "string",
+				"name": "sellerProof",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "buyerProof",
+				"type": "string"
+			},
+			{
 				"internalType": "uint8",
 				"name": "precentSubjectToseller",
 				"type": "uint8"
@@ -43,9 +53,9 @@
 				"type": "bool"
 			},
 			{
-				"internalType": "bool",
-				"name": "isDispute",
-				"type": "bool"
+				"internalType": "uint256",
+				"name": "disputedBlockNum",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -100,6 +110,141 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "linenumber",
+				"type": "uint256"
+			}
+		],
+		"name": "getMyCase",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "sellerProof",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "buyerProof",
+								"type": "string"
+							},
+							{
+								"internalType": "uint8",
+								"name": "precentSubjectToseller",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "precentDepositToseller",
+								"type": "uint8"
+							},
+							{
+								"internalType": "bool",
+								"name": "resultState",
+								"type": "bool"
+							},
+							{
+								"internalType": "uint256",
+								"name": "disputedBlockNum",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct judge.Case",
+						"name": "caseInfo",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "salenumber",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "lockedblocknumber",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address payable",
+								"name": "seller",
+								"type": "address"
+							},
+							{
+								"internalType": "address payable",
+								"name": "buyer",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "arbitration",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "erc20address",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "sellerLiquidataedDamages",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "buyerLiquidataedDamages",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "describe",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "Currency",
+								"type": "string"
+							},
+							{
+								"internalType": "uint8",
+								"name": "state",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct Order",
+						"name": "orderInfo",
+						"type": "tuple"
+					}
+				],
+				"internalType": "struct judge.CaseProof[]",
+				"name": "r",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "getName",
 		"outputs": [
@@ -109,7 +254,7 @@
 				"type": "string"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "pure",
 		"type": "function"
 	},
 	{
@@ -151,7 +296,7 @@
 				"type": "string"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "pure",
 		"type": "function"
 	},
 	{
@@ -165,9 +310,120 @@
 		"name": "getWaitingForJudgingCase",
 		"outputs": [
 			{
-				"internalType": "uint256[]",
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "sellerProof",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "buyerProof",
+								"type": "string"
+							},
+							{
+								"internalType": "uint8",
+								"name": "precentSubjectToseller",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint8",
+								"name": "precentDepositToseller",
+								"type": "uint8"
+							},
+							{
+								"internalType": "bool",
+								"name": "resultState",
+								"type": "bool"
+							},
+							{
+								"internalType": "uint256",
+								"name": "disputedBlockNum",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct judge.Case",
+						"name": "caseInfo",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "salenumber",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "lockedblocknumber",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address payable",
+								"name": "seller",
+								"type": "address"
+							},
+							{
+								"internalType": "address payable",
+								"name": "buyer",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "arbitration",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "erc20address",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "sellerLiquidataedDamages",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "buyerLiquidataedDamages",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "describe",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "Currency",
+								"type": "string"
+							},
+							{
+								"internalType": "uint8",
+								"name": "state",
+								"type": "uint8"
+							}
+						],
+						"internalType": "struct Order",
+						"name": "orderInfo",
+						"type": "tuple"
+					}
+				],
+				"internalType": "struct judge.CaseProof[]",
 				"name": "r",
-				"type": "uint256[]"
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
@@ -286,6 +542,43 @@
 			}
 		],
 		"name": "toJudge",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "tradingAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "proof",
+				"type": "string"
+			}
+		],
+		"name": "uploadProof",
 		"outputs": [
 			{
 				"internalType": "bool",

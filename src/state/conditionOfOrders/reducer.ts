@@ -21,7 +21,7 @@ function getDefaultWrapToken(): WrappedTokenInfo {
     name: "USDT",
     decimals: 8,
     symbol: "USDT",
-    logoURI: "https://hayek.link/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+    logoURI: "./images/USDT.png"
   }
   return new WrappedTokenInfo(tokenInfo, taginfo)
 }

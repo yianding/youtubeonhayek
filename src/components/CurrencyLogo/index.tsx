@@ -6,10 +6,18 @@ import useHttpLocations from '../../hooks/useHttpLocations'
 import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
 
-const getTokenLogoURL = (address: string) =>
-//`https://hayek.link/128.png`
-`https://hayek.link/${address}.png`
-  //`https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
+const getTokenLogoURL = (address: string) =>{
+ // `https://hayek.link/${address}.png`
+ if(address=="0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C"){
+   return "./images/WHYK.png"
+ }
+ if(address=="0xa5E265Bf313b24476dA9681D61bDbdC03c66F271"){
+  return "./images/USDT.png"
+}else{
+  return ''
+}
+}
+
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
@@ -51,8 +59,8 @@ export default function CurrencyLogo({
   if (currency === ETHER) {
     return <StyledEthereumLogo src={EthereumLogo} size={size} style={style} />
   }
-  if (currency === undefined) {
-    return <></>
-  }
+  // if (currency === undefined) {
+  //   return <></>
+  // }
   return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
 }

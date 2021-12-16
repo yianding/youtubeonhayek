@@ -49,9 +49,15 @@ export default function Popups() {
   return (
     <>
       <FixedPopupColumn gap="20px">
-        {activePopups.map(item => (
-          <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
-        ))}
+        {activePopups.map((item) => {
+          if ('listUpdate' in item.content){
+            return null
+          }else{
+            return <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
+          } 
+        }
+        )
+        }
       </FixedPopupColumn>
       <MobilePopupWrapper height={activePopups?.length > 0 ? 'fit-content' : 0}>
         <MobilePopupInner>

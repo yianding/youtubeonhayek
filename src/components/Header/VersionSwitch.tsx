@@ -42,7 +42,7 @@ const VersionToggle = styled(({ enabled, ...rest }: VersionToggleProps) => <Link
   }
 `
 
-export default function VersionSwitch() {
+export function VersionSwitch() {
   const version = useToggledVersion()
   const location = useLocation()
   const query = useParsedQueryString()
@@ -82,3 +82,46 @@ export default function VersionSwitch() {
     <MouseoverTooltip text={t('Token to Token exchange')}>{toggle}</MouseoverTooltip>
   )
 }
+
+export function Video() {
+  const version = useToggledVersion()
+  const location = useLocation()
+  const query = useParsedQueryString()
+ // const versionSwitchAvailable = location.pathname === '/swap' || location.pathname === '/send'
+ const versionSwitchAvailable = false
+
+  const toggleDest = useMemo(() => {
+    return versionSwitchAvailable
+      ? {
+          ...location,
+          search: `?${stringify({ ...query, use: version === Version.v1 ? undefined : Version.v1 })}`
+        }
+      : location
+  }, [location, query, version, versionSwitchAvailable])
+
+  const handleClick = useCallback(
+    e => {
+      window.location.href="https://hayek.link/dotcvideo/";
+      if (!versionSwitchAvailable) e.preventDefault()
+    },
+    [versionSwitchAvailable]
+  )
+
+  const { t } = useTranslation()
+  const toggle = (
+    <VersionToggle enabled={versionSwitchAvailable} to={toggleDest} onClick={handleClick}>
+    
+    <VersionLabel enabled={version === Version.v2 || !versionSwitchAvailable}>{t('Instruct')}</VersionLabel>
+   <VersionLabel enabled={version === Version.v1 && versionSwitchAvailable}></VersionLabel>
+  
+    </VersionToggle>
+  )
+
+  return versionSwitchAvailable ? (
+    toggle
+  ) : (
+    <MouseoverTooltip text={t('Instruction Video')}>{toggle}</MouseoverTooltip>
+  )
+}
+
+

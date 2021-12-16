@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { ArrowLeft } from 'react-feather'
 import ReactGA from 'react-ga'
+import { useTranslation } from 'react-i18next'
 import { usePopper } from 'react-popper'
 import { useDispatch, useSelector } from 'react-redux'
 import { Text } from 'rebass'
@@ -17,7 +18,7 @@ import { CloseIcon, ExternalLink, LinkStyledButton, TYPE } from '../../theme'
 import listVersionLabel from '../../utils/listVersionLabel'
 import { parseENSAddress } from '../../utils/parseENSAddress'
 import uriToHttp from '../../utils/uriToHttp'
-import { ButtonOutlined, ButtonPrimary, ButtonSecondary } from '../Button'
+import { ButtonOutlined, ButtonPrimary, ButtonSecondary, ButtonGray } from '../Button'
 
 import Column from '../Column'
 import ListLogo from '../ListLogo'
@@ -94,7 +95,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
   const selectedListUrl = useSelectedListUrl()
   const dispatch = useDispatch<AppDispatch>()
   const { current: list, pendingUpdate: pending } = listsByUrl[listUrl]
-
+  const {t} = useTranslation()
   const isSelected = listUrl === selectedListUrl
 
   const [open, toggle] = useToggle(false)
@@ -149,7 +150,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
   }, [dispatch, listUrl])
 
   if (!list) return null
-
+  
   return (
     <Row key={listUrl} align="center" padding="16px" id={listUrlRowHTMLId(listUrl)}>
       {list.logoURI ? (
@@ -196,24 +197,24 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
           <PopoverContainer show={true} ref={setPopperElement as any} style={styles.popper} {...attributes.popper}>
             <div>{list && listVersionLabel(list.version)}</div>
             <SeparatorDark />
-            <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>View list</ExternalLink>
+            <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>{t("View list")}</ExternalLink>
             <UnpaddedLinkStyledButton onClick={handleRemoveList} disabled={Object.keys(listsByUrl).length === 1}>
-              Remove list
+            {t("Remove list")}
             </UnpaddedLinkStyledButton>
             {pending && (
-              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>Update list</UnpaddedLinkStyledButton>
+              <UnpaddedLinkStyledButton onClick={handleAcceptListUpdate}>{t("Update list")}</UnpaddedLinkStyledButton>
             )}
           </PopoverContainer>
         )}
       </StyledMenu>
       {isSelected ? (
-        <ButtonPrimary
+        <ButtonGray
           disabled={true}
           className="select-button"
           style={{ width: '5rem', minWidth: '5rem', padding: '0.5rem .35rem', borderRadius: '12px', fontSize: '14px' }}
         >
-          Selected
-        </ButtonPrimary>
+          {t("Selected")}
+        </ButtonGray>
       ) : (
         <>
           <ButtonPrimary
@@ -227,7 +228,7 @@ const ListRow = memo(function ListRow({ listUrl, onBack }: { listUrl: string; on
             }}
             onClick={selectThisList}
           >
-            Select
+            {t("Select")}
           </ButtonPrimary>
         </>
       )}
@@ -250,7 +251,7 @@ const ListContainer = styled.div`
 
 export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBack: () => void }) {
   const [listUrlInput, setListUrlInput] = useState<string>('')
-
+  const {t} = useTranslation()
   const dispatch = useDispatch<AppDispatch>()
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
   const adding = Boolean(lists[listUrlInput]?.loadingRequestId)
@@ -319,7 +320,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
         return 0
       })
   }, [lists])
-
+  
   return (
     <Column style={{ width: '100%', flex: '1 1' }}>
       <PaddedColumn>
@@ -328,7 +329,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
             <ArrowLeft style={{ cursor: 'pointer' }} onClick={onBack} />
           </div>
           <Text fontWeight={500} fontSize={20}>
-            Manage Lists
+            {t("Manage Lists")}
           </Text>
           <CloseIcon onClick={onDismiss} />
         </RowBetween>
@@ -338,7 +339,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
 
       <PaddedColumn gap="14px">
         <Text fontWeight={600}>
-          Add a list{' '}
+          {t("Add a list")}{' '}
           <QuestionHelper text="Token lists are an open specification for lists of ERC20 tokens. You can use any token list by entering its URL below. Beware that third party token lists can contain fake or malicious ERC20 tokens." />
         </Text>
         <Row>
@@ -352,7 +353,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
             style={{ height: '2.75rem', borderRadius: 12, padding: '12px' }}
           />
           <AddListButton onClick={handleAddList} disabled={!validUrl}>
-            Add
+          {t("Add")}
           </AddListButton>
         </Row>
         {addError ? (
@@ -372,7 +373,7 @@ export function ListSelect({ onDismiss, onBack }: { onDismiss: () => void; onBac
       <Separator />
 
       <div style={{ padding: '16px', textAlign: 'center' }}>
-        <ExternalLink href="https://tokenlists.org">Browse lists</ExternalLink>
+        <ExternalLink href="https://tokenlists.org">{t("Browse lists")}</ExternalLink>
       </div>
     </Column>
   )

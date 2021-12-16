@@ -168,7 +168,7 @@ function Web3StatusInner() {
   const { ENSName } = useENSName(account ?? undefined)
 
   const allTransactions = useAllTransactions()
-
+  
   const sortedRecentTransactions = useMemo(() => {
     const txs = Object.values(allTransactions)
     return txs.filter(isTransactionRecent).sort(newTransactionsFirst)
@@ -181,15 +181,14 @@ function Web3StatusInner() {
   const toggleWalletModal = useWalletModalToggle()
 
   async function addIcon(){
-    const tokenAddress = '0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C';
+const tokenAddress = '0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C';
 const tokenSymbol = 'WHYK';
 const tokenDecimals = 18;
 const tokenImage = 'https://hayek.link/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png';
-
 try {
   // wasAdded is a boolean. Like any RPC method, an error may be thrown.
   let a:any=window.ethereum;
-  const wasAdded = await a.request({
+  await a.request({
     method: 'wallet_watchAsset',
     params: {
       type: 'ERC20', // Initially only supports ERC20, but eventually more!
@@ -201,12 +200,20 @@ try {
       },
     },
   });
+  let b:any=window.ethereum;
+  await b.request({
+    method: 'wallet_watchAsset',
+    params: {
+      type: 'ERC20', // Initially only supports ERC20, but eventually more!
+      options: {
+        address: "0xa5E265Bf313b24476dA9681D61bDbdC03c66F271", // The address that the token is at.
+        symbol: "USDT", // A ticker symbol or shorthand, up to 5 chars.
+        decimals: "8", // The number of decimals in the token
+        image: "https://hayek.link/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png", // A string url of the token logo
+      },
+    },
+  });
 
-  if (wasAdded) {
-    console.log('Thanks for your interest!');
-  } else {
-    console.log('Your loss!');
-  }
 } catch (error) {
   console.log(error);
 }
@@ -221,16 +228,15 @@ try {
       params: [
         {
           chainId: '0x3e8',
-          rpcUrls: ['https://rpc.hayek.link'],
+          rpcUrls: ['https://rpc3.hayek.link'],
           chainName: 'HAYEK-main1',
           nativeCurrency: { name: 'HAYEK', decimals: 18, symbol: 'HYK' },
-          blockExplorerUrls: ['https://e.hayek.link'],
-          iconUrls:['https://hayek.link/128.png'],
+          blockExplorerUrls: ['https://explorer.hayek.link'],
+          iconUrls:['https://hayek.link/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png'],
         },
       ],
     })
     addIcon();
-     console.log("uuuu",typeof window.ethereum)
   }else{
       window.location.href="https://hayek.link/"
     }
@@ -244,7 +250,7 @@ function handleAddNet(){
       <Web3StatusConnected id="web3-status-connected" onClick={toggleWalletModal} pending={hasPendingTransactions}>
         {hasPendingTransactions ? (
           <RowBetween>
-            <Text>{pending?.length} Pending</Text> <Loader stroke="white" />
+            <Text>{pending?.length} {t('Pending')}</Text> <Loader stroke="white" />
           </RowBetween>
         ) : (
           <>
@@ -259,7 +265,7 @@ function handleAddNet(){
     return (
       <Web3StatusError onClick={toggleWalletModal}>
         <NetworkIcon />
-        <Text onClick={handleAddNet}>{error instanceof UnsupportedChainIdError ? 'Please add Hayek chain and switch to it' : 'Error'}</Text>
+        <Text onClick={handleAddNet}>{error instanceof UnsupportedChainIdError ? t('Please add Hayek chain and switch to it') : t('Error')}</Text>
       </Web3StatusError>
     )
   } else {
