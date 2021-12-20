@@ -164,7 +164,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
 function Web3StatusInner() {
   const { t } = useTranslation()
   const { account, connector, error } = useWeb3React()
-
+console.log("ACCOUNT",account)
   const { ENSName } = useENSName(account ?? undefined)
 
   const allTransactions = useAllTransactions()
@@ -206,9 +206,9 @@ try {
     params: {
       type: 'ERC20', // Initially only supports ERC20, but eventually more!
       options: {
-        address: "0xa5E265Bf313b24476dA9681D61bDbdC03c66F271", // The address that the token is at.
+        address: "0x55d398326f99059fF775485246999027B3197955", // The address that the token is at.
         symbol: "USDT", // A ticker symbol or shorthand, up to 5 chars.
-        decimals: "8", // The number of decimals in the token
+        decimals: "18", // The number of decimals in the token
         image: "https://hayek.link/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png", // A string url of the token logo
       },
     },
@@ -227,11 +227,11 @@ try {
       method: 'wallet_addEthereumChain',
       params: [
         {
-          chainId: '0x3e8',
-          rpcUrls: ['https://rpc3.hayek.link'],
-          chainName: 'HAYEK-main1',
-          nativeCurrency: { name: 'HAYEK', decimals: 18, symbol: 'HYK' },
-          blockExplorerUrls: ['https://explorer.hayek.link'],
+          chainId: '0x38',
+          rpcUrls: ['https://bsc-dataseed1.binance.org'],
+          chainName: 'BSC',
+          nativeCurrency: { name: 'BNB', decimals: 18, symbol: 'BNB' },
+          blockExplorerUrls: ['https://bscscan.com'],
           iconUrls:['https://hayek.link/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png'],
         },
       ],

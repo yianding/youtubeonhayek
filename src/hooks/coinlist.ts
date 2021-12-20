@@ -1,56 +1,42 @@
 import { TokenInfo, TokenList } from '@uniswap/token-lists'
 
 export const ALLTOKENTokenList: TokenList = 
+{
+  "name": "HAYEK",
+  "logoURI": "https://hayek.link/128.png",
+  "keywords": [
+    "HAYEK",
+    "defi"
+  ],
+  "timestamp": "2021-11-19T20:37:00.000+00:00",
+  "tokens": [
+ 
+   
     {
-        "name": "HAYEK",
-        "logoURI": "https://hayek.link/128.png",
-        "keywords": [
-          "HAYEK",
-          "defi"
-        ],
-        "timestamp": "2021-11-19T20:37:00.000+00:00",
-        "tokens": [
-       
-          {
-            "chainId": 1000,
-            "address": "0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C",
-            "name": "WHYK",
-            "symbol": "WHYK",
-            "decimals": 18,
-            "logoURI": "https://hayek.link/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png"
-          },
-          {
-            "chainId": 1000,
-            "address": "0xa5E265Bf313b24476dA9681D61bDbdC03c66F271",
-            "name": "USDT",
-            "symbol": "USDT",
-            "decimals": 8,
-            "logoURI": "https://hayek.link/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
-          }
-       
-        ],
-        "version": {
-          "major": 5,
-          "minor": 1,
-          "patch": 0
-        }
-      }
+      "chainId": 56,
+      "address": "0x55d398326f99059fF775485246999027B3197955",
+      "name": "USDT",
+      "symbol": "USDT",
+      "decimals": 18,
+      "logoURI": "https://hayek.link/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+    }
+ 
+  ],
+  "version": {
+    "major": 5,
+    "minor": 1,
+    "patch": 0
+  }
+}
 
 export const ALLTOKEN: TokenInfo[] = [
-    {
-        "chainId": 1000,
-        "address": "0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C",
-        "name": "WHYK",
-        "symbol": "WHYK",
-        "decimals": 18,
-        "logoURI": "./images/WHYK.png"
-      },
+  
       {
-        "chainId": 1000,
-        "address": "0xa5E265Bf313b24476dA9681D61bDbdC03c66F271",
+        "chainId": 56,
+        "address": "0x55d398326f99059fF775485246999027B3197955",
         "name": "USDT",
         "symbol": "USDT",
-        "decimals": 8,
+        "decimals": 18,
         "logoURI": "./images/USDT.png"
       }
 ]

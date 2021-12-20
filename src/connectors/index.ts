@@ -27,13 +27,13 @@ export function getNetworkLibrary(): Web3Provider {
 }
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [1000]
+  supportedChainIds: [1000,56]
 })
 
 // mainnet only
 export const walletconnect = new WalletConnectConnector({
 //  rpc: { 1000: NETWORK_URL },
-rpc: { 1000: 'https://rpc.hayek.link' },
+rpc: { 56: 'https://bsc-dataseed1.binance.org' },
 
   bridge: 'https://b.bridge.walletconnect.org',
   qrcode: true,

@@ -26,7 +26,29 @@ const WETH_ONLY: ChainTokenList = {
   [ChainId.RINKEBY]: [WETH[ChainId.RINKEBY]],
   [ChainId.GÖRLI]: [WETH[ChainId.GÖRLI]],
   [ChainId.KOVAN]: [WETH[ChainId.KOVAN]],
-  [ChainId.HAYEK]: [WETH[ChainId.HAYEK]]
+  [ChainId.HAYEK]: [WETH[ChainId.HAYEK]],
+  [ChainId.BSC]: [WETH[ChainId.BSC]],
+  [ChainId.ThaiChain ]: [WETH[ChainId.ThaiChain ]],
+  [ChainId.Ubiq ]: [WETH[ChainId.Ubiq]],
+  [ChainId.Optimistic]: [WETH[ChainId.Optimistic]],
+  [ChainId.ThaiChain20]: [WETH[ChainId.ThaiChain20]],
+  [ChainId.Metadium ]: [WETH[ChainId.Metadium ]],
+  [ChainId.Flare]: [WETH[ChainId.Flare]],
+  [ChainId.Diode_Prenet]: [WETH[ChainId.Diode_Prenet]],
+  [ChainId.EOS]: [WETH[ChainId.EOS]],
+  [ChainId.ETC ]: [WETH[ChainId.ETC ]],
+  [ChainId.OKExChain]: [WETH[ChainId.OKExChain]],
+  [ChainId.POA_Network]: [WETH[ChainId.POA_Network]],
+  [ChainId.POA_Network_Core]: [WETH[ChainId.POA_Network_Core]],
+  [ChainId.xDAI_Chain]: [WETH[ChainId.xDAI_Chain]],
+  [ChainId.Huobi_ECO]: [WETH[ChainId.Huobi_ECO]],
+  [ChainId.Bittex_Mainnet]: [WETH[ChainId.Bittex_Mainnet]],
+  [ChainId.Fusion_Mainnet ]: [WETH[ChainId.Fusion_Mainnet ]],
+  [ChainId.Arbitrum_One]: [WETH[ChainId.Arbitrum_One]],
+  [ChainId.Polygon_Mainnet]: [WETH[ChainId.Polygon_Mainnet]],
+  [ChainId.Fantom_Opera]: [WETH[ChainId.Fantom_Opera]],
+  [ChainId.Moonrock]: [WETH[ChainId.Moonrock]]
+
 }
 
 // used to construct intermediary pairs for trading
@@ -58,21 +80,13 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
-  [ChainId.HAYEK]: [
+  [ChainId.BSC]: [
     [
-      new Token(ChainId.HAYEK, '0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0', 8, 'USDT', 'USDT'),
-      new Token(ChainId.HAYEK, '0xC1b231Fdfc5227de9c1555BE657EF00b2b9886BC', 8, 'CNYT', 'CNYT')
-    ],
-
-    [
-      new Token(ChainId.HAYEK, '0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C', 8, 'WHYK', 'WHYK'),
-      new Token(ChainId.HAYEK, '0xC1b231Fdfc5227de9c1555BE657EF00b2b9886BC', 8, 'CNYT', 'CNYT')
-    ],
-    [
-      new Token(ChainId.HAYEK, '0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C', 8, 'WHYK', 'WHYK'),
-      new Token(ChainId.HAYEK, '0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0', 8, 'USDT', 'USDT')
+      new Token(ChainId.BSC, '0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0', 8, 'USDT', 'USDT'),
+      new Token(ChainId.BSC, '0xC1b231Fdfc5227de9c1555BE657EF00b2b9886BC', 8, 'CNYT', 'CNYT')
     ]
-  ]
+  ],
+ 
 }
 
 export interface WalletInfo {

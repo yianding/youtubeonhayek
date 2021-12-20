@@ -74,6 +74,10 @@ export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contrac
       case ChainId.HAYEK:
         address ='0x0118917922320604010A5F924D53e79D2925a9E1'
         break
+        
+      case ChainId.BSC:
+        address ='0x0118917922320604010A5F924D53e79D2925a9E1'
+        break
     }
   }
   return useContract(address, ENS_ABI, withSignerIfPossible)

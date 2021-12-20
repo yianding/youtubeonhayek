@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { Token } from 'uniswap-hayek-sdk'
+import { ChainId, Token } from 'uniswap-hayek-sdk'
 import { SwapPoolTabs } from '../../components/NavigationTabs'
 import { AutoColumn } from '../../components/Column'
 import { ButtonSecondary } from '../../components/Button'
@@ -20,6 +20,8 @@ import { LinkStyledButton } from '../../components/DescribeInputPanel'
 import Loader from '../../components/Loader'
 import { useTranslation } from 'react-i18next'
 import FullPositionCard from './orderCard'
+import { useActiveWeb3React } from '../../hooks'
+import { getDefaultWrapToken } from '../../state/conditionOfOrders/reducer'
 
 
 export const FixedHeightRow = styled(RowBetween)`
@@ -53,8 +55,28 @@ export const MyHoverCard = styled(Card)`
 
 
 export default function AllOrders() {
-  const [conditionOfOrders, setconditionOfOrders] = useConditionOfOrders()
+  const { chainId } = useActiveWeb3React()
 
+  
+  const [conditionOfOrders, setconditionOfOrders] = useConditionOfOrders()
+  const a = {
+    quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(chainId?chainId:ChainId.HAYEK).decimals),
+    quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(chainId?chainId:ChainId.HAYEK).decimals),
+    price_min: ethers.utils.parseUnits("0", 6),
+    price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+    currency: {
+      symbol: "CNY",
+      logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+      describe: "Chinese currency,人民币",
+      sign: "￥"
+    }, linenumber: 100, erc20: getDefaultWrapToken(chainId?chainId:ChainId.HAYEK),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+     myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+  }
+  const a1 = useMemo(() => a, [a])
+  setconditionOfOrders(a1)
+  // useEffect(() => {
+  //   setconditionOfOrders(a)
+  // },[a])
   const [showMore, setShowMore] = useState(false)
 
   const { t } = useTranslation()

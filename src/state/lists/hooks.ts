@@ -1,4 +1,5 @@
 import { ChainId, Token } from 'uniswap-hayek-sdk'
+
 import { Tags, TokenInfo, TokenList } from '@uniswap/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
@@ -9,6 +10,7 @@ type TagDetails = Tags[keyof Tags]
 export interface TagInfo extends TagDetails {
   id: string
 }
+
 
 /**
  * Token instances created from token info.
@@ -37,7 +39,29 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.ROPSTEN]: {},
   [ChainId.GÖRLI]: {},
   [ChainId.MAINNET]: {},
-  [ChainId.HAYEK]: {}
+  [ChainId.HAYEK]: {},
+  [ChainId.BSC]: {},
+  
+  [ChainId.ThaiChain]: {},
+  [ChainId.Ubiq ]: {},
+  [ChainId.Optimistic ]: {},
+  [ChainId.ThaiChain20 ]: {},
+  [ChainId.Metadium ]: {},
+  [ChainId.Flare ]: {},
+  [ChainId.Diode_Prenet ]: {},
+  [ChainId.ETC ]: {},
+  [ChainId.EOS ]: {},
+  [ChainId.OKExChain]: {},
+  [ChainId.POA_Network]: {},
+  [ChainId.POA_Network_Core]: {},
+  [ChainId.xDAI_Chain]: {},
+  [ChainId.Huobi_ECO ]: {},
+  [ChainId.Bittex_Mainnet ]: {},
+  [ChainId.Fusion_Mainnet ]: {},
+  [ChainId.Arbitrum_One ]: {},
+  [ChainId.Polygon_Mainnet]: {},
+  [ChainId.Fantom_Opera]: {},
+  [ChainId.Moonrock ]: {}
 }
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
@@ -57,6 +81,8 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
           })
           ?.filter((x): x is TagInfo => Boolean(x)) ?? []
       const token = new WrappedTokenInfo(tokenInfo, tags)
+
+      console.log("TokenAddressMap", tokenMap, token.chainId, token.address)
       if (tokenMap[token.chainId][token.address] !== undefined) throw Error('Duplicate tokens.')
       return {
         ...tokenMap,
@@ -76,12 +102,12 @@ export function useTokenList(url: string | undefined): TokenAddressMap {
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
   return useMemo(() => {
     if (!url) return EMPTY_LIST
-    let current:TokenList|null
-    if(url=="https://hayek.link/coinlist.json"||url=="https://hayek.link/hayekcoinlist.json"){
+    let current: TokenList | null
+    if (url == "https://hayek.link/coinlist.json" || url == "https://hayek.link/hayekcoinlist.json") {
       current = ALLTOKENTokenList
-    }else{
+    } else {
       current = lists[url]?.current
-    }  
+    }
     if (!current) return EMPTY_LIST
     try {
       return listToTokenMap(current)

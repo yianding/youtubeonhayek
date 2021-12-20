@@ -133,7 +133,55 @@ const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.ROPSTEN]: 'Ropsten',
   [ChainId.GÖRLI]: 'Görli',
   [ChainId.KOVAN]: 'Kovan',
-  [ChainId.HAYEK]:  'HAYEK'
+  [ChainId.HAYEK]:  'HAYEK',
+  [ChainId.BSC]:  'BSC',
+  [ChainId.ThaiChain]: 'ThaiChain',
+  [ChainId.Ubiq]: 'Ubiq',
+  [ChainId.Optimistic]: 'Optimistic',
+  [ChainId.ThaiChain20]: 'ThaiChain20',
+  [ChainId.Metadium]: 'Metadium',
+  [ChainId.Flare]: 'Flare',
+  [ChainId.Diode_Prenet]: 'Diode_Prenet',
+  [ChainId.EOS]:  'EOS',
+  [ChainId.ETC]:  'ETC',
+  [ChainId.OKExChain]: 'OKExChain',
+  [ChainId.POA_Network]: 'POA_Network',
+  [ChainId.POA_Network_Core]: 'POA_Network_Core',
+  [ChainId.xDAI_Chain]: 'xDAI_Chain',
+  [ChainId.Huobi_ECO]: 'Huobi_ECO',
+  [ChainId.Bittex_Mainnet]: 'Bittex_Mainnet',
+  [ChainId.Fusion_Mainnet]: 'Fusion_Mainnet',
+  [ChainId.Arbitrum_One]: 'Arbitrum_One',
+  [ChainId.Polygon_Mainnet]: 'Polygon_Mainnet',
+  [ChainId.Fantom_Opera]: 'Fantom_Opera',
+  [ChainId.Moonrock]: 'Moonrock'
+
+
+
+  /*
+ BSC = 56,
+  ThaiChain = 7,
+  Ubiq = 8,
+  Optimistic = 10,
+  ThaiChain20 = 17,
+  Metadium = 11,
+  Flare = 14,
+  Diode_Prenet=15,
+  EOS = 59,
+  ETC = 61,
+  OKExChain = 66,
+  POA_Network=77,
+  POA_Network_Core=99,
+  xDAI_Chain=100,
+  Huobi_ECO=128,
+  Bittex_Mainnet=3690,
+  Fusion_Mainnet =32659,
+  Arbitrum_One= 42161,
+  Polygon_Mainnet=137,
+  Fantom_Opera=250,
+  Moonrock=1286
+  */
+
 }
 
 export default function Header() {
