@@ -5,6 +5,10 @@ import { RowBetween } from '../Row'
 import { TYPE } from '../../theme'
 import { Input as NumericalInput } from '../NumericalInput'
 import { useTranslation } from 'react-i18next'
+import { ChainId } from 'uniswap-hayek-sdk'
+import { useActiveWeb3React } from '../../hooks'
+import { NETH } from '../../constants'
+
 
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -64,6 +68,7 @@ export default function CurrencyInputPanel({
 
     const theme = useContext(ThemeContext)
     const {t}= useTranslation()
+    const {chainId}=useActiveWeb3React()
     return (
         <InputPanel id={id}>
             <Container hideInput={hideInput}>
@@ -74,7 +79,7 @@ export default function CurrencyInputPanel({
                                 {label}
                             </TYPE.body>
                             <TYPE.body color={theme.text2} fontWeight={500} fontSize={14}>
-                                {t("Buyer's Deposit")+"(HYK)"}
+                                {t("Buyer's Deposit") + NETH[chainId?chainId:ChainId.HAYEK]}
                             </TYPE.body>
                         </RowBetween>
                     </LabelRow>

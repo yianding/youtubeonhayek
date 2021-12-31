@@ -10,6 +10,7 @@ import { Text } from 'rebass'
 import { useTranslation } from 'react-i18next'
 import { useActiveWeb3React } from '../../hooks'
 import { ChainId } from 'uniswap-hayek-sdk'
+import { NETH } from '../../constants'
 
 
 const StyledDepositText = styled(Text)`
@@ -37,6 +38,7 @@ function FaitRow({
 
 
   const { t } = useTranslation()
+  const {chainId}=useActiveWeb3React()
   // only show add or remove buttons if not on selected list
   return (
     <MenuItem
@@ -55,7 +57,7 @@ function FaitRow({
           </text>
         </RowBetween>
       </Column>
-      <StyledDepositText >  {currency?.deposit}HYK</StyledDepositText>
+      <StyledDepositText >  {currency?.deposit}{NETH[chainId?chainId:ChainId.HAYEK]}</StyledDepositText>
       <a href={currency.URL} target="_blank" > <Text>{t('Website')}</Text></a>
     </MenuItem>
 

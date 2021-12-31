@@ -2,6 +2,8 @@
 import { ethers } from 'ethers'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ChainId } from 'uniswap-hayek-sdk'
+import { NETH } from '../constants'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
 import { MyTokenlist } from './coinlist'
@@ -53,7 +55,7 @@ export default function useWrapCallback1(
                
                 const txReceipt = await wethContract.lockSaleOrder(id, { value: mvalue })
 
-                addTransaction(txReceipt, { summary: `${t("LOCK")} ${t("OREDER")}: ${id} ${t("with")} ${ethers.utils.formatEther(mvalue)} HYK` })
+                addTransaction(txReceipt, { summary: `${t("LOCK")} ${t("OREDER")}: ${id} ${t("with")} ${ethers.utils.formatEther(mvalue)} ${NETH[chainId?chainId:ChainId.HAYEK]}` })
                 return txReceipt.hash
               } catch (error) {
                 if (error?.code === 4001) {
@@ -311,7 +313,7 @@ export function useWrapExecuteCallback(
               }
             }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient HYK balance'
+        inputError: sufficientBalance ? undefined : 'Insufficient '+NETH[chainId?chainId:ChainId.HAYEK]+' balance'
       }
     } else {
       return NOT_APPLICABLE

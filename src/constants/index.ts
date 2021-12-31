@@ -20,6 +20,36 @@ export const COMP = new Token(ChainId.MAINNET, '0xc00e94Cb662C3520282E6f57172140
 export const MKR = new Token(ChainId.MAINNET, '0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2', 18, 'MKR', 'Maker')
 export const AMPL = new Token(ChainId.MAINNET, '0xD46bA6D942050d489DBd938a2C909A5d5039A161', 9, 'AMPL', 'Ampleforth')
 
+export const NETH:{[chainId in ChainId]:string} = {
+  [ChainId.MAINNET]: "ETH",
+  [ChainId.ROPSTEN]: "ETH",
+  [ChainId.RINKEBY]: "ETH",
+  [ChainId.GÖRLI]: "ETH",
+  [ChainId.KOVAN]: "ETH",
+  [ChainId.HAYEK]: "HYK",
+  [ChainId.BSC]: "BNB",
+  [ChainId.ThaiChain]:"TCH",
+  [ChainId.Ubiq]: "UBQ",
+  [ChainId.Optimistic]: "OETH",
+  [ChainId.ThaiChain20]: "TFI",
+  [ChainId.Metadium]: "META",
+  [ChainId.Flare]: "FLR",
+  [ChainId.Diode_Prenet]:"DIODE",
+  [ChainId.EOS]: "EOS",
+  [ChainId.ETC]: "ETC",
+  [ChainId.OKExChain]:"OKT",
+  [ChainId.POA_Network]: "SPOA",
+  [ChainId.POA_Network_Core]:"POA",
+  [ChainId.xDAI_Chain]: "xDAI",
+  [ChainId.Huobi_ECO]: "HT",
+  [ChainId.Bittex_Mainnet]:"BTTX",
+  [ChainId.Fusion_Mainnet]: "FSN",
+  [ChainId.Arbitrum_One]: "AETH",
+  [ChainId.Polygon_Mainnet]:"MATIC",
+  [ChainId.Fantom_Opera]: "FTM",
+  [ChainId.Moonrock]: "ROC"
+}
+
 const WETH_ONLY: ChainTokenList = {
   [ChainId.MAINNET]: [WETH[ChainId.MAINNET]],
   [ChainId.ROPSTEN]: [WETH[ChainId.ROPSTEN]],

@@ -3,11 +3,12 @@ import { Text } from 'rebass'
 import { ChainId, Currency, currencyEquals, ETHER, Token } from 'uniswap-hayek-sdk'
 import styled from 'styled-components'
 
-import { SUGGESTED_BASES } from '../../constants'
+import { NETH, SUGGESTED_BASES } from '../../constants'
 import { AutoColumn } from '../Column'
 import QuestionHelper from '../QuestionHelper'
 import { AutoRow } from '../Row'
 import CurrencyLogo from '../CurrencyLogo'
+
 
 const BaseWrapper = styled.div<{ disable?: boolean }>`
   border: 1px solid ${({ theme, disable }) => (disable ? 'transparent' : theme.bg3)};
@@ -53,7 +54,7 @@ export default function CommonBases({
         >
           <CurrencyLogo currency={ETHER} style={{ marginRight: 8 }} />
           <Text fontWeight={500} fontSize={16}>
-            HYK
+          {NETH[chainId?chainId:ChainId.HAYEK]}
           </Text>
         </BaseWrapper>
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {

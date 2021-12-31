@@ -25,6 +25,7 @@ import Modal from '../../components/Modal'
 import { MyTokenlist } from '../../hooks/coinlist'
 import { ChainId } from 'uniswap-hayek-sdk'
 import { ETHERSCAN_PREFIXES } from '../../utils'
+import { NETH } from '../../constants'
 
 
 export const FixedHeightRow = styled(RowBetween)`
@@ -341,7 +342,7 @@ export default function ExecuteCard(props: any, border: any) {
                                     <QuestionHelper text={t("In the event of a dispute, the margin will be used as the compensation of the negligent party in the transaction to the non-negligence party.")} />
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
-                                    {ethers.utils.formatEther(props.pair.sellerLiquidataedDamages.toString())} HYK
+                                    {ethers.utils.formatEther(props.pair.sellerLiquidataedDamages.toString())} {NETH[chainId?chainId:ChainId.HAYEK]}
                                 </TYPE.black>
                             </RowBetween>
                         </FixedHeightRow>
@@ -354,7 +355,7 @@ export default function ExecuteCard(props: any, border: any) {
                                     <QuestionHelper text={t("In the event of a dispute, the margin will be used as the compensation of the negligent party in the transaction to the non-negligence party.")} />
                                 </RowFixed>
                                 <TYPE.black fontSize={14} color={theme.text1}>
-                                    {ethers.utils.formatEther(props.pair.buyerLiquidataedDamages.toString())} HYK
+                                    {ethers.utils.formatEther(props.pair.buyerLiquidataedDamages.toString())} {NETH[chainId?chainId:ChainId.HAYEK]}
                                 </TYPE.black>
                             </RowBetween>
                         </FixedHeightRow>

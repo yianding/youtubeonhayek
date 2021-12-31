@@ -21,6 +21,7 @@ import Loader from '../../components/Loader'
 import { useTranslation } from 'react-i18next'
 import FullPositionCard from './orderCard'
 import { useActiveWeb3React } from '../../hooks'
+import { NETH } from '../../constants'
 
 
 export const FixedHeightRow = styled(RowBetween)`
@@ -266,8 +267,8 @@ export default function AllOrders() {
                     onUserInput1={handleInputSellerDeposit}
                     onUserInput2={handleInputBuyerDeposit}
                     label1={''}
-                    label2={t('Maximun Buyer Deposit(HYK)')}
-                    label3={t('Minimum Seller Deposit(HYK)')}
+                    label2={t('Maximun Buyer Deposit')+NETH[chainId?chainId:ChainId.HAYEK]}
+                    label3={t('Minimum Seller Deposit')+NETH[chainId?chainId:ChainId.HAYEK]}
                     id="deposit"
                   />
                   <div style={{ height: "24px" }} />

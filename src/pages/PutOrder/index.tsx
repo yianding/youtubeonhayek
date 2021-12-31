@@ -25,6 +25,7 @@ import JudgeInputPanel from '../../components/JudgeInputPanel'
 import { getJudge } from '../../hooks/judge'
 import { ConfirmationPendingContent, TransactionErrorContent, TransactionSubmittedContent } from '../../components/TransactionConfirmationModal'
 import Modal from '../../components/Modal'
+import { NETH } from '../../constants'
 
 export const Input = styled.input`
   position: relative;
@@ -343,7 +344,7 @@ export default function PutOrder() {
                 value2={BuyerDeposit}
                 onUserInput={handleSellerDepositInput}
                 onUserInput2={handleBuyerDepositInput}
-                label={t("Seller's Deposit") + "(HYK)"}
+                label={t("Seller's Deposit") + NETH[chainId?chainId:ChainId.HAYEK] }
                 id="swap-currency-output"
             />
             <div style={{ height: "24px", width: "100%" }} />
