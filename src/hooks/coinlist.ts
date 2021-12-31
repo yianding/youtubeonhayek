@@ -54,14 +54,39 @@ export const ALLTOKENTokenList: TokenList =
 
 export const ALLTOKEN: TokenInfo[] = [
   
-      // {
-      //   "chainId": 56,
-      //   "address": "0x55d398326f99059fF775485246999027B3197955",
-      //   "name": "USDT",
-      //   "symbol": "USDT",
-      //   "decimals": 18,
-      //   "logoURI": "./images/USDT.png"
-      // }
+  {
+    "chainId": 1000,
+    "address": "0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C",
+    "name": "WHYK",
+    "symbol": "WHYK",
+    "decimals": 18,
+    "logoURI": "https://dotc.trade/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png"
+  },
+  {
+    "chainId": 1000,
+    "address": "0xa5E265Bf313b24476dA9681D61bDbdC03c66F271",
+    "name": "USDT",
+    "symbol": "USDT",
+    "decimals": 8,
+    "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+  },
+  {
+    "chainId": 56,
+    "address": "0x55d398326f99059fF775485246999027B3197955",
+    "name": "USDT",
+    "symbol": "USDT",
+    "decimals": 18,
+    "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+  },
+  {
+    "chainId": 56,
+    "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    "name": "WBNB",
+    "symbol": "WBNB",
+    "decimals": 18,
+    "logoURI": "https://bscscan.com/images/gen/binance_20.png"
+  }
+      
 ]
 export function MyTokenlist(address:String):TokenInfo|undefined {
     let re:TokenInfo|undefined
