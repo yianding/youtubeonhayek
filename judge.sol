@@ -46,7 +46,7 @@ contract judge{
      uint[] public judgingCase;
      address payable private owner;
      mapping(address => bool) public judger;
-     string public constant url = "https://hayek.link/cn/court.html#%E5%93%88%E8%80%B6%E5%85%8B%E9%93%BE%E5%AE%98%E6%96%B9%E6%B3%95%E9%99%A2";
+     string public constant url = "https://dotc.trade/cn/court.html#%E5%93%88%E8%80%B6%E5%85%8B%E9%93%BE%E5%AE%98%E6%96%B9%E6%B3%95%E9%99%A2";
      string public constant name =  "D-OTC Official Court";
      uint public Fee;
      address public tradingAddress=0x6d70d90832BF369915D5904133BbB23a2928d963;

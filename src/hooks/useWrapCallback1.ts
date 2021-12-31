@@ -52,14 +52,13 @@ export default function useWrapCallback1(
               try {
                
                 const txReceipt = await wethContract.lockSaleOrder(id, { value: mvalue })
-                console.log("txxx",txReceipt)
+
                 addTransaction(txReceipt, { summary: `${t("LOCK")} ${t("OREDER")}: ${id} ${t("with")} ${ethers.utils.formatEther(mvalue)} HYK` })
                 return txReceipt.hash
               } catch (error) {
                 if (error?.code === 4001) {
                   throw new Error(t('Transaction rejected.'))
                 } else {
-                  console.log("sss",error)
                   throw new Error(`${t("Lock Order")}${id} ${t("failed")}: ${t(error.data.message.split(":")[1])}`)
                   
                 }
@@ -77,8 +76,8 @@ export default function useWrapCallback1(
 export  function useWrapConfirmCallback(
   id: string
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<string>); inputError?: string } {
-  const { chainId, account } = useActiveWeb3React()
-  console.log(account)
+  const { chainId } = useActiveWeb3React()
+
   const wethContract = useTradeContract()
   const balance = useCurrencyBalance()
   const addTransaction = useTransactionAdder()
@@ -119,8 +118,7 @@ export  function useWrapConfirmCallback(
 export  function useWrapCancelCallback(
   id: string
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<string>); inputError?: string } {
-  const { chainId, account } = useActiveWeb3React()
-  console.log(account)
+  const { chainId } = useActiveWeb3React()
   const wethContract = useTradeContract()
   const balance = useCurrencyBalance()
   const addTransaction = useTransactionAdder()
@@ -282,8 +280,8 @@ export function useWrapSurrenderCallback(
 export function useWrapExecuteCallback(
   id: string
 ): { wrapType: WrapType; execute?: undefined | (() => Promise<string>); inputError?: string } {
-  const { chainId, account } = useActiveWeb3React()
-  console.log(account)
+  const { chainId } = useActiveWeb3React()
+
   const wethContract = useTradeContract()
   const balance = useCurrencyBalance()
   const addTransaction = useTransactionAdder()

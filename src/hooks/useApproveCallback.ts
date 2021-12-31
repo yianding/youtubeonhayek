@@ -1,6 +1,6 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Trade, TokenAmount, CurrencyAmount, ETHER } from 'uniswap-hayek-sdk'
+import { Trade, TokenAmount, CurrencyAmount, ETHER, ChainId } from 'uniswap-hayek-sdk'
 import { useCallback, useMemo } from 'react'
 import { ROUTER_ADDRESS } from '../constants'
 import { useTokenAllowance } from '../data/Allowances'
@@ -41,7 +41,6 @@ export function useGetOrderByIdCallBack(id:string):any[]|undefined{
     if(order[0].result)
        r=order[0].result[0]
   }
-  console.log("dd",r)
   return r
 }
 
@@ -206,6 +205,6 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
   return useApproveCallback(amountToApprove, tradeIsV1 ? v1ExchangeAddress : ROUTER_ADDRESS)
 }
 export function useMyApproveCallbackFromTrade(a:CurrencyAmount|undefined) {
-
-  return useApproveCallback(a, TRADE_ADDRESS)
+   const {chainId} = useActiveWeb3React()
+  return useApproveCallback(a, TRADE_ADDRESS[chainId?chainId:ChainId.HAYEK])
 }

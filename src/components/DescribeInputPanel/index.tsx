@@ -209,25 +209,25 @@ export default function DescribeInputPanel({
   const handleadd = useCallback(() => {
     let dd = descInfo
     if ((describeInfoType ? true : false)) {
-      if ((describeInfoType?.InfoText == "CryptoContract")||(describeInfoType?.InfoText == "Bank Card Cash Deposit")||(describeInfoType?.InfoText == "Secret WeChat")) {
+      if ((describeInfoType?.InfoText === "CryptoContract")||(describeInfoType?.InfoText === "Bank Card Cash Deposit")||(describeInfoType?.InfoText ===  "Secret WeChat")) {
         let x = true
-        if(describeInfoType?.InfoText == "CryptoContract"){
+        if(describeInfoType?.InfoText === "CryptoContract"){
         dd.map((item) => {
-          if (item.split(':')[0] == "CryptoContract") {
+          if (item.split(':')[0] === "CryptoContract") {
             alert(t("You can not input two CryptoContract"));
             x = false
           }
         });}
-        if(describeInfoType?.InfoText == "Bank Card Cash Deposit"){
+        if(describeInfoType?.InfoText === "Bank Card Cash Deposit"){
           dd.map((item) => {
-            if (item.split(':')[0] == "Bank Card Cash Deposit") {
+            if (item.split(':')[0] === "Bank Card Cash Deposit") {
               alert(t("You can not input two Bank Card Cash Deposit info"));
               x = false
             }
           });}
-          if(describeInfoType?.InfoText == "Secret WeChat"){
+          if(describeInfoType?.InfoText ===  "Secret WeChat"){
             dd.map((item) => {
-              if (item.split(':')[0] == "Secret WeChat") {
+              if (item.split(':')[0] ===  "Secret WeChat") {
                 alert(t("You can not input two Secret WeChat"));
                 x = false
               }
@@ -290,7 +290,7 @@ export default function DescribeInputPanel({
   function HandleDescribe() {
     return (
       descInfo?.map((item, index) => {
-        let item1: string = typeof (item) == "string" ? item : ""
+        let item1: string = typeof (item) ===  "string" ? item : ""
         let infotype: string = item1?.split(':')[0];
         const tempINFOTYPE = getInfoType(infotype);
         let infodescribe: string | undefined = getInfoType(infotype)?.Describe;
@@ -339,19 +339,19 @@ export default function DescribeInputPanel({
               <StyledDropDown selected={!!describeInfoType} />
             </Aligner>
           </CurrencySelect>
-          {describeInfoType?.InfoText == "CryptoContract" ? <></>
-            : <StyledInput placeholder={(describeInfoType?.InfoText == "CryptoContract")||(describeInfoType?.InfoText == "Bank Card Cash Deposit") ? "" : t('Input Info')} disabled={(describeInfoType?.InfoText == "CryptoContract")||(describeInfoType?.InfoText == "Bank Card Cash Deposit")} value={describeInfo} onChange={handledescribeInfo} />
+          {describeInfoType?.InfoText ===  "CryptoContract" ? <></>
+            : <StyledInput placeholder={(describeInfoType?.InfoText ===  "CryptoContract")||(describeInfoType?.InfoText ===  "Bank Card Cash Deposit") ? "" : t('Input Info')} disabled={(describeInfoType?.InfoText ===  "CryptoContract")||(describeInfoType?.InfoText ===  "Bank Card Cash Deposit")} value={describeInfo} onChange={handledescribeInfo} />
           }
 
         </InputRow>
-        {(describeInfoType?.InfoText == "CryptoContract")||(describeInfoType?.InfoText == "Bank Card Cash Deposit") ? <CryptoInput value={describeInfo}
+        {(describeInfoType?.InfoText ===  "CryptoContract")||(describeInfoType?.InfoText ===  "Bank Card Cash Deposit") ? <CryptoInput value={describeInfo}
           onChange={handledescribeInfo}
-          placeholder={describeInfoType?.InfoText == "CryptoContract"?t("Please input Crypto contract, and be sure to save it."):t("Please input Bank Card Cash Deposit info, and be sure to save it.")}
+          placeholder={describeInfoType?.InfoText ===  "CryptoContract"?t("Please input Crypto contract, and be sure to save it."):t("Please input Bank Card Cash Deposit info, and be sure to save it.")}
         /> : <></>
         }
-        {describeInfoType?.InfoText == "WeChat" ? <text style={{ float: "right", paddingLeft: '4%', paddingRight: '2%', paddingBottom: '2%', color: '#FF6000', display: "inline-block" }}>{t('Please input WeChat account,not phone number.')}</text> : <></>
+        {describeInfoType?.InfoText ===  "WeChat" ? <text style={{ float: "right", paddingLeft: '4%', paddingRight: '2%', paddingBottom: '2%', color: '#FF6000', display: "inline-block" }}>{t('Please input WeChat account,not phone number.')}</text> : <></>
         }
-        {describeInfoType?.InfoText == "Alipay" ? <text style={{ float: "right", paddingLeft: '4%', paddingRight: '2%', paddingBottom: '2%', color: '#FF6000', display: "inline-block" }}>{t('Please input Alipay account,not phone number or e-mail.')}</text> : <></>
+        {describeInfoType?.InfoText ===  "Alipay" ? <text style={{ float: "right", paddingLeft: '4%', paddingRight: '2%', paddingBottom: '2%', color: '#FF6000', display: "inline-block" }}>{t('Please input Alipay account,not phone number or e-mail.')}</text> : <></>
         }
         <div style={{ marginRight: "4%", marginLeft: "4%", marginBottom: "4%" }}>
           <ButtonSecondary onClick={handleadd} > {t('Add Info')} </ButtonSecondary>

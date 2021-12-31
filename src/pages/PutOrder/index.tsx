@@ -11,7 +11,7 @@ import { WrapType } from '../../hooks/useWrapCallback'
 import { Field } from '../../state/swap/actions'
 import { mytryParseAmount, useDerivedSwapInfo, useSwapActionHandlers, useSwapState } from '../../state/swap/hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-import { CurrencyAmount, TokenAmount } from 'uniswap-hayek-sdk'
+import { ChainId, CurrencyAmount, TokenAmount } from 'uniswap-hayek-sdk'
 import { AllFait, getFait } from '../../hooks/fait'
 import FIATInputPanel from '../../components/FaitInputPanel'
 import { ApprovalState, useMyApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
@@ -112,7 +112,7 @@ export default function PutOrder() {
 
     const handleTypeInput = useCallback(
         (value: string) => {
-            if (value == ".") {
+            if (value ===  ".") {
                 setSaleNumber("0.")
                 if (saleNumber != "") {
                     settotalprice(ethers.utils.formatUnits("0"))
@@ -122,14 +122,14 @@ export default function PutOrder() {
                     if (value.length - value.indexOf('.') - 1 <= ERC20Decimal) {
                         setSaleNumber(value)
                         if (price != "") {
-                            settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 80).mul(ethers.utils.parseUnits(price, 6)), 86))
+                            settotalprice(ethers.utils.formatUnits(value ===  "" ? "0" : ethers.utils.parseUnits(value, 80).mul(ethers.utils.parseUnits(price, 6)), 86))
                         }
                     }
                 } else {
                     if (value.length <= 78) {
                         setSaleNumber(value)
                         if (price != "") {
-                            settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 80).mul(ethers.utils.parseUnits(price, 6)), 86))
+                            settotalprice(ethers.utils.formatUnits(value ===  "" ? "0" : ethers.utils.parseUnits(value, 80).mul(ethers.utils.parseUnits(price, 6)), 86))
                         }
                     }
                 }
@@ -147,7 +147,7 @@ export default function PutOrder() {
     )
     const handleFaitInput = useCallback(
         (value: string) => {
-            if (value == ".") {
+            if (value ===  ".") {
                 setPrice("0.")
                 if (saleNumber != "") {
                     settotalprice(ethers.utils.formatUnits("0"))
@@ -157,14 +157,14 @@ export default function PutOrder() {
                     if (value.length - value.indexOf('.') - 1 <= 6) {
                         setPrice(value)
                         if (saleNumber != "") {
-                            settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 6).mul(ethers.utils.parseUnits(saleNumber, 80)), 86))
+                            settotalprice(ethers.utils.formatUnits(value ===  "" ? "0" : ethers.utils.parseUnits(value, 6).mul(ethers.utils.parseUnits(saleNumber, 80)), 86))
                         }
                     }
                 } else {
                     if (value.length <= 60) {
                         setPrice(value)
                         if (saleNumber != "") {
-                            settotalprice(ethers.utils.formatUnits(value == "" ? "0" : ethers.utils.parseUnits(value, 6).mul(ethers.utils.parseUnits(saleNumber, 80)), 86))
+                            settotalprice(ethers.utils.formatUnits(value ===  "" ? "0" : ethers.utils.parseUnits(value, 6).mul(ethers.utils.parseUnits(saleNumber, 80)), 86))
                         }
                     }
                 }
@@ -182,7 +182,7 @@ export default function PutOrder() {
     )
     const handleSellerDepositInput = useCallback(
         (value: string) => {
-            if (value == ".") {
+            if (value ===  ".") {
                 setSellerDeposit("0.")
             } else {
                 if (value.indexOf('.') != -1) {
@@ -199,7 +199,7 @@ export default function PutOrder() {
     )
     const handleBuyerDepositInput = useCallback(
         (value: string) => {
-            if (value == ".") {
+            if (value ===  ".") {
                 setBuyerDeposit("0.")
             } else {
                 if (value.indexOf('.') != -1) {
@@ -350,8 +350,8 @@ export default function PutOrder() {
          
             <JudgeInputPanel
                 showMaxButton={false}
-                currency={getJudge(JudgeAddress)}
-                otherCurrency={getJudge(JudgeAddress)}
+                currency={getJudge(chainId?chainId:ChainId.HAYEK,JudgeAddress)}
+                otherCurrency={getJudge(chainId?chainId:ChainId.HAYEK,JudgeAddress)}
                 id="judgeInput"
                 onCurrencySelect={handleJudgeInput}
                 label={t('Court')}
@@ -369,15 +369,15 @@ export default function PutOrder() {
 
             {!account ? (
                 <ButtonLight onClick={toggleWalletModal}>{t('Connect Wallet')}</ButtonLight>)
-                : approval == ApprovalState.UNKNOWN ?
+                : approval ===  ApprovalState.UNKNOWN ?
                     <ButtonLight width="100%" disabled={true}>
                         {t('Select Token')}
                     </ButtonLight>
-                    : approval == ApprovalState.NOT_APPROVED ?
+                    : approval ===  ApprovalState.NOT_APPROVED ?
                         (<ButtonLight onClick={approveCallback} width="100%">
                             {t('Approve')}
                         </ButtonLight>) :
-                        approval == ApprovalState.PENDING ?
+                        approval ===  ApprovalState.PENDING ?
                             <ButtonLight width="100%" disabled={true}>
                                 {t('Approve Pending')} <Loader></Loader>
                             </ButtonLight>

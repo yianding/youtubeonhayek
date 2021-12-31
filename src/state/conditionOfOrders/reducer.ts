@@ -231,7 +231,7 @@ export const DEFAULT_TOKEN_LIST:{[chainId in ChainId]:TokenInfo} = {
 }
 export interface conditionOfOrdersState {
   // the timestamp of the last updateVersion actionS
-  conditionOfOrders[0]: {[chainId in ChainId]:any}
+  conditionOfOrders: {[chainId in ChainId]:any}
 }
 
 export function getDefaultWrapToken(chainId:ChainId): WrappedTokenInfo {
@@ -242,19 +242,362 @@ export function getDefaultWrapToken(chainId:ChainId): WrappedTokenInfo {
 }
 export const initialState: conditionOfOrdersState = {
   
-  conditionOfOrders: {
-    quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.HAYEK).decimals),
-    quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.HAYEK).decimals),
-    price_min: ethers.utils.parseUnits("0", 6),
-    price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
-    currency: {
-      symbol: "CNY",
-      logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
-      describe: "Chinese currency,人民币",
-      sign: "￥"
-    }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.HAYEK),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
-     myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
-  }
+  conditionOfOrders:{
+   
+    [ChainId.MAINNET]: {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.ROPSTEN]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.ROPSTEN).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.ROPSTEN).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.ROPSTEN),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.RINKEBY]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.GÖRLI]:   {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.KOVAN]:   {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.HAYEK]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.HAYEK).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.HAYEK).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.HAYEK),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+   
+    
+    [ChainId.BSC]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.BSC).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.BSC).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.BSC),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.ThaiChain]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Ubiq ]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Optimistic ]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.ThaiChain20 ]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Metadium ]: {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Flare ]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Diode_Prenet ]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.ETC ]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.EOS ]: {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.OKExChain]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.POA_Network]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.POA_Network_Core]: {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.xDAI_Chain]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Huobi_ECO ]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Bittex_Mainnet ]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Fusion_Mainnet ]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Arbitrum_One ]: {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Polygon_Mainnet]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Fantom_Opera]: {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+    [ChainId.Moonrock ]:  {
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      price_min: ethers.utils.parseUnits("0", 6),
+      price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
+      currency: {
+        symbol: "CNY",
+        logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
+        describe: "Chinese currency,人民币",
+        sign: "￥"
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+       myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
+      },
+}
 }
 
 export default createReducer(initialState, builder =>

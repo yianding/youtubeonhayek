@@ -4,8 +4,8 @@ import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.
 import { useMemo } from 'react'
 import ENS_ABI from '../constants/abis/ens-registrar.json'
 import ENS_PUBLIC_RESOLVER_ABI from '../constants/abis/ens-public-resolver.json'
-import { ERC20_BYTES32_ABI } from '../constants/abis/erc20'
-import ERC20_ABI from '../constants/abis/erc20.json'
+import { BEP20_ABI, ERC20_BYTES32_ABI } from '../constants/abis/erc20'
+//import ERC20_ABI from '../constants/abis/erc20.json'
 import { MIGRATOR_ABI, MIGRATOR_ADDRESS } from '../constants/abis/migrator'
 import UNISOCKS_ABI from '../constants/abis/unisocks.json'
 import WETH_ABI from '../constants/abis/weth.json'
@@ -45,11 +45,21 @@ export function useV1ExchangeContract(address?: string, withSignerIfPossible?: b
 }
 
 export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
-  return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible)
+ // const {chainId} = useActiveWeb3React()
+  var aa = BEP20_ABI
+  // if(chainId){
+  //   if(chainId==ChainId.BSC){
+  //     aa=ERC20_ABI
+  //   }
+  // }
+
+    return useContract(tokenAddress, aa, withSignerIfPossible)
+  
 }
 
 export function useTradeContract( withSignerIfPossible?: boolean): Contract | null {
-  return useContract(TRADE_ADDRESS, TRADE_ABI, withSignerIfPossible)
+  const {chainId} = useActiveWeb3React()
+  return useContract(TRADE_ADDRESS[chainId?chainId:ChainId.HAYEK], TRADE_ABI, withSignerIfPossible)
 }
 
 export function useJudgeContract(judge_address:string, withSignerIfPossible?: boolean): Contract | null {
@@ -76,7 +86,6 @@ export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contrac
         break
         
       case ChainId.BSC:
-        address ='0x0118917922320604010A5F924D53e79D2925a9E1'
         break
     }
   }
@@ -98,6 +107,7 @@ export function usePairContract(pairAddress?: string, withSignerIfPossible?: boo
 export function useMulticallContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false)
+
 }
 
 export function useSocksController(): Contract | null {

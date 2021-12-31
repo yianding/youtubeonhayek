@@ -82,7 +82,6 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
           ?.filter((x): x is TagInfo => Boolean(x)) ?? []
       const token = new WrappedTokenInfo(tokenInfo, tags)
 
-      console.log("TokenAddressMap", tokenMap, token.chainId, token.address)
       if (tokenMap[token.chainId][token.address] !== undefined) throw Error('Duplicate tokens.')
       return {
         ...tokenMap,
@@ -103,7 +102,7 @@ export function useTokenList(url: string | undefined): TokenAddressMap {
   return useMemo(() => {
     if (!url) return EMPTY_LIST
     let current: TokenList | null
-    if (url == "https://hayek.link/coinlist.json" || url == "https://hayek.link/hayekcoinlist.json") {
+    if (url ===  "https://dotc.trade/coinlist.json" || url ===  "https://dotc.trade/hayekcoinlist.json") {
       current = ALLTOKENTokenList
     } else {
       current = lists[url]?.current

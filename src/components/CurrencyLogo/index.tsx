@@ -7,7 +7,7 @@ import { WrappedTokenInfo } from '../../state/lists/hooks'
 import Logo from '../Logo'
 
 const getTokenLogoURL = (address: string) =>{
- // `https://hayek.link/${address}.png`
+ // `https://dotc.trade/${address}.png`
  if(address=="0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C"){
    return "./images/WHYK.png"
  }

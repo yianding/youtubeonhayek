@@ -40,7 +40,7 @@ export default function MySaleOrder() {
             <AutoColumn gap="lg" justify="center">
                 <AutoColumn gap="6px" style={{ width: '100%' }}>
                     {orders ? orders.map((k) => {
-                        if (k.state == 3) {
+                        if (k.state ===  3) {
                             OrderNum++
                             return (
                                 <ExecuteCard key={k.id} pair={k} isSeller={true} />
@@ -58,7 +58,7 @@ export default function MySaleOrder() {
 
 
                     {orders?.map((k) => {
-                        if (k.state == 1) {
+                        if (k.state ===  1) {
                             OrderNum++
                             return (
                                 <SaleOrderLockedCard key={k.id} pair={k} SellerDisputableBlockNumber={SellerDisputableBlockNumber} />
@@ -69,7 +69,7 @@ export default function MySaleOrder() {
 
 
                     {orders ? <>{orders.map((k) => {
-                        if (k.seller != "0x0000000000000000000000000000000000000000" && k.state == 0) {
+                        if (k.seller != "0x0000000000000000000000000000000000000000" && k.state ===  0) {
                             OrderNum++
                             return (
                                 <SaleOrderUnlockedCard key={k.id} pair={k} />
@@ -77,7 +77,7 @@ export default function MySaleOrder() {
                         } else { return }
                     }
                     )}
-                        {OrderNum == 0 ?
+                        {OrderNum ===  0 ?
                             <>
                                 <Card >
                                     <AutoColumn gap="12px">

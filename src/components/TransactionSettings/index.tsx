@@ -183,7 +183,7 @@ export default function SlippageTabs() {
                     }
                     setconditionOfOrders(a);
                   }
-                  if (e.target.value.indexOf('.') == (-1)){
+                  if (e.target.value.indexOf('.') ===  (-1)){
                   let a = {
                   quantity_min: conditionOfOrders.quantity_min,
                   quanity_max: conditionOfOrders.quanity_max,
@@ -314,7 +314,7 @@ export default function SlippageTabs() {
                     }
                     setconditionOfOrders(a);
                   }
-                  if (e.target.value.indexOf('.') == (-1)){
+                  if (e.target.value.indexOf('.') ===  (-1)){
                   let a = {
                   quantity_min: conditionOfOrders.quantity_min,
                   quanity_max: conditionOfOrders.quanity_max,
@@ -447,7 +447,7 @@ export default function SlippageTabs() {
                     }
                     setconditionOfOrders(a);
                   }
-                  if (e.target.value.indexOf('.') == (-1)){
+                  if (e.target.value.indexOf('.') ===  (-1)){
                   let a = {
                   quantity_min: conditionOfOrders.quantity_min,
                   quanity_max: conditionOfOrders.quanity_max,

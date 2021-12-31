@@ -16,7 +16,7 @@ export function useAllTokens(): { [address: string]: Token } {
   return useMemo(() => {
     
     if (!chainId) return {}
-    // if (listUrl=="https://hayek.link/coinlist.json") {console.log("bbs",listUrl)
+    // if (listUrl=="https://dotc.trade/coinlist.json") {console.log("bbs",listUrl)
     // return {}}
     return (
       userAddedTokens

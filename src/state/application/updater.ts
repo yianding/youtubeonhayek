@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux'
 export default function Updater(): null {
   const { library, chainId } = useActiveWeb3React()
   const dispatch = useDispatch()
-
   const windowVisible = useIsWindowVisible()
 
   const [state, setState] = useState<{ chainId: number | undefined; blockNumber: number | null }>({

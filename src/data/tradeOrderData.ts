@@ -1,6 +1,7 @@
 //import { Token, TokenAmount } from 'uniswap-hayek-sdk'
 //import { isBytesLike } from '@ethersproject/bytes'
 import { useMemo } from 'react'
+import { ChainId } from 'uniswap-hayek-sdk'
 import { useActiveWeb3React } from '../hooks'
 
 import { useJudgeContract, useTradeContract } from '../hooks/useContract'
@@ -22,18 +23,18 @@ interface CallState {
   readonly error: boolean
 }
 export function useTradeOrderData(): CallState[] | undefined {
+  const {chainId} =useActiveWeb3React()
   const [conditionOfOrders] = useConditionOfOrders()
-
   const contract = useTradeContract(false)
-  const quantity_min = conditionOfOrders.quantity_min
-  const quanity_max = conditionOfOrders.quanity_max
-  const price_min = conditionOfOrders.price_min
-  const price_max = conditionOfOrders.price_max
-  const currency = conditionOfOrders.currency.symbol
-  const linenumber = conditionOfOrders.linenumber.toString()
-  const erc20address = conditionOfOrders.erc20.address
-  const sellerDeposit = conditionOfOrders.sellerDeposit
-  const buyerDeposit = conditionOfOrders.buyerDeposit
+  const quantity_min = conditionOfOrders[chainId?chainId:ChainId.HAYEK].quantity_min
+  const quanity_max = conditionOfOrders[chainId?chainId:ChainId.HAYEK].quanity_max
+  const price_min = conditionOfOrders[chainId?chainId:ChainId.HAYEK].price_min
+  const price_max = conditionOfOrders[chainId?chainId:ChainId.HAYEK].price_max
+  const currency = conditionOfOrders[chainId?chainId:ChainId.HAYEK].currency.symbol
+  const linenumber = conditionOfOrders[chainId?chainId:ChainId.HAYEK].linenumber.toString()
+  const erc20address = conditionOfOrders[chainId?chainId:ChainId.HAYEK].erc20.address
+  const sellerDeposit = conditionOfOrders[chainId?chainId:ChainId.HAYEK].sellerDeposit
+  const buyerDeposit = conditionOfOrders[chainId?chainId:ChainId.HAYEK].buyerDeposit
   const inputs = useMemo(() => [quantity_min, quanity_max, price_min, price_max, currency, linenumber, erc20address,sellerDeposit,buyerDeposit],
     [quantity_min, quanity_max, price_min, price_max, currency, linenumber, erc20address,sellerDeposit,buyerDeposit]
   )
@@ -51,11 +52,12 @@ export function useOrderByIdData(index:string): CallState[] | undefined {
 }
 
 export function useMyBuyTradeOrderData(): CallState[] | undefined {
+  const {chainId}= useActiveWeb3React()
   const [conditionOfOrders] = useConditionOfOrders()
   const { account } = useActiveWeb3React()
   const contract = useTradeContract(true)
   const sender = account?.toString()
-  const linenumber = conditionOfOrders.myBuyOrderLineNumber.toString()
+  const linenumber = conditionOfOrders[chainId?chainId:ChainId.HAYEK].myBuyOrderLineNumber.toString()
 
 
   const inputs = useMemo(() => [sender, linenumber],
@@ -67,11 +69,12 @@ export function useMyBuyTradeOrderData(): CallState[] | undefined {
 }
 
 export function useMySaleTradeOrderData(): CallState[] | undefined {
+  const {chainId} =useActiveWeb3React()
   const [conditionOfOrders] = useConditionOfOrders()
   const { account } = useActiveWeb3React()
   const contract = useTradeContract(true)
   const sender = account?.toString()
-  const linenumber = conditionOfOrders.mySellOrderLineNumber.toString()
+  const linenumber = conditionOfOrders[chainId?chainId:ChainId.HAYEK].mySellOrderLineNumber.toString()
 
   const inputs = useMemo(() => [sender, linenumber],
     [sender, linenumber]

@@ -134,7 +134,7 @@ const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.GÖRLI]: 'Görli',
   [ChainId.KOVAN]: 'Kovan',
   [ChainId.HAYEK]:  'HAYEK',
-  [ChainId.BSC]:  'BSC',
+  [ChainId.BSC]:  'Binance Smart Chain',
   [ChainId.ThaiChain]: 'ThaiChain',
   [ChainId.Ubiq]: 'Ubiq',
   [ChainId.Optimistic]: 'Optimistic',
@@ -197,8 +197,8 @@ export default function Header() {
     fetch(urll)
     .then(response => {
       //do something with response
-      const users = response.json();
-      console.log(users);
+      // const users = response.json();
+      // console.log(users);
     })
     .catch(err => {
      

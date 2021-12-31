@@ -122,6 +122,7 @@ export default function Updater(): null {
   const latestBlockNumber = useBlockNumber()
   const { chainId } = useActiveWeb3React()
   const multicallContract = useMulticallContract()
+
   const cancellations = useRef<{ blockNumber: number; cancellations: (() => void)[] }>()
 
   const listeningKeys: { [callKey: string]: number } = useMemo(() => {
@@ -148,7 +149,7 @@ export default function Updater(): null {
     if (cancellations.current?.blockNumber !== latestBlockNumber) {
       cancellations.current?.cancellations?.forEach(c => c())
     }
-
+  try{
     dispatch(
       fetchingMulticallResults({
         calls,
@@ -156,7 +157,9 @@ export default function Updater(): null {
         fetchingBlockNumber: latestBlockNumber
       })
     )
-
+    }catch(e){
+      console.log("ERROR",e)
+    }
     cancellations.current = {
       blockNumber: latestBlockNumber,
       cancellations: chunkedCalls.map((chunk, index) => {
@@ -192,7 +195,7 @@ export default function Updater(): null {
               console.debug('Cancelled fetch for blockNumber', latestBlockNumber)
               return
             }
-            console.error('Failed to fetch multicall chunk', chunk, chainId, error)
+            console.error('Failed to fetch multicall chunk',error, chunk, chainId, error)
             dispatch(
               errorFetchingMulticallResults({
                 calls: chunk,

@@ -21,7 +21,6 @@ import Loader from '../../components/Loader'
 import { useTranslation } from 'react-i18next'
 import FullPositionCard from './orderCard'
 import { useActiveWeb3React } from '../../hooks'
-import { getDefaultWrapToken } from '../../state/conditionOfOrders/reducer'
 
 
 export const FixedHeightRow = styled(RowBetween)`
@@ -59,21 +58,7 @@ export default function AllOrders() {
 
   
   const [conditionOfOrders, setconditionOfOrders] = useConditionOfOrders()
-  const a = {
-    quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(chainId?chainId:ChainId.HAYEK).decimals),
-    quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(chainId?chainId:ChainId.HAYEK).decimals),
-    price_min: ethers.utils.parseUnits("0", 6),
-    price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
-    currency: {
-      symbol: "CNY",
-      logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
-      describe: "Chinese currency,人民币",
-      sign: "￥"
-    }, linenumber: 100, erc20: getDefaultWrapToken(chainId?chainId:ChainId.HAYEK),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
-     myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
-  }
-  const a1 = useMemo(() => a, [a])
-  setconditionOfOrders(a1)
+ 
   // useEffect(() => {
   //   setconditionOfOrders(a)
   // },[a])
@@ -91,17 +76,17 @@ export default function AllOrders() {
   const [pricemax, setpriceMax] = useState("");
   const [nummin, setnumMin] = useState("");
   const [nummax, setnumMax] = useState("");
-  const [currency, setCurrency] = useState<FIAT>(conditionOfOrders.currency);
-  const [ERC20, setERC20] = useState<Token>(conditionOfOrders.erc20);
+  const [currency, setCurrency] = useState<FIAT>(conditionOfOrders[chainId?chainId:ChainId.HAYEK].currency);
+  const [ERC20, setERC20] = useState<Token>(conditionOfOrders[chainId?chainId:ChainId.HAYEK].erc20);
   const [sellerDeposit, setsellerDeposit] = useState("");
   const [buyerDeposit, setbuyerDeposit] = useState("");
-  const [lineNumber] = useState(conditionOfOrders.linenumber);
+  const [lineNumber] = useState(conditionOfOrders[chainId?chainId:ChainId.HAYEK].linenumber);
 
   const handleInputPriceMin = (value: string) => {
-    if (value == ".") {
+    if (value === ".") {
       setpriceMin("0.")
     } else {
-      if (value.indexOf('.') != -1) {
+      if (value.indexOf('.') !== -1) {
         if (value.length - value.indexOf('.') - 1 <= 6) {
           setpriceMin(value)
         }
@@ -114,10 +99,10 @@ export default function AllOrders() {
 
   }
   const handleInputPriceMax = (value: string) => {
-    if (value == ".") {
+    if (value === ".") {
       setpriceMax("0.")
     } else {
-      if (value.indexOf('.') != -1) {
+      if (value.indexOf('.') !== -1) {
         if (value.length - value.indexOf('.') - 1 <= 6) {
           setpriceMax(value)
         }
@@ -129,7 +114,7 @@ export default function AllOrders() {
     }
   }
   const handleInputNumMin = (value: string) => {
-    if (value == ".") {
+    if (value ===  ".") {
       setnumMin("0.")
     } else {
       if (value.indexOf('.') != -1) {
@@ -144,10 +129,10 @@ export default function AllOrders() {
     }
   }
   const handleInputNumMax = (value: string) => {
-    if (value == ".") {
+    if (value === ".") {
       setnumMax("0.")
     } else {
-      if (value.indexOf('.') != -1) {
+      if (value.indexOf('.') !== -1) {
         if (value.length - value.indexOf('.') - 1 <= ERC20.decimals) {
           setnumMax(value)
         }
@@ -160,10 +145,10 @@ export default function AllOrders() {
   }
 
   const handleInputSellerDeposit = (value: string) => {
-    if (value == ".") {
+    if (value === ".") {
       setsellerDeposit("0.")
     } else {
-      if (value.indexOf('.') != -1) {
+      if (value.indexOf('.') !== -1) {
         if (value.length - value.indexOf('.') - 1 <= 18) {
           setsellerDeposit(value)
         }
@@ -175,10 +160,10 @@ export default function AllOrders() {
     }
   }
   const handleInputBuyerDeposit = (value: string) => {
-    if (value == ".") {
+    if (value === ".") {
       setbuyerDeposit("0.")
     } else {
-      if (value.indexOf('.') != -1) {
+      if (value.indexOf('.') !== -1) {
         if (value.length - value.indexOf('.') - 1 <= 18) {
           setbuyerDeposit(value)
         }
@@ -203,17 +188,17 @@ export default function AllOrders() {
   )
   const handleMore = () => {
     let a = {
-      quantity_min: conditionOfOrders.quantity_min,
-      quanity_max: conditionOfOrders.quanity_max,
-      price_min: conditionOfOrders.price_min,
-      price_max: conditionOfOrders.price_max,
-      currency: conditionOfOrders.currency,
-      erc20: conditionOfOrders.erc20,
-      sellerDeposit: conditionOfOrders.sellerDeposit,
-      buyerDeposit: conditionOfOrders.buyerDeposit,
-      linenumber: conditionOfOrders.linenumber + 100,
-      mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
-      myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+      quantity_min: conditionOfOrders[chainId?chainId:ChainId.HAYEK].quantity_min,
+      quanity_max: conditionOfOrders[chainId?chainId:ChainId.HAYEK].quanity_max,
+      price_min: conditionOfOrders[chainId?chainId:ChainId.HAYEK].price_min,
+      price_max: conditionOfOrders[chainId?chainId:ChainId.HAYEK].price_max,
+      currency: conditionOfOrders[chainId?chainId:ChainId.HAYEK].currency,
+      erc20: conditionOfOrders[chainId?chainId:ChainId.HAYEK].erc20,
+      sellerDeposit: conditionOfOrders[chainId?chainId:ChainId.HAYEK].sellerDeposit,
+      buyerDeposit: conditionOfOrders[chainId?chainId:ChainId.HAYEK].buyerDeposit,
+      linenumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].linenumber + 100,
+      mySellOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].mySellOrderLineNumber,
+      myBuyOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].myBuyOrderLineNumber
     }
     setconditionOfOrders(a);
   }
@@ -291,18 +276,34 @@ export default function AllOrders() {
 
                     <ButtonSecondary width="100%"
                       onClick={() => {
-                        let a = {
-                          quantity_min: ethers.utils.parseUnits(nummin == "" ? "0" : nummin, ERC20.decimals),
-                          quanity_max: ethers.utils.parseUnits(nummax == "" ? "99999999999999999999999999999999999999999999" : nummax, ERC20.decimals),
-                          price_min: ethers.utils.parseUnits(pricemin == "" ? "0" : pricemin, 6),
-                          price_max: ethers.utils.parseUnits(pricemax == "" ? "99999999999999999999999999999999" : pricemax, 6),
+                        let a =
+                        //  {
+                        //   quantity_min: ethers.utils.parseUnits(nummin ===  "" ? "0" : nummin, ERC20.decimals),
+                        //   quanity_max: ethers.utils.parseUnits(nummax ===  "" ? "99999999999999999999999999999999999999999999" : nummax, ERC20.decimals),
+                        //   price_min: ethers.utils.parseUnits(pricemin ===  "" ? "0" : pricemin, 6),
+                        //   price_max: ethers.utils.parseUnits(pricemax ===  "" ? "99999999999999999999999999999999" : pricemax, 6),
+                        //   currency: currency,
+                        //   linenumber: lineNumber,
+                        //   erc20: ERC20,
+                        //   sellerDeposit: ethers.utils.parseUnits(sellerDeposit ===  "" ? "0" : sellerDeposit, 18),
+                        //   buyerDeposit: ethers.utils.parseUnits(buyerDeposit ===  "" ? "99999999999999999999" : buyerDeposit, 18),
+                        //   mySellOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].mySellOrderLineNumber,
+                        //   myBuyOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].myBuyOrderLineNumber
+                        // }
+                       {
+                        [chainId?chainId:ChainId.HAYEK]:     {
+                          quantity_min: ethers.utils.parseUnits(nummin === "" ? "0" : nummin, ERC20.decimals),
+                          quanity_max: ethers.utils.parseUnits(nummax === "" ? "99999999999999999999999999999999999999999999" : nummax, ERC20.decimals),
+                          price_min: ethers.utils.parseUnits(pricemin === "" ? "0" : pricemin, 6),
+                          price_max: ethers.utils.parseUnits(pricemax === "" ? "99999999999999999999999999999999" : pricemax, 6),
                           currency: currency,
                           linenumber: lineNumber,
                           erc20: ERC20,
-                          sellerDeposit: ethers.utils.parseUnits(sellerDeposit == "" ? "0" : sellerDeposit, 18),
-                          buyerDeposit: ethers.utils.parseUnits(buyerDeposit == "" ? "99999999999999999999" : buyerDeposit, 18),
-                          mySellOrderLineNumber: conditionOfOrders.mySellOrderLineNumber,
-                          myBuyOrderLineNumber: conditionOfOrders.myBuyOrderLineNumber
+                          sellerDeposit: ethers.utils.parseUnits(sellerDeposit === "" ? "0" : sellerDeposit, 18),
+                          buyerDeposit: ethers.utils.parseUnits(buyerDeposit === "" ? "99999999999999999999" : buyerDeposit, 18),
+                          mySellOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].mySellOrderLineNumber,
+                          myBuyOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].myBuyOrderLineNumber
+                        }
                         }
                         setconditionOfOrders(a);
                         setShowMore(!showMore);

@@ -8,6 +8,8 @@ import ListLogo from '../ListLogo'
 import styled from 'styled-components'
 import { Text } from 'rebass'
 import { useTranslation } from 'react-i18next'
+import { useActiveWeb3React } from '../../hooks'
+import { ChainId } from 'uniswap-hayek-sdk'
 
 
 const StyledDepositText = styled(Text)`
@@ -76,8 +78,8 @@ export default function FaitList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
 
 }) {
-
-  const itemDate = AllJudge()
+  const {chainId}= useActiveWeb3React()
+  const itemDate = AllJudge(chainId?chainId:ChainId.HAYEK)
 
   const Row = useCallback(
     ({ data, index, style }) => {

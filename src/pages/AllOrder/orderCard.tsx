@@ -23,6 +23,8 @@ import { useWalletModalToggle } from '../../state/application/hooks'
 import { ButtonSecondary } from '../../components/Button'
 import { MyTokenlist } from '../../hooks/coinlist'
 import { CryptoInput } from '../../components/DescribeInputPanel'
+import { ChainId } from 'uniswap-hayek-sdk'
+import { ETHERSCAN_PREFIXES } from '../../utils'
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -48,7 +50,7 @@ function Crypto(props: {infotype:string, info: React.Key | undefined, handleHash
   const [cryptoInfo, setcryptoInfo] = useState("")
   const handleInputCryproInfo = (event: any) => {
     setcryptoInfo(event.target.value)
-    if (props.info == ethers.utils.id(event.target.value)) {
+    if (props.info ===  ethers.utils.id(event.target.value)) {
       props.handleHashComfirm(3)
     } else {
       props.handleHashComfirm(2)
@@ -77,7 +79,7 @@ function Crypto(props: {infotype:string, info: React.Key | undefined, handleHash
       <CryptoInput value={cryptoInfo} onClick={async () => {
         navigator?.clipboard?.readText()?.then(text => {
           setcryptoInfo(text);
-          if (props.info == ethers.utils.id(text)) {
+          if (props.info ===  ethers.utils.id(text)) {
             props.handleHashComfirm(3)
           } else {
             props.handleHashComfirm(2)
@@ -145,28 +147,28 @@ export default function FullPositionCard(props: any, border: any) {
     let CypWechatnum = 0
     return (
       aa?.map((item, i) => {
-        let item1: string = typeof (item) == "string" ? item : ""
+        let item1: string = typeof (item) ===  "string" ? item : ""
         let infotype: string = item1?.split(':')[0];
         const tempINFOTYPE = getInfoType(infotype);
         let infodescribe: string | undefined = getInfoType(infotype)?.Describe;
         let info: string = item1?.split(':')[1];
-        if (CypContractnum < 1 && (infotype == "CryptoContract")) {
+        if (CypContractnum < 1 && (infotype ===  "CryptoContract")) {
           CypContractnum = CypContractnum + 1
-          if (hashComfirm == 0) {
+          if (hashComfirm ===  0) {
             sethashComfirm(1)
           }
           return <Crypto infotype="CryptoContract" info={info} key={info} handleHashComfirm={handleHashComfirm}></Crypto>
         }
-        if (CypBankDepositnum < 1 && (infotype == "Bank Card Cash Deposit")) {
+        if (CypBankDepositnum < 1 && (infotype ===  "Bank Card Cash Deposit")) {
           CypBankDepositnum = CypBankDepositnum + 1
-          if (hashBankDepositComfirm == 0) {
+          if (hashBankDepositComfirm ===  0) {
             sethashBankDepositComfirm(1)
           }
           return <Crypto infotype="Bank Card Cash Deposit" info={info} key={info} handleHashComfirm={sethashBankDepositComfirm}></Crypto>
         }
-        if (CypWechatnum < 1 && (infotype == "Secret WeChat")) {
+        if (CypWechatnum < 1 && (infotype ===  "Secret WeChat")) {
           CypWechatnum = CypWechatnum + 1
-          if (hashWechatComfirm == 0) {
+          if (hashWechatComfirm ===  0) {
             sethashWechatComfirm(1)
           }
           return <Crypto infotype="Secret WeChat" info={info} key={info} handleHashComfirm={sethashWechatComfirm}></Crypto>
@@ -180,34 +182,34 @@ export default function FullPositionCard(props: any, border: any) {
   }
   function handleLockButton() {
     
-    if (hashBankDepositComfirm == 1) {
+    if (hashBankDepositComfirm ===  1) {
       return (
         <ButtonSecondary width="100%" disabled={true}>
           {t('Please input Bank Card Cash Deposit infomation')}
         </ButtonSecondary>)
-    } if (hashBankDepositComfirm == 2) {
+    } if (hashBankDepositComfirm ===  2) {
       return (
         <ButtonSecondary width="100%" disabled={true}>
           {t('Please input correct Bank Card Cash Deposit infomation')}
         </ButtonSecondary>)
     }
-    if (hashWechatComfirm == 1) {
+    if (hashWechatComfirm ===  1) {
       return (
         <ButtonSecondary width="100%" disabled={true}>
           {t('Please input the WeChat account of seller')}
         </ButtonSecondary>)
-    } if (hashWechatComfirm == 2) {
+    } if (hashWechatComfirm ===  2) {
       return (
         <ButtonSecondary width="100%" disabled={true}>
           {t('Please input the correct WeChat account of seller')}
         </ButtonSecondary>)
     }
-    if (hashComfirm == 1) {
+    if (hashComfirm ===  1) {
       return (
         <ButtonSecondary width="100%" disabled={true}>
           {t('Please input Crypto contract')}
         </ButtonSecondary>)
-    } if (hashComfirm == 2) {
+    } if (hashComfirm ===  2) {
       return (
         <ButtonSecondary width="100%" disabled={true}>
           {t('Please input correct crypto contract')}
@@ -240,7 +242,7 @@ export default function FullPositionCard(props: any, border: any) {
 
   const { execute: onWrap } = useWrapCallback1(props.id?props.id:props.pair.id,props.pair.buyerLiquidataedDamages)
   function lock() {
-    if (hashComfirm == 0 || hashComfirm == 3) {
+    if (hashComfirm ===  0 || hashComfirm ===  3) {
 
       if (onWrap) {
         setSwapState({ attemptingTxn: true, showConfirm: true, swapErrorMessage: undefined, txHash: undefined })
@@ -430,7 +432,7 @@ export default function FullPositionCard(props: any, border: any) {
 
                   <TYPE.black fontSize={14} color={theme.text1}>
 
-                    {<A href={getJudge(props.pair.arbitration)?getJudge(props.pair.arbitration)?.URL:"https://explorer.hayek.link/address/"+props.pair.arbitration.toString()} target="_blank">{getJudge(props.pair.arbitration) ? (getJudge(props.pair.arbitration)?.name) : t("Unverified Court")}</A>}
+                    {<A href={getJudge(chainId?chainId:ChainId.HAYEK,props.pair.arbitration)?getJudge(chainId?chainId:ChainId.HAYEK,props.pair.arbitration)?.URL:"https://"+ETHERSCAN_PREFIXES[chainId?chainId:ChainId.HAYEK]+"/address/"+props.pair.arbitration.toString()} target="_blank">{getJudge(chainId?chainId:ChainId.HAYEK,props.pair.arbitration) ? (getJudge(chainId?chainId:ChainId.HAYEK,props.pair.arbitration)?.name) : t("Unverified Court")}</A>}
                   </TYPE.black>
                 </RowBetween>
               </FixedHeightRow>

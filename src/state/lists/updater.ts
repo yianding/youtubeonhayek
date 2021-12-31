@@ -1,4 +1,4 @@
-import { getVersionUpgrade, minVersionBump, VersionUpgrade } from '@uniswap/token-lists'
+import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useActiveWeb3React } from '../../hooks'
@@ -50,8 +50,8 @@ export default function Updater(): null {
             throw new Error('unexpected no version bump')
           case VersionUpgrade.PATCH:
           case VersionUpgrade.MINOR:
-            const min = minVersionBump(list.current.tokens, list.pendingUpdate.tokens)
-            console.log(min)
+          //  const min = minVersionBump(list.current.tokens, list.pendingUpdate.tokens)
+
             // automatically update minor/patch as long as bump matches the min update
             //if (bump >= min) {
               if (true) {

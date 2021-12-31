@@ -12,7 +12,7 @@ const V1_FACTORY_ADDRESSES: { [chainId in ChainId]: string } = {
   [ChainId.HAYEK]: '',
  
   
-  [ChainId.BSC]:'0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF',
+  [ChainId.BSC]:'',
   [ChainId.ThaiChain]:'0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF',
   [ChainId.Ubiq ]:'0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF',
   [ChainId.Optimistic ]:'0xAf379C844f87A7b47EE6fe5E4a9720988EaEA0AF',

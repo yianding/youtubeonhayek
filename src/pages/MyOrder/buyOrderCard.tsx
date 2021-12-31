@@ -24,6 +24,8 @@ import { useActiveWeb3React } from '../../hooks'
 import { ConfirmationPendingContent, TransactionErrorContent, TransactionSubmittedContent } from '../../components/TransactionConfirmationModal'
 import Modal from '../../components/Modal'
 import { MyTokenlist } from '../../hooks/coinlist'
+import { ChainId } from 'uniswap-hayek-sdk'
+import { ETHERSCAN_PREFIXES } from '../../utils'
 
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
@@ -98,7 +100,7 @@ export default function BuyOrderCard(props: any, border: any) {
         aa = Object.values(JSON.parse(props.pair.describe));
         return (
             aa?.map((item, i) => {
-                let item1: string = typeof (item) == "string" ? item : ""
+                let item1: string = typeof (item) ===  "string" ? item : ""
                 let infotype: string = item1?.split(':')[0];
                 const tempINFOTYPE = getInfoType(infotype);
                 let infodescribe: string | undefined = getInfoType(infotype)?.Describe;
@@ -339,7 +341,7 @@ export default function BuyOrderCard(props: any, border: any) {
                                         </TYPE.black>
                                     </RowFixed>
                                     <TYPE.black fontSize={14} color={theme.text1}>
-                                        {<A href={getJudge(props.pair.arbitration) ? getJudge(props.pair.arbitration)?.URL : "https://explorer.hayek.link/address/" + props.pair.arbitration.toString()} target="_blank">{getJudge(props.pair.arbitration) ? (getJudge(props.pair.arbitration)?.name) : t("Unverified Court")}</A>}
+                                        {<A href={getJudge(chainId?chainId:ChainId.HAYEK,props.pair.arbitration) ? getJudge(chainId?chainId:ChainId.HAYEK,props.pair.arbitration)?.URL : "https://"+ETHERSCAN_PREFIXES[chainId?chainId:ChainId.HAYEK]+"/address/" + props.pair.arbitration.toString()} target="_blank">{getJudge(chainId?chainId:ChainId.HAYEK,props.pair.arbitration) ? (getJudge(chainId?chainId:ChainId.HAYEK,props.pair.arbitration)?.name) : t("Unverified Court")}</A>}
                                     </TYPE.black>
                                 </RowBetween>
                             </FixedHeightRow>

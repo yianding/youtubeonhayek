@@ -164,7 +164,7 @@ function StatusIcon({ connector }: { connector: AbstractConnector }) {
 function Web3StatusInner() {
   const { t } = useTranslation()
   const { account, connector, error } = useWeb3React()
-console.log("ACCOUNT",account)
+
   const { ENSName } = useENSName(account ?? undefined)
 
   const allTransactions = useAllTransactions()
@@ -184,7 +184,7 @@ console.log("ACCOUNT",account)
 const tokenAddress = '0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C';
 const tokenSymbol = 'WHYK';
 const tokenDecimals = 18;
-const tokenImage = 'https://hayek.link/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png';
+const tokenImage = 'https://dotc.trade/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png';
 try {
   // wasAdded is a boolean. Like any RPC method, an error may be thrown.
   let a:any=window.ethereum;
@@ -209,13 +209,12 @@ try {
         address: "0x55d398326f99059fF775485246999027B3197955", // The address that the token is at.
         symbol: "USDT", // A ticker symbol or shorthand, up to 5 chars.
         decimals: "18", // The number of decimals in the token
-        image: "https://hayek.link/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png", // A string url of the token logo
+        image: "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png", // A string url of the token logo
       },
     },
   });
 
 } catch (error) {
-  console.log(error);
 }
   }
   async function addChain() {
@@ -228,17 +227,17 @@ try {
       params: [
         {
           chainId: '0x38',
-          rpcUrls: ['https://bsc-dataseed1.binance.org'],
+          rpcUrls: ['https://bsc-dataseed.binance.org'],
           chainName: 'BSC',
           nativeCurrency: { name: 'BNB', decimals: 18, symbol: 'BNB' },
           blockExplorerUrls: ['https://bscscan.com'],
-          iconUrls:['https://hayek.link/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png'],
+          iconUrls:['https://bscscan.com/token/images/binance_32.png'],
         },
       ],
     })
     addIcon();
   }else{
-      window.location.href="https://hayek.link/"
+      window.location.href="https://dotc.trade/"
     }
   
   }

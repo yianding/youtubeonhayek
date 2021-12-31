@@ -60,7 +60,7 @@ export function VersionSwitch() {
 
   const handleClick = useCallback(
     e => {
-      window.location.href="https://hayek.link/trade/#/swap";
+      window.location.href="https://dotc.trade/trade/#/swap";
       if (!versionSwitchAvailable) e.preventDefault()
     },
     [versionSwitchAvailable]
@@ -101,7 +101,7 @@ export function Video() {
 
   const handleClick = useCallback(
     e => {
-      window.location.href="https://hayek.link/dotcvideo/";
+      window.location.href="https://dotc.trade/dotcvideo/";
       if (!versionSwitchAvailable) e.preventDefault()
     },
     [versionSwitchAvailable]

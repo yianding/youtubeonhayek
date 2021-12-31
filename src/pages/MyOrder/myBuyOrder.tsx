@@ -37,7 +37,7 @@ export default function MyBuyOrder() {
             <AutoColumn gap="lg" justify="center">
                 <AutoColumn gap="6px" style={{ width: '100%' }}>
                     {orders ? orders.map((k) => {
-                        if (k.state == 3) {
+                        if (k.state ===  3) {
                             OrderNum++
                             return (
                                 <ExecuteCard key={k.id} pair={k} isSeller={false} />
@@ -56,7 +56,7 @@ export default function MyBuyOrder() {
 
                     {orders?<>{orders.map((k) => {
                     
-                        if (k.state == 1) {
+                        if (k.state ===  1) {
                             OrderNum++
                             return (
                                 <BuyOrderCard key={k.id} pair={k} BuyerDisputableBlockNumber={BuyerDisputableBlockNumber}
