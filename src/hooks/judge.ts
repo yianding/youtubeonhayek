@@ -39,7 +39,7 @@ const ALLJUDGE: { [chainId in ChainId]: [JUDGE] } = {
         { address:"0x0a44ac0dCfe71De756876c7E6d93DF4a7440ae42",deposit:"10000",name:"DOTC交易所官方法院", logoURI: "./images/court.png", URL: "https://dotc.trade/cn/court.html#%E5%93%88%E8%80%B6%E5%85%8B%E9%93%BE%E5%AE%98%E6%96%B9%E6%B3%95%E9%99%A2",describe: "US Dollar" },
     ],
     [ChainId.BSC]:[
-        { address:"0x0a44ac0dCfe71De756876c7E6d93DF4a7440ae42",deposit:"10000",name:"币安链DOTC交易所官方法院", logoURI: "./images/court.png", URL: "https://dotc.trade/cn/court.html#%E5%93%88%E8%80%B6%E5%85%8B%E9%93%BE%E5%AE%98%E6%96%B9%E6%B3%95%E9%99%A2",describe: "US Dollar" },
+        { address:"0xd756b651fc57437dc79891Ab7b588DC695EACc00",deposit:"0.1",name:"币安链DOTC交易所官方法院", logoURI: "./images/court.png", URL: "https://dotc.trade/cn/court.html",describe: "DOTC官方法院" },
     ],
     [ChainId.ThaiChain]:[
         { address:"0x0a44ac0dCfe71De756876c7E6d93DF4a7440ae42",deposit:"0.1BNB",name:"DOTC交易所官方法院", logoURI: "./images/court.png", URL: "https://dotc.trade/cn/court.html#%E5%93%88%E8%80%B6%E5%85%8B%E9%93%BE%E5%AE%98%E6%96%B9%E6%B3%95%E9%99%A2",describe: "US Dollar" },
