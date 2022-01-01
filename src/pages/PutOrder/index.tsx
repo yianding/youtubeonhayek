@@ -58,8 +58,8 @@ export default function PutOrder() {
     const [ERC20, setERC20] = useState(ss ? ss.token.address : "");
     const [ERC20Decimal, setERC20Decimal] = useState(ss ? (ss.token.decimals ? ss.token.decimals : 8) : 8)
     const [Currency, setcurrency] = useState("");
-    const [SellerDeposit, setSellerDeposit] = useState("1000");
-    const [BuyerDeposit, setBuyerDeposit] = useState("");
+    const [SellerDeposit, setSellerDeposit] = useState("0.1");
+    const [BuyerDeposit, setBuyerDeposit] = useState("0.1");
     const [descInfo, setdescInfo] = useState<string[]>([]);
     const [JudgeAddress, setJudgeAddress] = useState("");
 
