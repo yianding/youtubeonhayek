@@ -109,6 +109,6 @@
   "dependencies": {
     "gh-pages": "^3.2.3",
     "node-gyp": "^8.4.1",
-    "uniswap-hayek-sdk": "^1.1.9"
+    "uniswap-hayek-sdk": "^1.1.10"
   }
 }

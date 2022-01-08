@@ -13,11 +13,28 @@ export const ALLTOKENTokenList: TokenList =
     {
       "chainId": 56,
       "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
-      "name": "WBNB",
+      "name": "Wrapped BNB",
       "symbol": "WBNB",
       "decimals": 18,
       "logoURI": "https://bscscan.com/token/images/binance_32.png"
     },
+    {
+      "chainId": 66,
+      "address": "0x8f8526dbfd6e38e3d8307702ca8469bae6c56c15",
+      "name": "Wrapped OKT",
+      "symbol": "WOKT",
+      "decimals": 18,
+      "logoURI": "https://static.oklink.com/cdn/explorer/icon/pool/okt.png"
+    },
+    
+    {
+      "chainId": 66,
+      "address": "0x382bb369d343125bfb2117af9c149795c6c65c50",
+      "name": "USDT",
+      "symbol": "USDT",
+      "decimals": 18,
+      "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+    }, 
     
     {
       "chainId": 56,
@@ -71,6 +88,23 @@ export const ALLTOKEN: TokenInfo[] = [
     "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
   },
   {
+    "chainId": 66,
+    "address": "0x8f8526dbfd6e38e3d8307702ca8469bae6c56c15",
+    "name": "Wrapped OKT",
+    "symbol": "WOKT",
+    "decimals": 18,
+    "logoURI": "https://static.oklink.com/cdn/explorer/icon/pool/okt.png"
+  },
+  
+  {
+    "chainId": 66,
+    "address": "0x382bb369d343125bfb2117af9c149795c6c65c50",
+    "name": "USDT",
+    "symbol": "USDT",
+    "decimals": 18,
+    "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+  }, 
+  {
     "chainId": 56,
     "address": "0x55d398326f99059fF775485246999027B3197955",
     "name": "USDT",
@@ -114,7 +148,7 @@ export function MyTokenlist(address:String):TokenInfo|undefined {
     //         }
     ALLTOKEN.map((token)=>{
   
-      if(token.address.toString()===address){
+      if(token.address.toString().toLowerCase()===address.toLowerCase()){
         re= token
       }
      }

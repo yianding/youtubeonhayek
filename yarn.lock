@@ -14939,10 +14939,10 @@ unique-slug@^2.0.0:
   dependencies:
     imurmurhash "^0.1.4"
 
-uniswap-hayek-sdk@^1.1.9:
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/uniswap-hayek-sdk/-/uniswap-hayek-sdk-1.1.9.tgz#d8b3e4f2e3c78a63313aea68cb5bd0a8c48774c7"
-  integrity sha512-wK8S1kwtBXoPem7ZjN72t6kCu+AaSjNEOKdnJLrc07tiLi6WfQ062kNHZEoLJAU2fEGMCN79Y+MrnD0GLlbC+g==
+uniswap-hayek-sdk@^1.1.10:
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/uniswap-hayek-sdk/-/uniswap-hayek-sdk-1.1.10.tgz#c21055c789703574d4da7cdac7adc361aa8b1f77"
+  integrity sha512-KM+DLn30Cgey/p+y96q2+qA69BSODGzNPtZSt29axmkvHi6ZHPhUwTOACpS2L1n3UUW5u/JlIVTjYMT/bhKbJg==
   dependencies:
     "@uniswap/v2-core" "^1.0.0"
     big.js "^5.2.2"

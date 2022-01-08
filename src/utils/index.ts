@@ -34,7 +34,7 @@ export const  ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   15:'bscscan.com',
   59:'bscscan.com',
   61:'bscscan.com',
-  66:'bscscan.com',
+  66:'www.oklink.com/okexchain',
   77:'bscscan.com',
   99:'bscscan.com',
   100:'bscscan.com',

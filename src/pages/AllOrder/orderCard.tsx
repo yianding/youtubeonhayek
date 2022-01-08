@@ -65,13 +65,13 @@ function Crypto(props: {infotype:string, info: React.Key | undefined, handleHash
           <RowFixed>
             <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
               {props.infotype==="CryptoContract"?t("Please input Crypto Contract Item")
-              :props.infotype==="Please input Bank Card Cash Deposit infomation"?
+              :props.infotype==="Bank Card Cash Deposit"?
               t("Please input Bank Card Cash Deposit infomation"):
               t("Please input the WeChat account of seller")+":"
               }
             </TYPE.black>
             <QuestionHelper text={props.infotype==="CryptoContract"?t("This order include a crypto contract item. please contact this seller to get this crypto contract item.")
-             :props.infotype==="Please input Bank Card Cash Deposit infomation"?
+             :props.infotype==="Bank Card Cash Deposit"?
              t("The mode of payment of this order is Bank Card Cash Deposit. please contact this seller to get this Bank Card Cash Deposit infomation."):
              t("This order include a Secret WeChat. please contact this seller to get this WeChat account.")} />
           </RowFixed>

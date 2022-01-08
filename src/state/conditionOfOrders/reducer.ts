@@ -142,7 +142,7 @@ export const DEFAULT_TOKEN_LIST:{[chainId in ChainId]:TokenInfo} = {
   },
   [ChainId.OKExChain]: {
     chainId:ChainId.OKExChain ,
-    address: "0x55d398326f99059fF775485246999027B3197955",
+    address: "0x382bb369d343125bfb2117af9c149795c6c65c50",
     name: "USDT",
     decimals: 18,
     symbol: "USDT",
@@ -455,8 +455,8 @@ export const initialState: conditionOfOrdersState = {
        myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
       },
     [ChainId.OKExChain]:  {
-      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.MAINNET).decimals),
-      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.MAINNET).decimals),
+      quantity_min: ethers.utils.parseUnits("0", getDefaultWrapToken(ChainId.OKExChain).decimals),
+      quanity_max: ethers.utils.parseUnits("99999999999999999999999999999999999999999999", getDefaultWrapToken(ChainId.OKExChain).decimals),
       price_min: ethers.utils.parseUnits("0", 6),
       price_max: ethers.utils.parseUnits("99999999999999999999999999999999", 6),
       currency: {
@@ -464,7 +464,7 @@ export const initialState: conditionOfOrdersState = {
         logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg",
         describe: "Chinese currency,人民币",
         sign: "￥"
-      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.MAINNET),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
+      }, linenumber: 100, erc20: getDefaultWrapToken(ChainId.OKExChain),  sellerDeposit:ethers.utils.parseUnits("0", 18),buyerDeposit:ethers.utils.parseUnits("99999999999999999999", 18),
        myBuyOrderLineNumber: 50, mySellOrderLineNumber: 50
       },
     [ChainId.POA_Network]:  {

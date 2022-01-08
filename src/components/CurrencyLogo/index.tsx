@@ -11,7 +11,7 @@ const getTokenLogoURL = (address: string) =>{
  if(address=="0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C"){
    return "./images/WHYK.png"
  }
- if(address=="0x55d398326f99059fF775485246999027B3197955" || address=="0xa5E265Bf313b24476dA9681D61bDbdC03c66F271"){
+ if(address=="0x55d398326f99059fF775485246999027B3197955" || address=="0xa5E265Bf313b24476dA9681D61bDbdC03c66F271" || address.toLowerCase()==="0x382bb369d343125bfb2117af9c149795c6c65c50"){
   return "./images/USDT.png"
 }else{
   return  "./images/" + address + ".png"
