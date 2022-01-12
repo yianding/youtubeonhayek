@@ -70,7 +70,7 @@ export function VersionSwitch() {
   const toggle = (
     <VersionToggle enabled={versionSwitchAvailable} to={toggleDest} onClick={handleClick}>
     
-    <VersionLabel enabled={version === Version.v2 || !versionSwitchAvailable}>{t('Uniswap on HAYEK')}</VersionLabel>
+    {/* <VersionLabel enabled={version === Version.v2 || !versionSwitchAvailable}>{t('Uniswap on HAYEK')}</VersionLabel> */}
    <VersionLabel enabled={version === Version.v1 && versionSwitchAvailable}></VersionLabel>
   
     </VersionToggle>
@@ -111,7 +111,7 @@ export function Video() {
   const toggle = (
     <VersionToggle enabled={versionSwitchAvailable} to={toggleDest} onClick={handleClick}>
     
-    <VersionLabel enabled={version === Version.v2 || !versionSwitchAvailable}>{t('Instruct')}</VersionLabel>
+    {/* //<VersionLabel enabled={version === Version.v2 || !versionSwitchAvailable}>{t('Instruct')}</VersionLabel> */}
    <VersionLabel enabled={version === Version.v1 && versionSwitchAvailable}></VersionLabel>
   
     </VersionToggle>

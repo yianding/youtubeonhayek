@@ -98,7 +98,7 @@ export default function Menu() {
             <Info size={14} />
             About
           </MenuItem>
-          <MenuItem id="link" href="https://uniswap.org/docs/v2">
+          <MenuItem id="link" href="/">
             <BookOpen size={14} />
             Docs
           </MenuItem>
@@ -106,11 +106,11 @@ export default function Menu() {
             <Code size={14} />
             Code
           </MenuItem>
-          <MenuItem id="link" href="https://t.me/hayeklink">
+          <MenuItem id="link" href="https://t.me/hayekchain">
             <MessageCircle size={14} />
             Telegram
           </MenuItem>
-          <MenuItem id="link" href="/help">
+          <MenuItem id="link" href="/cn/use.html">
             <PieChart size={14} />
             Help
           </MenuItem>
