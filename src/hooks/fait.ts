@@ -31,7 +31,7 @@ const ALLFIAT: FIAT[] = [
     {
         symbol: "USDT(OEC)",
         logoURI: "./images/USDT.png",
-        describe: "USDT on OKEx",
+        describe: "USDT on OKEx Chain",
         sign: "USDT"
     },
     {
@@ -47,7 +47,6 @@ const ALLFIAT: FIAT[] = [
         describe: "USDT on HECO",
         sign: "USDT"
     },
-    { logoURI: "https://dotc.trade/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png", symbol: "HYK", sign: "HYK", describe: "Hayek" },
    
     { logoURI: "https://www.xe.com/static-images/eur.static.7c6f881c3b6506b03bcbda3644485094.svg", symbol: "EUR", sign: "EUR", describe: "Euro" },
     { logoURI: "https://www.xe.com/static-images/gbp.static.da0ca3d1b6d9e74642276a0ea3cde603.svg", symbol: "GBP", sign: "GBP", describe: "British Pound" },
