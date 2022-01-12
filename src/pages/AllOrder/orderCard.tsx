@@ -115,7 +115,8 @@ export default function FullPositionCard(props: any, border: any) {
             </TYPE.black>
             {infodescribe ? <QuestionHelper text={t(infodescribe)} /> : null}
           </RowFixed>
-          {infotype === "Telegram" ? (
+          {/* {infotype === "Telegram" ? ( */}
+            {true ? (
             <TYPE.black fontSize={14} color={theme.text1}>
               {info && (
                 <a href={"https://t.me/" + info} style={{ color: theme.text1 }} target="_blank">{info}</a>

@@ -325,6 +325,7 @@
 "Please input Alipay account,not phone number or e-mail.":"请务必输入支付宝账号，而非电话号码或者邮件地址，否则您可能会面临不公平的败诉风险而损失金钱.",
 "Please input WeChat account,not phone number.":"请务必输入微信账号，而非手机号，否则您可能会面临不公平的败诉风险而损失金钱。",
 "Show after locked":"锁定订单后显示",
+"Wallet Address":"收款虚拟币地址",
 "Unverified Court":"未经验证的法院",
 "Select Currency":"选择货币",
 "Payment Currency":"付款货币",
@@ -450,6 +451,9 @@
 "Please wait buyer transfer to you":"请等待买家付款",
 "You can dispute this order after ":"您可以于",
 " blocks":"个区块之后发起争议(起诉)",
+"Others":"其他",
+"Wait hours Confirm":"等待几小时放款",
+"Require Buyer KYC":"需要买家做KYC",
 ", only if you still have not receive the transfer of buyer.":"(若届时您仍未收到买家付款)",
 ", only if you paid the buyer but he or she don't confirm the order to transfer the selling token to you.":"(若届时您已向卖家付款，但卖家不确认放币给您)"
 

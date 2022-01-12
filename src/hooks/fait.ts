@@ -14,6 +14,8 @@ export declare class FIAT {
 const ALLFIAT: FIAT[] = [
     { logoURI: "https://www.xe.com/static-images/cny.static.b5710fca4cc33e583970ae4944a552f1.svg", symbol: "CNY", sign: "CNY", describe: "Chinese Yuan Renminbi" },
     { logoURI: "https://www.xe.com/static-images/usd.static.e8b657d1161a08a32415d284a8e1dc89.svg", symbol: "USD", sign: "USD", describe: "US Dollar" },
+    { logoURI: "https://dotc.trade/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png", symbol: "HYK", sign: "HYK", describe: "Hayek" },
+  
     {
         symbol: "USDT(ETH)",
         logoURI: "./images/USDT.png",
@@ -21,11 +23,32 @@ const ALLFIAT: FIAT[] = [
         sign: "USDT"
     },
     {
+        symbol: "USDT(HAYKE)",
+        logoURI: "./images/USDT.png",
+        describe: "USDT on HAYEK",
+        sign: "USDT"
+    },
+    {
+        symbol: "USDT(OEC)",
+        logoURI: "./images/USDT.png",
+        describe: "USDT on OKEx",
+        sign: "USDT"
+    },
+    {
+        symbol: "USDT(BSC)",
+        logoURI: "./images/USDT.png",
+        describe: "USDT on Binance smart chain",
+        sign: "USDT"
+    },
+
+    {
         symbol: "USDT(HECO)",
         logoURI: "./images/USDT.png",
         describe: "USDT on HECO",
         sign: "USDT"
     },
+    { logoURI: "https://dotc.trade/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png", symbol: "HYK", sign: "HYK", describe: "Hayek" },
+   
     { logoURI: "https://www.xe.com/static-images/eur.static.7c6f881c3b6506b03bcbda3644485094.svg", symbol: "EUR", sign: "EUR", describe: "Euro" },
     { logoURI: "https://www.xe.com/static-images/gbp.static.da0ca3d1b6d9e74642276a0ea3cde603.svg", symbol: "GBP", sign: "GBP", describe: "British Pound" },
     { logoURI: "https://www.xe.com/static-images/cad.static.0bfb6a6d0adf4f3b1c28c0c90248b18b.svg", symbol: "CAD", sign: "CAD", describe: "Canadian Dollar" },

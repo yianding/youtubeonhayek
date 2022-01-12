@@ -26,6 +26,10 @@ export declare class INFOTYPE {
    logoURI:"https://qzonestyle.gtimg.cn/qzone/qzact/act/external/tiqq/logo.png",
    Describe:"QQ account"
 },
+{  InfoText:"Wallet Address",
+   logoURI:"images/wallet.png",
+   Describe:"Wallet Address"
+},
 {  InfoText:"Bank Card Cash Deposit",
    logoURI:"./images/seccontract.jpg",
    Describe:"Bank Card Cash Deposit"
@@ -82,7 +86,23 @@ Describe:""
 logoURI:"https://media.istockphoto.com/vectors/phone-icon-call-application-symbol-green-round-button-flat-interface-vector-id1250911025?k=20&m=1250911025&s=170667a&w=0&h=1aZJUHR8KVcvWKyVaufUdR8yN_r5VqTCfyGNx8pdOAY=",
 Describe:""
 }
+,
+{  InfoText:"Require Buyer KYC",
+logoURI:"images/KYC.png",
+Describe:""
+}
+,
+{  InfoText:"Wait hours Confirm",
+logoURI:"images/hours.png",
+Describe:""
+},
 
+
+
+{  InfoText:"Others",
+logoURI:"images/others.png",
+Describe:""
+}
 
 
 
