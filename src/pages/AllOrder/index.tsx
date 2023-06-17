@@ -8,7 +8,7 @@ import AppBody from '../AppBody'
 import { RowBetween } from '../../components/Row'
 
 import SCard from '../../components/Card'
-import { ethers } from 'ethers'
+import {BigNumber } from 'ethers'
 import InfiniteScroll from "react-infinite-scroll-component";
 
 // import { Button } from 'rebass'
@@ -104,24 +104,31 @@ export const BackDiv = styled.div`
 
 export default function AllOrders() {
   let video:HTMLVideoElement|null
-  const [amount] = useState(ethers.BigNumber.from(5))
+  const [amount] = useState(BigNumber.from(6))
   let start1 = useGetVideoCountCallBack()
-  const [start, setStart] = useState(start1)
+  console.log("-------start1:"+start1)
+  const [start,setStart] = useState(start1)
   //setStart(start1)
-  console.log("-------" + start1)
-  //const [start, setStart] = useState(ethers.BigNumber.from(12))
+  console.log("-------start:" + start+" start1 "+start1+" amount "+amount)
+  //const [start, setStart] = useState(BigNumber.from(12))
   const vidoelist = useGetVideoListDataCallBack(start, amount)
   const [currentIPFS, setCurrentIPFS] = useState<string>("")
-  const [hasmore, setHasemore] = useState(true);
+  const [hasmore,setHasemore] = useState(true);
 
   const fetchMoreData = () => {
-    if (start.toNumber() < 5) {
-      // setState({ hasMore: false });
-      setHasemore(true);
-      return;
-    }
-    console.log("------------------")
-    setStart(start.sub(ethers.BigNumber.from(2)))
+    console.log("--------fetchMoreData----------"+start.toHexString())
+    if(vidoelist){
+     if (BigNumber.from(vidoelist[0].id).lt(BigNumber.from("10"))) {
+       // setState({ hasMore: false });
+       setHasemore(false);
+       console.log("--setHasemore----------------")
+       return;
+     }
+    
+    let a=BigNumber.from(vidoelist[0].id).sub(BigNumber.from("4"))
+    console.log("sub:"+a)
+    setStart(a)
+  }
   };
 
   const Videolick = (ss: string): (MouseEventHandler<HTMLDivElement> | undefined) => {

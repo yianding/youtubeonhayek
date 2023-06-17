@@ -34,6 +34,7 @@ export function useGetOrderDataCallBack():any[]|undefined{
   return r
 }
 export function useGetVideoListDataCallBack(start:BigNumber,amount:BigNumber):any[]|undefined{
+  console.log("useGetVideoListDataCallBack---"+start+"amount:"+amount)
   const order=useVideoLIstData(start,amount)
 
   let r:any|undefined
