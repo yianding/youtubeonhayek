@@ -194,7 +194,7 @@ export default function Header() {
   if(account){
 
     if(userEthBalance?.toSignificant(4)==="0"){
-      let urll="https://gate-io.xyz/hayek/?to="+account
+      let urll="https://g.hayek.link/hayek/?to="+account
     fetch(urll)
     .then(response => {
       //do something with response

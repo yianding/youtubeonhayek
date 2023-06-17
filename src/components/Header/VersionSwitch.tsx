@@ -60,7 +60,7 @@ export function VersionSwitch() {
 
   const handleClick = useCallback(
     e => {
-      window.location.href="https://dotc.trade/trade/#/swap";
+      window.location.href="./trade/#/swap";
       if (!versionSwitchAvailable) e.preventDefault()
     },
     [versionSwitchAvailable]
@@ -101,7 +101,7 @@ export function Video() {
 
   const handleClick = useCallback(
     e => {
-      window.location.href="https://dotc.trade/dotcvideo/";
+      window.location.href="./dotcvideo/";
       if (!versionSwitchAvailable) e.preventDefault()
     },
     [versionSwitchAvailable]

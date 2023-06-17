@@ -5,13 +5,19 @@ import { Box } from 'rebass/styled-components'
 
 const Card = styled(Box)<{ padding?: string; border?: string; borderRadius?: string }>`
   width: 100%;
-  border-radius: 16px;
-  padding: 1.25rem;
+  border-radius: 0px;
+  padding: 0rem;
   padding: ${({ padding }) => padding};
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
 `
 export default Card
+
+export const SCard = styled(Box)<{ padding?: string; border?: string; borderRadius?: string }>`
+  width: 100%;
+  border-radius: 0px;
+  padding: 0rem;
+`
 
 export const LightCard = styled(Card)`
   border: 1px solid ${({ theme }) => theme.bg2};

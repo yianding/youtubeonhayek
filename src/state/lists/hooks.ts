@@ -102,11 +102,11 @@ export function useTokenList(url: string | undefined): TokenAddressMap {
   return useMemo(() => {
     if (!url) return EMPTY_LIST
     let current: TokenList | null
-    if (url ===  "https://dotc.trade/coinlist.json" || url ===  "https://dotc.trade/hayekcoinlist.json") {
+    // if (url ===  "coinlist.json" || url ===  "hayekcoinlist.json") {
       current = ALLTOKENTokenList
-    } else {
-      current = lists[url]?.current
-    }
+    // } else {
+    //   current = lists[url]?.current
+    // }
     if (!current) return EMPTY_LIST
     try {
       return listToTokenMap(current)

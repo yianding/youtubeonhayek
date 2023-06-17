@@ -107,9 +107,13 @@ export default function FullPositionCard(props: any, border: any) {
     return (
 
       <FixedHeightRow key={i}>
+    
         <RowBetween>
+          
           <RowFixed>
+         
             <InfoTypeLOGO currency={tempINFOTYPE} size={'12px'} />
+            
             <TYPE.black fontSize={14} fontWeight={400} color={theme.text2}>
               {t(infotype) + " "}:
             </TYPE.black>
@@ -129,6 +133,7 @@ export default function FullPositionCard(props: any, border: any) {
               {info && (
                 <span style={{ marginLeft: '3px' }}> {t('Show after locked')}</span>
               )} </TYPE.black>)}
+              
         </RowBetween>
       </FixedHeightRow>
     )
@@ -386,13 +391,16 @@ export default function FullPositionCard(props: any, border: any) {
                     </TYPE.black>
 
                   </RowFixed>
+                
+                  <a href={"element://user/@"+props.pair.seller.toString()+":hayek.link"}> <img src="images/chat.ico" width={20} height={20} /> </a> 
                   <TYPE.black fontSize={14} color={theme.text1}>
                     {props.pair.seller.toString() && (
                       <Copy toCopy={props.pair.seller.toString()}>
                         <span style={{ marginLeft: '4px' }}> {props.pair.seller.toString().substring(0, 6) + "..." + props.pair.seller.toString().substring(38)}</span>
                       </Copy>
-                    )} </TYPE.black>
-
+                    )} 
+                    </TYPE.black>
+                
                 </RowBetween>
               </FixedHeightRow>
 

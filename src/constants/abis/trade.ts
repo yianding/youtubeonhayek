@@ -5,6 +5,7 @@ import TRADE_ABI from './trade.json'
 const TRADE_INTERFACE = new Interface(TRADE_ABI)
 
 //const TRADE_ADDRESS = '0x4840800Be4Ba0227D300C08bdd6A9e774e35dB7e' //正在使用中的
+
 const TRADE_ADDRESS :{[chainId in ChainId]:string}= 
 {
 

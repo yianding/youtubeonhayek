@@ -1,0 +1,67 @@
+{
+    "name": "DOTC",
+    "logoURI": "128.png",
+    "keywords": [
+      "DOTC",
+      "defi"
+    ],
+    "timestamp": "2021-11-21T20:37:00.000+00:00",
+    "tokens": [
+      {
+        "chainId": 56,
+        "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+        "name": "WBNB",
+        "symbol": "WBNB",
+        "decimals": 18,
+        "logoURI": "https://bscscan.com/token/images/binance_32.png"
+      },
+      
+      {
+        "chainId": 56,
+        "address": "0x55d398326f99059fF775485246999027B3197955",
+        "name": "USDT",
+        "symbol": "USDT",
+        "decimals": 18,
+        "logoURI": "images/USDT.png"
+      }, 
+      {
+        "chainId": 66,
+        "address": "0x8f8526dbfd6e38e3d8307702ca8469bae6c56c15",
+        "name": "Wrapped OKT",
+        "symbol": "WOKT",
+        "decimals": 18,
+        "logoURI": "https://static.oklink.com/cdn/explorer/icon/pool/okt.png"
+      },
+      
+      {
+        "chainId": 66,
+        "address": "0x382bb369d343125bfb2117af9c149795c6c65c50",
+        "name": "USDT",
+        "symbol": "USDT",
+        "decimals": 18,
+        "logoURI": "images/USDT.png"
+      }, 
+      {
+        "chainId": 1000,
+        "address": "0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C",
+        "name": "WHYK",
+        "symbol": "WHYK",
+        "decimals": 18,
+        "logoURI": "images/WHYK.png"
+      },
+      {
+        "chainId": 1000,
+        "address": "0xa5E265Bf313b24476dA9681D61bDbdC03c66F271",
+        "name": "USDT",
+        "symbol": "USDT",
+        "decimals": 8,
+        "logoURI": "images/USDT.png"
+      }
+   
+    ],
+    "version": {
+      "major": 6,
+      "minor": 3,
+      "patch": 1
+    }
+  }

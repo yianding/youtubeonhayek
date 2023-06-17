@@ -43,7 +43,7 @@ const initialState: ListsState = {
       pendingUpdate: null
     }
   },
-  selectedListUrl: 'https://dotc.trade/coinlist.json'
+  selectedListUrl: './coinlist.json'
 }
 
 export default createReducer(initialState, builder =>

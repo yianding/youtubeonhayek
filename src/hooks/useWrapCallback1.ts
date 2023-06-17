@@ -192,7 +192,7 @@ export function useWrapPutCallback(
               }
             }
             : undefined,
-        inputError: sufficientBalance ? undefined : 'Insufficient ETH balance'
+        inputError: sufficientBalance ? undefined : 'Insufficient HYK balance'
       }
     } else {
       return NOT_APPLICABLE

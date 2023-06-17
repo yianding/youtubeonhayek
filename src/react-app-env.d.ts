@@ -12,6 +12,10 @@ interface Window {
     on?: (...args: any[]) => void
     removeListener?: (...args: any[]) => void
   }
+  hayek?:{
+    getVersion():Long
+    getIPFSPublicPins():string
+  }
   web3?: {}
 }
 

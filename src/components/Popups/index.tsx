@@ -48,7 +48,9 @@ export default function Popups() {
 
   return (
     <>
+    
       <FixedPopupColumn gap="20px">
+        
         {activePopups.map((item) => {
           if ('listUpdate' in item.content){
             return null

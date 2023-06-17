@@ -184,7 +184,7 @@ function Web3StatusInner() {
 const tokenAddress = '0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C';
 const tokenSymbol = 'WHYK';
 const tokenDecimals = 18;
-const tokenImage = 'https://dotc.trade/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png';
+const tokenImage = 'images/WHYK.png';
 try {
   // wasAdded is a boolean. Like any RPC method, an error may be thrown.
   let a:any=window.ethereum;
@@ -209,7 +209,7 @@ try {
         address: "0x55d398326f99059fF775485246999027B3197955", // The address that the token is at.
         symbol: "USDT", // A ticker symbol or shorthand, up to 5 chars.
         decimals: "18", // The number of decimals in the token
-        image: "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png", // A string url of the token logo
+        image: "images/USDT.png", // A string url of the token logo
       },
     },
   });

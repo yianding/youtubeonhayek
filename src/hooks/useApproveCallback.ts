@@ -14,7 +14,8 @@ import { useActiveWeb3React } from './index'
 import { Version } from './useToggledVersion'
 import { useBuyerDisputeBlockNumberData, useDisputeFeeData, useDisputeResultData, useMyBuyTradeOrderData, useMySaleTradeOrderData, useOrderByIdData, useSellerDisputeBlockNumberData, useTradeOrderData } from '../data/tradeOrderData'
 import { TRADE_ADDRESS } from '../constants/abis/trade'
-
+import {useGetVideoCount, useVideoLIstData} from '../data/videoList'
+import { BigNumber, ethers } from 'ethers'
 export enum ApprovalState {
   UNKNOWN,
   NOT_APPROVED,
@@ -32,6 +33,28 @@ export function useGetOrderDataCallBack():any[]|undefined{
   }
   return r
 }
+export function useGetVideoListDataCallBack(start:BigNumber,amount:BigNumber):any[]|undefined{
+  const order=useVideoLIstData(start,amount)
+
+  let r:any|undefined
+  if(order){
+    if(order[0].result)
+       r=order[0].result[0]
+  }
+  return r
+}
+export function useGetVideoCountCallBack():ethers.BigNumber{
+  const order=useGetVideoCount()
+
+  let r:ethers.BigNumber
+  r=ethers.BigNumber.from(0)
+  if(order){
+    if(order.result)
+       r=ethers.BigNumber.from(order.result)
+  }
+  return r
+}
+
 export function useGetOrderByIdCallBack(id:string):any[]|undefined{
   
   const order=useOrderByIdData(id)

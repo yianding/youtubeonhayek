@@ -3,7 +3,7 @@ import { TokenInfo, TokenList } from '@uniswap/token-lists'
 export const ALLTOKENTokenList: TokenList = 
 {
   "name": "HAYEK",
-  "logoURI": "https://dotc.trade/128.png",
+  "logoURI": "./128.png",
   "keywords": [
     "HAYEK",
     "defi"
@@ -33,7 +33,7 @@ export const ALLTOKENTokenList: TokenList =
       "name": "USDT",
       "symbol": "USDT",
       "decimals": 18,
-      "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+      "logoURI": "images/USDT.png"
     }, 
     
     {
@@ -42,7 +42,7 @@ export const ALLTOKENTokenList: TokenList =
       "name": "USDT",
       "symbol": "USDT",
       "decimals": 18,
-      "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+      "logoURI": "images/USDT.png"
     }, 
     {
       "chainId": 1000,
@@ -50,7 +50,7 @@ export const ALLTOKENTokenList: TokenList =
       "name": "WHYK",
       "symbol": "WHYK",
       "decimals": 18,
-      "logoURI": "https://dotc.trade/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png"
+      "logoURI": "images/WHYK.png"
     },
     {
       "chainId": 1000,
@@ -58,7 +58,7 @@ export const ALLTOKENTokenList: TokenList =
       "name": "USDT",
       "symbol": "USDT",
       "decimals": 8,
-      "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+      "logoURI": "images/USDT.png"
     }
  
   ],
@@ -77,7 +77,7 @@ export const ALLTOKEN: TokenInfo[] = [
     "name": "WHYK",
     "symbol": "WHYK",
     "decimals": 18,
-    "logoURI": "https://dotc.trade/0xf3DD11F7d8fA791c2Da46a5D26634592E417Af6C.png"
+    "logoURI": "images/WHYK.png"
   },
   {
     "chainId": 1000,
@@ -85,7 +85,7 @@ export const ALLTOKEN: TokenInfo[] = [
     "name": "USDT",
     "symbol": "USDT",
     "decimals": 8,
-    "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+    "logoURI": "images/USDT.png"
   },
   {
     "chainId": 66,
@@ -102,7 +102,7 @@ export const ALLTOKEN: TokenInfo[] = [
     "name": "USDT",
     "symbol": "USDT",
     "decimals": 18,
-    "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+    "logoURI": "images/USDT.png"
   }, 
   {
     "chainId": 56,
@@ -110,7 +110,7 @@ export const ALLTOKEN: TokenInfo[] = [
     "name": "USDT",
     "symbol": "USDT",
     "decimals": 18,
-    "logoURI": "https://dotc.trade/0xb7C8d76587DbE244d25a76555aEBcB2dd77ae4F0.png"
+    "logoURI": "images/USDT.png"
   },
   {
     "chainId": 56,

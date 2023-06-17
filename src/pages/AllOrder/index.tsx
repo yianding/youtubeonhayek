@@ -1,29 +1,25 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { MouseEventHandler, useState } from 'react'
 import styled from 'styled-components'
-import { ChainId, Token } from 'uniswap-hayek-sdk'
-import { SwapPoolTabs } from '../../components/NavigationTabs'
+// import { SwapPoolTabs } from '../../components/NavigationTabs'
 import { AutoColumn } from '../../components/Column'
-import { ButtonSecondary } from '../../components/Button'
-import { useGetOrderByIdCallBack, useGetOrderDataCallBack } from '../../hooks/useApproveCallback'
-import { useConditionOfOrders } from '../../state/conditionOfOrders/hooks'
+import { useGetVideoCountCallBack, useGetVideoListDataCallBack } from '../../hooks/useApproveCallback'
+
 import AppBody from '../AppBody'
-import { RowBetween, RowFixed } from '../../components/Row'
-import { ChevronDown, ChevronUp } from 'react-feather'
-import { Text } from 'rebass'
-import Card from '../../components/Card'
-import { darken } from 'polished'
-import { FIAT } from '../../hooks/fait'
-import FilterTokenCurrency from '../../components/FilterTokenCurrency'
-import SetConditionPanel from '../../components/SetConditionPanel'
+import { RowBetween } from '../../components/Row'
+
+import SCard from '../../components/Card'
 import { ethers } from 'ethers'
-import { LinkStyledButton } from '../../components/DescribeInputPanel'
-import Loader from '../../components/Loader'
-import { useTranslation } from 'react-i18next'
-import FullPositionCard from './orderCard'
-import { useActiveWeb3React } from '../../hooks'
-import { NETH } from '../../constants'
+import InfiniteScroll from "react-infinite-scroll-component";
 
+// import { Button } from 'rebass'
+// import { SwapPoolTabs } from '../../components/NavigationTabs'
 
+const BottonDiv = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 120;  
+`
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
 `
@@ -44,327 +40,172 @@ export const Input = styled.input`
 
   font-size: 18px;
 `
-export const MyHoverCard = styled(Card)`
+export const MyHoverCard = styled(SCard)`
   background:pink;
-  border: 1px solid ${({ theme }) => theme.bg2};
-  :hover,focus {
-    border: 1px solid ${({ theme }) => darken(0.06, theme.bg2)};
-  }
-
+  padding:0;
+  borderRadius:0px;
+  border: none;
+  width:100%;
 `
+export const BackDiv = styled.div`
+  background:red;
+  padding:0;
+  borderRadius:0px;
+  border: none;
+  width: 100%;;
+`
+// const VideoPlay = React.memo((props: { ipfs: string }) => {
+//   let video:HTMLVideoElement|null;
+//   console.log("000000----"+props.ipfs)
+//   function mplay(){
+//     video?.play()
+//   }
+//   // const handleVideoMounted = (element:  {currentTime:number}| null) => {
+//   //   if (element !== null) {
+//   //     element.currentTime=0.1
+//   //   }
+//   // };
+//   return ( 
+//     <BackDiv>
+
+//     <video controls autoPlay height={120} ref={(ref) => { video = ref; }}  >
+//     {/* <video controls autoPlay height={120} playsInline ref={handleVideoMounted} > */}
+//       <source src={'http://127.0.0.1:8080' + props.ipfs} type="video/mp4" />
+//     </video>
+//     <Button onClick={()=>mplay()}> Play </Button>
+
+//     </BackDiv>
+//   )
+// })
+// const VideoPlay =(props: { ipfs: string }) => {
+//   let video:HTMLVideoElement|null;
+//   console.log("000000----"+props.ipfs)
+//   function mplay(){
+//     video?.play()
+//   }
+//   // const handleVideoMounted = (element:  {currentTime:number}| null) => {
+//   //   if (element !== null) {
+//   //     element.currentTime=0.1
+//   //   }
+//   // };
+//   return ( 
+//     <BackDiv>
+
+//     <video controls autoPlay height={120} ref={(ref) => { video = ref; }}  >
+//     {/* <video controls autoPlay height={120} playsInline ref={handleVideoMounted} > */}
+//       <source src={'http://127.0.0.1:8080' + props.ipfs} type="video/mp4" />
+//     </video>
+//     <Button onClick={()=>mplay()}> Play </Button>
+
+//     </BackDiv>
+//   )
+// }
 
 
 export default function AllOrders() {
-  const { chainId } = useActiveWeb3React()
+  let video:HTMLVideoElement|null
+  const [amount] = useState(ethers.BigNumber.from(5))
+  let start1 = useGetVideoCountCallBack()
+  const [start, setStart] = useState(start1)
+  //setStart(start1)
+  console.log("-------" + start1)
+  //const [start, setStart] = useState(ethers.BigNumber.from(12))
+  const vidoelist = useGetVideoListDataCallBack(start, amount)
+  const [currentIPFS, setCurrentIPFS] = useState<string>("")
+  const [hasmore, setHasemore] = useState(true);
 
-  
-  const [conditionOfOrders, setconditionOfOrders] = useConditionOfOrders()
- 
-  // useEffect(() => {
-  //   setconditionOfOrders(a)
-  // },[a])
-  const [showMore, setShowMore] = useState(false)
-
-  const { t } = useTranslation()
-  const [queryById] = useState("");
-  const orders = useGetOrderDataCallBack()
-
-  const orderGetById = useGetOrderByIdCallBack(queryById ? queryById : "0")
-  const ordersMemo = useMemo(() => orders, [orders])
-  let OrderNum: number = 0
-
-  const [pricemin, setpriceMin] = useState("");
-  const [pricemax, setpriceMax] = useState("");
-  const [nummin, setnumMin] = useState("");
-  const [nummax, setnumMax] = useState("");
-  const [currency, setCurrency] = useState<FIAT>(conditionOfOrders[chainId?chainId:ChainId.HAYEK].currency);
-  const [ERC20, setERC20] = useState<Token>(conditionOfOrders[chainId?chainId:ChainId.HAYEK].erc20);
-  const [sellerDeposit, setsellerDeposit] = useState("");
-  const [buyerDeposit, setbuyerDeposit] = useState("");
-  const [lineNumber] = useState(conditionOfOrders[chainId?chainId:ChainId.HAYEK].linenumber);
-
-  const handleInputPriceMin = (value: string) => {
-    if (value === ".") {
-      setpriceMin("0.")
-    } else {
-      if (value.indexOf('.') !== -1) {
-        if (value.length - value.indexOf('.') - 1 <= 6) {
-          setpriceMin(value)
-        }
-      } else {
-        if (value.length <= 60) {
-          setpriceMin(value)
-        }
-      }
+  const fetchMoreData = () => {
+    if (start.toNumber() < 5) {
+      // setState({ hasMore: false });
+      setHasemore(true);
+      return;
     }
+    console.log("------------------")
+    setStart(start.sub(ethers.BigNumber.from(2)))
+  };
 
-  }
-  const handleInputPriceMax = (value: string) => {
-    if (value === ".") {
-      setpriceMax("0.")
-    } else {
-      if (value.indexOf('.') !== -1) {
-        if (value.length - value.indexOf('.') - 1 <= 6) {
-          setpriceMax(value)
-        }
-      } else {
-        if (value.length <= 60) {
-          setpriceMax(value)
-        }
-      }
-    }
-  }
-  const handleInputNumMin = (value: string) => {
-    if (value ===  ".") {
-      setnumMin("0.")
-    } else {
-      if (value.indexOf('.') != -1) {
-        if (value.length - value.indexOf('.') - 1 <= ERC20.decimals) {
-          setnumMin(value)
-        }
-      } else {
-        if (value.length <= 60) {
-          setnumMin(value)
-        }
-      }
-    }
-  }
-  const handleInputNumMax = (value: string) => {
-    if (value === ".") {
-      setnumMax("0.")
-    } else {
-      if (value.indexOf('.') !== -1) {
-        if (value.length - value.indexOf('.') - 1 <= ERC20.decimals) {
-          setnumMax(value)
-        }
-      } else {
-        if (value.length <= 60) {
-          setnumMax(value)
-        }
-      }
-    }
-  }
+  const Videolick = (ss: string): (MouseEventHandler<HTMLDivElement> | undefined) => {
+    console.log("DDDDDDDDDDDDDDDDDD" + ss)
 
-  const handleInputSellerDeposit = (value: string) => {
-    if (value === ".") {
-      setsellerDeposit("0.")
-    } else {
-      if (value.indexOf('.') !== -1) {
-        if (value.length - value.indexOf('.') - 1 <= 18) {
-          setsellerDeposit(value)
-        }
-      } else {
-        if (value.length <= 60) {
-          setsellerDeposit(value)
-        }
-      }
+   // setCurrentIPFS(ss)
+    if(video){
+      video.src="http://127.0.0.1:8080"+ss
+     // video.src="http://127.0.0.1:8080"+ss
     }
+    setCurrentIPFS(ss)
+    return undefined
   }
-  const handleInputBuyerDeposit = (value: string) => {
-    if (value === ".") {
-      setbuyerDeposit("0.")
-    } else {
-      if (value.indexOf('.') !== -1) {
-        if (value.length - value.indexOf('.') - 1 <= 18) {
-          setbuyerDeposit(value)
-        }
-      } else {
-        if (value.length <= 60) {
-          setbuyerDeposit(value)
-        }
-      }
+  const handleVideoMounted = (element: { currentTime: number } | null) => {
+    if (element !== null) {
+      element.currentTime = 0.1
     }
-  }
-  const onTokenSelect = useCallback(
-    inputCurrency => {
-      setERC20(inputCurrency)
-    },
-    []
-  )
-  const onCurrencySelect = useCallback(
-    inputCurrency => {
-      setCurrency(inputCurrency)
-    },
-    []
-  )
-  const handleMore = () => {
-    let a = {
-      quantity_min: conditionOfOrders[chainId?chainId:ChainId.HAYEK].quantity_min,
-      quanity_max: conditionOfOrders[chainId?chainId:ChainId.HAYEK].quanity_max,
-      price_min: conditionOfOrders[chainId?chainId:ChainId.HAYEK].price_min,
-      price_max: conditionOfOrders[chainId?chainId:ChainId.HAYEK].price_max,
-      currency: conditionOfOrders[chainId?chainId:ChainId.HAYEK].currency,
-      erc20: conditionOfOrders[chainId?chainId:ChainId.HAYEK].erc20,
-      sellerDeposit: conditionOfOrders[chainId?chainId:ChainId.HAYEK].sellerDeposit,
-      buyerDeposit: conditionOfOrders[chainId?chainId:ChainId.HAYEK].buyerDeposit,
-      linenumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].linenumber + 100,
-      mySellOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].mySellOrderLineNumber,
-      myBuyOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].myBuyOrderLineNumber
-    }
-    setconditionOfOrders(a);
-  }
-
+  };
   return (
     <>
+
       <AppBody>
 
-        <SwapPoolTabs active={'allOrders'} />
-        <AutoColumn gap="lg" justify="center">
-          <AutoColumn gap="6px" style={{ width: '100%' }}>
+        {/* <SwapPoolTabs active={'allOrders'} /> */}
+        <AutoColumn>
+      
+            {(currentIPFS.length > 10 )?
+            
+              (
+                <BottonDiv>
+                <BackDiv>
 
-            <>
-              <MyHoverCard >
-                <AutoColumn gap="12px">
-                  <FixedHeightRow onClick={() => setShowMore(!showMore)} style={{ cursor: 'pointer' }}>
-                    <RowFixed>
-                      <Text fontWeight={500} fontSize={20}>{t('Filter')}</Text>
-                    </RowFixed>
-                    <RowFixed>
-                      {showMore ? (
-                        <ChevronUp size="20" style={{ marginLeft: '10px' }} />
-                      ) : (
-                        <ChevronDown size="20" style={{ marginLeft: '10px' }} />
-                      )}
-                    </RowFixed>
-                  </FixedHeightRow>
-                </AutoColumn>
-              </MyHoverCard>
-              {showMore && (
-                <div>
-                  <FilterTokenCurrency
-                    label={t("Selling Token")}
-                    currency={ERC20}
-                    fiat={currency}
-                    onTokenSelect={onTokenSelect}
-                    onCurrencySelect={onCurrencySelect}
-                    id="Token-Currency" />
-                  <div style={{ height: "24px" }} />
-                  <SetConditionPanel
-                    value={pricemin}
-                    value2={pricemax}
-                    onUserInput1={handleInputPriceMin}
-                    onUserInput2={handleInputPriceMax}
-                    label1={t('Price')}
-                    label2={t('to')}
-                    label3={t("from")}
-                    id="price"
-                  />
-                  <div style={{ height: "24px" }} />
-                  <SetConditionPanel
-                    value={nummin}
-                    value2={nummax}
-                    onUserInput1={handleInputNumMin}
-                    onUserInput2={handleInputNumMax}
-                    label1={t('Number')}
-                    label2={t('to')}
-                    label3={t('from')}
-                    id="number"
-                  />
-                  <div style={{ height: "24px" }} />
-                  <SetConditionPanel
-                    value={sellerDeposit}
-                    value2={buyerDeposit}
-                    onUserInput1={handleInputSellerDeposit}
-                    onUserInput2={handleInputBuyerDeposit}
-                    label1={''}
-                    label2={t('Maximun Buyer Deposit')+NETH[chainId?chainId:ChainId.HAYEK]}
-                    label3={t('Minimum Seller Deposit')+NETH[chainId?chainId:ChainId.HAYEK]}
-                    id="deposit"
-                  />
-                  <div style={{ height: "24px" }} />
+                  <video controls autoPlay height={120}  ref={(ref) => { video = ref; }}  >
+                    {/* <video controls autoPlay height={120} playsInline ref={handleVideoMounted} > */}
+                    <source src={'http://127.0.0.1:8080' + currentIPFS} type="video/mp4" />
+                  </video>
+                </BackDiv>
+                </BottonDiv>
+              ) :undefined
+            }
+          
+          <AutoColumn >
 
-                  <AutoColumn gap="8px">
 
-                    <ButtonSecondary width="100%"
-                      onClick={() => {
-                        let a =
-                        //  {
-                        //   quantity_min: ethers.utils.parseUnits(nummin ===  "" ? "0" : nummin, ERC20.decimals),
-                        //   quanity_max: ethers.utils.parseUnits(nummax ===  "" ? "99999999999999999999999999999999999999999999" : nummax, ERC20.decimals),
-                        //   price_min: ethers.utils.parseUnits(pricemin ===  "" ? "0" : pricemin, 6),
-                        //   price_max: ethers.utils.parseUnits(pricemax ===  "" ? "99999999999999999999999999999999" : pricemax, 6),
-                        //   currency: currency,
-                        //   linenumber: lineNumber,
-                        //   erc20: ERC20,
-                        //   sellerDeposit: ethers.utils.parseUnits(sellerDeposit ===  "" ? "0" : sellerDeposit, 18),
-                        //   buyerDeposit: ethers.utils.parseUnits(buyerDeposit ===  "" ? "99999999999999999999" : buyerDeposit, 18),
-                        //   mySellOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].mySellOrderLineNumber,
-                        //   myBuyOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].myBuyOrderLineNumber
-                        // }
-                       {
-                        [chainId?chainId:ChainId.HAYEK]:     {
-                          quantity_min: ethers.utils.parseUnits(nummin === "" ? "0" : nummin, ERC20.decimals),
-                          quanity_max: ethers.utils.parseUnits(nummax === "" ? "99999999999999999999999999999999999999999999" : nummax, ERC20.decimals),
-                          price_min: ethers.utils.parseUnits(pricemin === "" ? "0" : pricemin, 6),
-                          price_max: ethers.utils.parseUnits(pricemax === "" ? "99999999999999999999999999999999" : pricemax, 6),
-                          currency: currency,
-                          linenumber: lineNumber,
-                          erc20: ERC20,
-                          sellerDeposit: ethers.utils.parseUnits(sellerDeposit === "" ? "0" : sellerDeposit, 18),
-                          buyerDeposit: ethers.utils.parseUnits(buyerDeposit === "" ? "99999999999999999999" : buyerDeposit, 18),
-                          mySellOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].mySellOrderLineNumber,
-                          myBuyOrderLineNumber: conditionOfOrders[chainId?chainId:ChainId.HAYEK].myBuyOrderLineNumber
-                        }
-                        }
-                        setconditionOfOrders(a);
-                        setShowMore(!showMore);
-                      }}>
-                      {t('Set Condition')}
-                    </ButtonSecondary>
-                  </AutoColumn>
-                </div>)}
+            <MyHoverCard>
 
-              <div style={{ height: "2px" }} />
-              {queryById ? <>
-                {orderGetById ? <FullPositionCard key={-1} pair={orderGetById} id={queryById} /> : <Card >
-                    <AutoColumn gap="12px">
-                      <div style={{ textAlign: "center" }}>
-                        <Loader></Loader>
-                      </div>
-                    </AutoColumn>
-                  </Card >}
-              </> : <>
-                {ordersMemo ? <>{ordersMemo.map((k) => {
+              <InfiniteScroll
 
-                  if (k.seller !== "0x0000000000000000000000000000000000000000") {
-                    OrderNum++
-                    return (
-                      <FullPositionCard key={k.id} pair={k} />
-                    )
-                  } else { return }
+                dataLength={vidoelist ? vidoelist.length : 0}
+                next={fetchMoreData}
+                hasMore={hasmore}
+                loader={<h4>Loading...</h4>}
+                height={(currentIPFS.length < 10 )?window.innerHeight:window.innerHeight-120 }
 
+                endMessage={
+                  <p style={{ textAlign: "center" }}>
+                    <b>Yay! You have seen it all</b>
+                  </p>
                 }
+              >
+                {vidoelist?.map((k, index) => {
 
-                )}
-                  {OrderNum === 0 ? <>
-                    <Card >
-                      <AutoColumn gap="12px">
-                        <div style={{ textAlign: "center" }}>
-                          {t("No qualified order at present")}
-                        </div>
-                      </AutoColumn>
-                    </Card >
-                  </>
-                    : <div style={{ textAlign: "center" }}>
-                      <LinkStyledButton onClick={handleMore} >{t('More')}</LinkStyledButton>
-                    </div>}
+                  return (<div onClick={() => Videolick(k.ipfs)}>
+                    <video width="100%"  ref={handleVideoMounted}>
+                      <source src={'http://127.0.0.1:8080' + k.ipfs} type="video/mp4" />
 
-                </>
-                  :
-                  <Card >
-                    <AutoColumn gap="12px">
-                      <div style={{ textAlign: "center" }}>
-                        <Loader></Loader>
-                      </div>
-                    </AutoColumn>
-                  </Card >}
-              </>}
-            </>
+                    </video>
+                    <p>{k.id + "|" + k.title}</p>
+                  </div>
+                  )
+                })}
+              </InfiniteScroll>
+
+            </MyHoverCard>
 
           </AutoColumn>
         </AutoColumn>
 
       </AppBody>
+
     </>
   )
 }
+
+
+
+
