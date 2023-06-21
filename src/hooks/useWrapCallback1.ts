@@ -1,4 +1,4 @@
-
+//@ts-nocheck
 import { ethers } from 'ethers'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'

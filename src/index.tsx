@@ -16,7 +16,10 @@ import TransactionUpdater from './state/transactions/updater'
 import UserUpdater from './state/user/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import getLibrary from './utils/getLibrary'
-
+import styled from 'styled-components'
+const Top = styled.div`
+top:10;
+`
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
 if ('ethereum' in window) {
@@ -53,6 +56,7 @@ function Updaters() {
 }
 
 ReactDOM.render(
+  <Top>
   <StrictMode>
     <FixedGlobalStyle />
     <Web3ReactProvider getLibrary={getLibrary}>
@@ -66,6 +70,7 @@ ReactDOM.render(
         </Provider>
       </Web3ProviderNetwork>
     </Web3ReactProvider>
-  </StrictMode>,
+  </StrictMode>
+  </Top>,
   document.getElementById('root')
 )

@@ -2,24 +2,26 @@ import React, { MouseEventHandler, useState } from 'react'
 import styled from 'styled-components'
 // import { SwapPoolTabs } from '../../components/NavigationTabs'
 import { AutoColumn } from '../../components/Column'
-import { useGetVideoCountCallBack, useGetVideoListDataCallBack } from '../../hooks/useApproveCallback'
-
+import { useGetVideoListDataCallBack } from '../../hooks/useApproveCallback'
+// import VideoPlayDrawer from '../../components/VideoPlayDrawer'
+import SwipeableEdgeDrawer from '../../components/SwipeableEdgeDrawer'
 import AppBody from '../AppBody'
 import { RowBetween } from '../../components/Row'
 
 import SCard from '../../components/Card'
-import {BigNumber } from 'ethers'
+import { BigNumber } from 'ethers'
 import InfiniteScroll from "react-infinite-scroll-component";
 
+// import Button from '@mui/material/Button';
 // import { Button } from 'rebass'
 // import { SwapPoolTabs } from '../../components/NavigationTabs'
 
-const BottonDiv = styled.div`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 120;  
-`
+// const BottonDiv = styled.div`
+//   position: absolute;
+//   bottom: 0;
+//   width: 100%;
+//   height: 120;  
+// `
 export const FixedHeightRow = styled(RowBetween)`
   height: 24px;
 `
@@ -41,14 +43,18 @@ export const Input = styled.input`
   font-size: 18px;
 `
 export const MyHoverCard = styled(SCard)`
-  background:pink;
+  background:white;
   padding:0;
   borderRadius:0px;
   border: none;
   width:100%;
+
+  top:-1;
+  height:101vh;
+
 `
 export const BackDiv = styled.div`
-  background:red;
+  background:white;
   padding:0;
   borderRadius:0px;
   border: none;
@@ -103,41 +109,45 @@ export const BackDiv = styled.div`
 
 
 export default function AllOrders() {
-  let video:HTMLVideoElement|null
-  const [amount] = useState(BigNumber.from(6))
-  let start1 = useGetVideoCountCallBack()
-  console.log("-------start1:"+start1)
-  const [start,setStart] = useState(start1)
-  //setStart(start1)
-  console.log("-------start:" + start+" start1 "+start1+" amount "+amount)
-  //const [start, setStart] = useState(BigNumber.from(12))
-  const vidoelist = useGetVideoListDataCallBack(start, amount)
-  const [currentIPFS, setCurrentIPFS] = useState<string>("")
-  const [hasmore,setHasemore] = useState(true);
+  let videoe: HTMLVideoElement | null
+  const [amount] = useState(BigNumber.from(10))
+ // let start1 = useGetVideoCountCallBack()
 
-  const fetchMoreData = () => {
-    console.log("--------fetchMoreData----------"+start.toHexString())
-    if(vidoelist){
-     if (BigNumber.from(vidoelist[0].id).lt(BigNumber.from("10"))) {
-       // setState({ hasMore: false });
-       setHasemore(false);
-       console.log("--setHasemore----------------")
-       return;
-     }
-    
-    let a=BigNumber.from(vidoelist[0].id).sub(BigNumber.from("4"))
-    console.log("sub:"+a)
-    setStart(a)
+  const [start, setStart] = useState(BigNumber.from("0"))
+  //setStart(start1)
+  //const [start, setStart] = useState(BigNumber.from(12))
+  const vidoelist= useGetVideoListDataCallBack(start, amount)
+  const [currentIPFS, setCurrentIPFS] = useState<any>(undefined)
+  const [hasmore] = useState(true);
+  const dataRefresh = () => {
+ 
+    setStart(BigNumber.from("0"))
   }
+  const fetchMoreData = () => {
+     
+    if (vidoelist) {
+      if (BigNumber.from(vidoelist[0].id).lt(BigNumber.from("14"))) {
+        // setState({ hasMore: false });
+        // setHasemore(false);
+        setStart(BigNumber.from("0"))
+
+ 
+        return;
+      }
+
+      let a = BigNumber.from(vidoelist[0].id).sub(BigNumber.from("3"))
+    
+      setStart(a)
+     // alert("fetch"+a)
+    }
   };
 
-  const Videolick = (ss: string): (MouseEventHandler<HTMLDivElement> | undefined) => {
-    console.log("DDDDDDDDDDDDDDDDDD" + ss)
+  const Videolick = (ss: any): (MouseEventHandler<HTMLDivElement> | undefined) => {
 
-   // setCurrentIPFS(ss)
-    if(video){
-      video.src="http://127.0.0.1:8080"+ss
-     // video.src="http://127.0.0.1:8080"+ss
+
+    if (videoe) {
+     // videoe.src = "http://127.0.0.1:8080" + ss.ipfs
+      videoe.src = ss.ipfs
     }
     setCurrentIPFS(ss)
     return undefined
@@ -151,25 +161,29 @@ export default function AllOrders() {
     <>
 
       <AppBody>
-
+        {currentIPFS ? (
+          <SwipeableEdgeDrawer video={currentIPFS} key={currentIPFS.ipfs}></SwipeableEdgeDrawer>
+        ) : undefined
+        }
+        {/* <VideoPlayDrawer></VideoPlayDrawer> */}
         {/* <SwapPoolTabs active={'allOrders'} /> */}
         <AutoColumn>
-      
-            {(currentIPFS.length > 10 )?
+
+          {/* {(currentIPFS.length > 10 )?
             
               (
                 <BottonDiv>
                 <BackDiv>
 
-                  <video controls autoPlay height={120}  ref={(ref) => { video = ref; }}  >
-                    {/* <video controls autoPlay height={120} playsInline ref={handleVideoMounted} > */}
-                    <source src={'http://127.0.0.1:8080' + currentIPFS} type="video/mp4" />
+                  <video controls autoPlay height={120}  ref={(ref) => { videoe = ref; }}  > */}
+          {/* <video controls autoPlay height={120} playsInline ref={handleVideoMounted} > */}
+          {/* <source src={'http://127.0.0.1:8080' + currentIPFS} type="video/mp4" />
                   </video>
                 </BackDiv>
                 </BottonDiv>
               ) :undefined
-            }
-          
+            } */}
+
           <AutoColumn >
 
 
@@ -177,23 +191,32 @@ export default function AllOrders() {
 
               <InfiniteScroll
 
-                dataLength={vidoelist ? vidoelist.length : 0}
+                dataLength={vidoelist ? vidoelist.length-1 : 0}
                 next={fetchMoreData}
+                refreshFunction={dataRefresh}
                 hasMore={hasmore}
-                loader={<h4>Loading...</h4>}
-                height={(currentIPFS.length < 10 )?window.innerHeight:window.innerHeight-120 }
-
-                endMessage={
-                  <p style={{ textAlign: "center" }}>
-                    <b>Yay! You have seen it all</b>
-                  </p>
+                loader={<div style={{width:'100%'}}>Loading...</div>}
+                height={window.innerHeight+50} 
+                
+                // endMessage={
+                //   // <p style={{ textAlign: "center" }}>
+                //   //   <b>Yay! You have seen it all</b>
+                //   // </p>
+                // }
+                pullDownToRefresh
+                pullDownToRefreshThreshold={50}
+                pullDownToRefreshContent={
+                  <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
+                }
+                releaseToRefreshContent={
+                  <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
                 }
               >
                 {vidoelist?.map((k, index) => {
 
-                  return (<div onClick={() => Videolick(k.ipfs)}>
-                    <video width="100%"  ref={handleVideoMounted}>
-                      <source src={'http://127.0.0.1:8080' + k.ipfs} type="video/mp4" />
+                  return (<div onClick={() => Videolick(k)}>
+                    <video width="100%" ref={handleVideoMounted}>
+                      <source src={k.ipfs} type="video/mp4" />
 
                     </video>
                     <p>{k.id + "|" + k.title}</p>

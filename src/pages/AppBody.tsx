@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 export const BodyWrapper = styled.div`
-
+overflow:hidden
 `
 
 /**

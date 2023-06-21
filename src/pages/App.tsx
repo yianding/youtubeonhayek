@@ -28,6 +28,7 @@ const AppWrapper = styled.div`
 // `
 
 const BodyWrapper = styled.div`
+  
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -35,7 +36,9 @@ const BodyWrapper = styled.div`
   padding:0;
   align-items: center;
   flex: 1;
-  overflow-y: auto;
+  overflow:hidden
+  overflow-y: hidden;
+ 
   overflow-x: hidden;
   z-index: 10;
 
