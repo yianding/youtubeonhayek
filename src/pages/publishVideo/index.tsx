@@ -26,7 +26,8 @@ import { getJudge } from '../../hooks/judge'
 import { ConfirmationPendingContent, TransactionErrorContent, TransactionSubmittedContent } from '../../components/TransactionConfirmationModal'
 import Modal from '../../components/Modal'
 import { NETH } from '../../constants'
-
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 export const Input = styled.input`
   position: relative;
   display: flex;
@@ -45,7 +46,7 @@ export const Input = styled.input`
 `
 
 export default function PublishVideo() {
-    const { account,library } = useActiveWeb3React()
+    const { account, library } = useActiveWeb3React()
     const toggleWalletModal = useWalletModalToggle()
     const { currencies, currencyBalances, parsedAmount } = useDerivedSwapInfo()
     const theme = useContext(ThemeContext);
@@ -63,8 +64,8 @@ export default function PublishVideo() {
     const [descInfo, setdescInfo] = useState<string[]>([]);
     const [JudgeAddress, setJudgeAddress] = useState("");
     const [ipfs, setIpfs] = useState("")
-    const [title, setTitle] = useState("")
-    
+    const [title] = useState("")
+
     const saleNumberToWrap = useCallback(() => {
         try {
             return ethers.utils.parseUnits(saleNumber ? saleNumber : "0", currencies[Field.INPUT]?.decimals).toString()
@@ -73,7 +74,7 @@ export default function PublishVideo() {
             return "0"
         }
     }, [saleNumber, currencies[Field.INPUT]?.decimals])
-    const { execute: onPublishVidoe} =usePublishVideoCallback(ipfs,'6月4日：不灭的记忆')
+    const { execute: onPublishVidoe } = usePublishVideoCallback(ipfs, '6月4日：不灭的记忆')
     const { wrapType, execute: onWrap } = useWrapPutCallback(saleNumberToWrap(),
         ethers.utils.parseUnits(price ? price : "0", 6).toString(),
         totalprice,
@@ -246,7 +247,7 @@ export default function PublishVideo() {
         txHash: undefined
     })
     const [pendingText, setPendingText] = useState<string>('')
-   
+
     function publishMyVideo() {
         if (onPublishVidoe) {
             setPendingText(`${t("publish video")} ${title}  `)
@@ -294,12 +295,12 @@ export default function PublishVideo() {
             ) : null
         , [onDismiss, swapErrorMessage]
     )
-    
-    
+
+
     const openipfs = () => {
         if (library) {
 
-            library.send("get_ipfs", ['andy',"ddw"]).then((res: string) => {
+            library.send("get_ipfs", ['andy', "ddw"]).then((res: string) => {
                 let ss = res.toString()
                 setIpfs(ss.replace("http://127.0.0.1:8080", ""))
                 //document.getElementById("videos")!.currentTime=0.01
@@ -326,9 +327,29 @@ export default function PublishVideo() {
 
                 <AddRemoveTabs adding={true} />
                 <div onClick={openipfs}>视频发布{ipfs}</div>
-                <Input 
+                <Input
                     value={title}
                 />
+                <Box
+                    component="form"
+                    sx={{
+                        '& > :not(style)': { m: 1, width: '100%' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                >
+                    <TextField id="outlined-basic" label="标题" variant="outlined" />
+                </Box>
+                <Box
+                    component="form"
+                    sx={{
+                        '& > :not(style)': { m: 1, width: '100%' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                >
+                    <TextField id="outlined-basic" label="描述" variant="outlined"  value={ipfs} multiline/>
+                </Box>
                 <div onClick={publishMyVideo}>发布</div>
                 <CurrencyInputPanel
                     label={t('Amount')}

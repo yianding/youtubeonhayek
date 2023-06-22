@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { HashRouter, NavLink, Route, Switch, useLocation } from 'react-router-dom'
+import { HashRouter,  Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 //import Header from '../components/Header'
@@ -23,37 +23,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
-import Person3Icon from '@mui/icons-material/Person3';
-import { darken } from 'polished'
+// import Person3Icon from '@mui/icons-material/Person3';
+// import { darken } from 'polished'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PublishVideo from './publishVideo'
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
-const activeClassName = 'ACTIVE'
-const StyledNavLink = styled(NavLink).attrs({
-  activeClassName
-})`
-  ${({ theme }) => theme.flexRowNoWrap}
-  align-items: center;
-  justify-content: center;
-  height: 3rem;
-  border-radius: 3rem;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  color: ${({ theme }) => theme.text3};
-  font-size: 20px;
+// const activeClassName = 'ACTIVE'
 
-  &.${activeClassName} {
-    border-radius: 12px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.text1};
-  }
-
-  :hover,
-  :focus {
-    color: ${({ theme }) => darken(0.1, theme.text1)};
-  }
-`
 
 const AppWrapper = styled.div`
   display: flex;
