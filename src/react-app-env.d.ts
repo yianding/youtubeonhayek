@@ -8,6 +8,7 @@ declare module 'fortmatic'
 
 interface Window {
   ethereum?: {
+  
     isMetaMask?: true
     on?: (...args: any[]) => void
     removeListener?: (...args: any[]) => void
@@ -15,6 +16,8 @@ interface Window {
   hayek?:{
     getVersion():Long
     getIPFSPublicPins():string
+    UploadIPFS(fileType):Promise
+
   }
   web3?: {}
 }

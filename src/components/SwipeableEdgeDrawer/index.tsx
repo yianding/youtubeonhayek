@@ -139,7 +139,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
 
                         //   height: `calc(100%)`,
                         overflow: 'visible',
-                        background: 'blue',
+                
 
                     },
                 }}
@@ -180,7 +180,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
                     <div style={open ? { display: 'inline' } : { display: 'flex' }}>
                         <div>
                             <video controls width={open ? '100%' : undefined} height={open ? undefined : '60px'} onCanPlay={handlecanplay} ref={videoe} key={props.video.ipfs} >
-                                <source src={ props.video.ipfs} type="video/mp4" />
+                                <source src={ "http://127.0.0.1:8080"+props.video.ipfs} type="video/mp4" />
                             </video>
                         </div>
                         <div style={{ overflow: 'auto', height: '75vh' }} onClick={() => {

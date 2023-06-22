@@ -11,6 +11,8 @@ import { RowBetween } from '../../components/Row'
 import SCard from '../../components/Card'
 import { BigNumber } from 'ethers'
 import InfiniteScroll from "react-infinite-scroll-component";
+import { SwapPoolTabs } from '../../components/NavigationTabs'
+import { useLocation } from 'react-router-dom'
 
 // import Button from '@mui/material/Button';
 // import { Button } from 'rebass'
@@ -109,6 +111,7 @@ export const BackDiv = styled.div`
 
 
 export default function AllOrders() {
+
   let videoe: HTMLVideoElement | null
   const [amount] = useState(BigNumber.from(10))
  // let start1 = useGetVideoCountCallBack()
@@ -167,6 +170,7 @@ export default function AllOrders() {
         }
         {/* <VideoPlayDrawer></VideoPlayDrawer> */}
         {/* <SwapPoolTabs active={'allOrders'} /> */}
+        {/* <div onClick={()=>{}}>ddddd</div> */}
         <AutoColumn>
 
           {/* {(currentIPFS.length > 10 )?
