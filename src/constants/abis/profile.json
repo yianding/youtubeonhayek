@@ -1,0 +1,64 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "profiles",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "avatar",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "gender",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "e_mail",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "avatar",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "gender",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "e_mail",
+				"type": "string"
+			}
+		],
+		"name": "setProfile",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

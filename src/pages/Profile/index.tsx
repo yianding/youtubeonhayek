@@ -3,16 +3,18 @@ import { ButtonLight } from '../../components/Button'
 import { AddRemoveTabs } from '../../components/NavigationTabs'
 import AppBody from '../AppBody'
 import styled from 'styled-components'
-import { usePublishVideoCallback } from '../../hooks/useWrapCallback1'
+import { useProfileCallback } from '../../hooks/useWrapCallback1'
 
 import { useActiveWeb3React } from '../../hooks'
-import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useTranslation } from 'react-i18next'
 import { ConfirmationPendingContent, TransactionErrorContent, TransactionSubmittedContent } from '../../components/TransactionConfirmationModal'
 import Modal from '../../components/Modal'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-
+import { pink } from '@mui/material/colors'
+import { Avatar } from '@mui/material'
+// import { useGetProfileCallBack } from '../../hooks/useApproveCallback'
 export const Input = styled.input`
   position: relative;
   display: flex;
@@ -30,19 +32,21 @@ export const Input = styled.input`
   font-size: 14px;
 `
 
-export default function PublishVideo() {
-    const videoe: any = React.useRef(null);
-    const { library } = useActiveWeb3React()
+export default function SetProfile() {
+    const {library } = useActiveWeb3React()
+    //const profile =useGetProfileCallBack(account)
+   // console.log(profile)
+    const [avatar, setAvatar] = useState("")
+    const [name, setName] = useState("")
+    const [e_mail,setEmail] = useState("")
 
-    const [ipfs, setIpfs] = useState<string | undefined>(undefined)
-    const [title, setTitle] = useState<string|undefined>(undefined)
+    const [gender,setGender] = useState("")
 
+    const { execute: onSetProfile } = useProfileCallback(avatar, name,e_mail,gender)
+  
 
-    const { execute: onPublishVidoe } = usePublishVideoCallback(ipfs ? ipfs : "", title ? title : "")
-
-
-
-
+  
+  
     const { t } = useTranslation()
 
     const [{ showConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
@@ -58,11 +62,11 @@ export default function PublishVideo() {
     })
     const [pendingText, setPendingText] = useState<string>('')
 
-    function publishMyVideo() {
-        if (onPublishVidoe) {
-            setPendingText(`${t("publish video")} ${title}  `)
+    function setProfile() {
+        if (onSetProfile) {
+            setPendingText(`${t("set profile")} ${name}  `)
             setSwapState({ attemptingTxn: true, showConfirm: true, swapErrorMessage: undefined, txHash: undefined })
-            onPublishVidoe().then(hash => {
+            onSetProfile().then(hash => {
                 setSwapState({ attemptingTxn: false, showConfirm: true, swapErrorMessage: undefined, txHash: hash })
             }).catch(error => {
                 setSwapState({
@@ -96,17 +100,12 @@ export default function PublishVideo() {
 
             library.send("get_ipfs", ['andy', "ddw"]).then((res: string) => {
                 let ss = res.toString()
-                setIpfs(ss.replace("http://127.0.0.1:8080", ""))
+                setAvatar(ss.replace("http://127.0.0.1:8080", ""))
                 //document.getElementById("videos")!.currentTime=0.01
             }, (error: string) => {
 
                 alert("出错了:" + error)
             })
-        }
-    }
-    const handlecanplay = () => {
-        if (videoe.current) {
-            //  videoe.current.currentTime=0
         }
     }
     return (
@@ -123,19 +122,17 @@ export default function PublishVideo() {
             }
             <AppBody>
 
-                <div style={{ height: '80px' }}>
-                    <AddRemoveTabs adding={true} />
-                </div>
-                <div>
-                    {!ipfs ? (
-                        <div style={{ width: '100%' }}>
-                            <VideoLibraryIcon sx={{ width: '100%' ,fontSize: 160}} />
+
+                <AddRemoveTabs adding={true} />
+                <ButtonLight disabled={false} width="100%" onClick={openipfs}>
+                    {t('选择头像')}
+                </ButtonLight>
+                <div style={{width:'100%'}}>
+                    {avatar?(
+                               <Avatar alt="Remy Sharp" src={"http://127.0.0.1:8080"+avatar} sx={{ color: pink[50] ,width:'160px',height:'160px'}} />
+                               ):(<AccountCircleIcon  sx={{ width:'100%',fontSize: 160}}></AccountCircleIcon>)}
+                           
                         </div>
-                    ) : (<video controls autoPlay width={'100%'} onCanPlay={handlecanplay} ref={videoe} key={ipfs} >
-                        {ipfs ? (<source src={"http://127.0.0.1:8080" + ipfs} type="video/mp4" />) : undefined}
-                    </video>)}
-
-                </div>
                 <Box
                     component="form"
                     sx={{
@@ -144,9 +141,7 @@ export default function PublishVideo() {
                     noValidate
                     autoComplete="off"
                 >
-                    <ButtonLight disabled={false} width="100%" onClick={openipfs}>
-                        {t('选择视频')}
-                    </ButtonLight>
+                    <TextField id="outlined-basic" label="姓名" variant="outlined" value={name} onChange={(v)=>{setName(v.target.value)}}/>
                 </Box>
                 <Box
                     component="form"
@@ -156,7 +151,7 @@ export default function PublishVideo() {
                     noValidate
                     autoComplete="off"
                 >
-                    <TextField id="outlined-basic" label="标题" variant="outlined" value={title} onChange={(v) => { setTitle(v.target.value) }} />
+                    <TextField id="outlined-basic" label="邮件" variant="outlined" value={e_mail} onChange={(v)=>{setEmail(v.target.value)}}/>
                 </Box>
                 <Box
                     component="form"
@@ -166,11 +161,10 @@ export default function PublishVideo() {
                     noValidate
                     autoComplete="off"
                 >
-                    <TextField id="outlined-basic" label="视频描述" variant="outlined" multiline />
+                    <TextField id="outlined-basic" label="性别" variant="outlined" value={gender} onChange={(v)=>{setGender(v.target.value)}}/>
                 </Box>
-
-                <ButtonLight disabled={false} width="100%" onClick={publishMyVideo}>
-                    {t('发布视频')}
+                <ButtonLight disabled={false} width="100%" onClick={setProfile}>
+                    {t('更新')}
                 </ButtonLight>
 
 

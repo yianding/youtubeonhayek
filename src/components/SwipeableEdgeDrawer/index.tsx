@@ -188,8 +188,9 @@ export default function SwipeableEdgeDrawer(props: Props) {
 
                         }}>
 
-                            <div style={{ fontSize: '12px', height: '30px', width: '80px', overflow: 'hidden' }}>{props.video.title}</div>;
-                            <div style={{ fontSize: '12px', height: '30px', width: '80px' }}>美国之音</div>;
+                            <div style={{ fontSize: '12px', height: '30px', overflow: 'hidden' }}>{props.video.title}</div>;
+                            {/* <div style={{ fontSize: '12px', height: '30px' }}>{props.video.publicAddr}</div>;
+                            <div style={{ fontSize: '12px', height: '30px' }}>{props.video.publicdatetime}</div>; */}
                             <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff11</p>
                             <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffff</p>  <p>ffffend11</p>
                         </div>
@@ -225,13 +226,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
                     {/* <Typography sx={{ p: 2, color: 'text.secondary' }}>51 results</Typography> */}
                 </StyledBox>
 
-                <div style={{ position: 'absolute', right: '0', width: '60px', height: '60px', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
-
-                    <CloseIcon>
-
-                    </CloseIcon>
-                </div>
-
+           
 
             </SwipeableDrawer>
 

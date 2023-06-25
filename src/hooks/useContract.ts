@@ -14,7 +14,8 @@ import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from '../consta
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import { TRADE_ABI, TRADE_ADDRESS } from '../constants/abis/trade'
-import { VIDEOLIST_ABI,videolist_address } from '../constants/abis/videolist'
+import { VIDEOLIST_ABI,videolist_address,PROFILE_ABI,profile_addres } from '../constants/abis/videolist'
+
 import { JUDGE_ABI } from '../constants/abis/judge'
 
 // returns null on errors
@@ -65,6 +66,10 @@ export function useTradeContract( withSignerIfPossible?: boolean): Contract | nu
 export function useVideoListContract( withSignerIfPossible?: boolean): Contract | null {
 
   return useContract( videolist_address, VIDEOLIST_ABI, withSignerIfPossible)
+}
+export function useProfileContract( withSignerIfPossible?: boolean): Contract | null {
+
+  return useContract( profile_addres, PROFILE_ABI, withSignerIfPossible)
 }
 export function useJudgeContract(judge_address:string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(judge_address, JUDGE_ABI, withSignerIfPossible)

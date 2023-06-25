@@ -2,14 +2,14 @@
 //import { isBytesLike } from '@ethersproject/bytes'
 import { useMemo } from 'react'
 
-import {  useVideoListContract} from '../hooks/useContract'
+import {  useProfileContract, useVideoListContract} from '../hooks/useContract'
 
 import { Result, useSingleCallResult, useSingleContractMultipleData } from '../state/multicall/hooks'
 import {  ethers } from 'ethers'
 
 
 
-interface CallState {
+export interface CallState {
   readonly valid: boolean
   // the result, or undefined if loading or errored/no data
   readonly result: Result | undefined
@@ -20,7 +20,8 @@ interface CallState {
   // true if the call was made and is synced, but the return data is invalid
   readonly error: boolean
 }
-export function useVideoLIstData(start:ethers.BigNumber,amount:ethers.BigNumber): CallState[] | undefined {
+
+export function useVideoListData(start:ethers.BigNumber,amount:ethers.BigNumber): CallState[] | undefined {
 
   const contract = useVideoListContract(false)
 
@@ -28,6 +29,16 @@ export function useVideoLIstData(start:ethers.BigNumber,amount:ethers.BigNumber)
   const order = useSingleContractMultipleData(contract, 'queryNewVideo', [inputs])
   return useMemo(() => (order ? order : undefined), order)
 }
+export function useProfileData(account:string): CallState[] | undefined {
+
+  const contract = useProfileContract(false)
+
+  const inputs = useMemo(() => [account],[account])
+  const data = useSingleContractMultipleData(contract, 'profiles', [inputs])
+  return useMemo(() => (data ? data : undefined), data)
+}
+
+
 export function useGetVideoCount(): CallState  {
 
   const contract = useVideoListContract(false)

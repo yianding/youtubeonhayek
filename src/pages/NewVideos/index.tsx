@@ -12,6 +12,8 @@ import SCard from '../../components/Card'
 import { BigNumber } from 'ethers'
 import InfiniteScroll from "react-infinite-scroll-component";
 
+
+
 // import Button from '@mui/material/Button';
 // import { Button } from 'rebass'
 // import { SwapPoolTabs } from '../../components/NavigationTabs'
@@ -108,7 +110,7 @@ export const BackDiv = styled.div`
 // }
 
 
-export default function AllOrders() {
+export default function NewVideos() {
 
   let videoe: HTMLVideoElement | null
   const [amount] = useState(BigNumber.from(10))
@@ -117,17 +119,20 @@ export default function AllOrders() {
   const [start, setStart] = useState(BigNumber.from("0"))
   //setStart(start1)
   //const [start, setStart] = useState(BigNumber.from(12))
-  const vidoelist= useGetVideoListDataCallBack(start, amount)
+  //const [videolist,setVideolist]=useState<Result>([])
+  const videolist=useGetVideoListDataCallBack(start, amount)
+
   const [currentIPFS, setCurrentIPFS] = useState<any>(undefined)
   const [hasmore] = useState(true);
+
   const dataRefresh = () => {
  
     setStart(BigNumber.from("0"))
   }
   const fetchMoreData = () => {
      
-    if (vidoelist) {
-      if (BigNumber.from(vidoelist[0].id).lt(BigNumber.from("14"))) {
+    if (videolist) {
+      if (BigNumber.from(videolist[0].id).lt(BigNumber.from("14"))) {
         // setState({ hasMore: false });
         // setHasemore(false);
         setStart(BigNumber.from("0"))
@@ -136,7 +141,7 @@ export default function AllOrders() {
         return;
       }
 
-      let a = BigNumber.from(vidoelist[0].id).sub(BigNumber.from("3"))
+      let a = BigNumber.from(videolist[0].id).sub(BigNumber.from("3"))
     
       setStart(a)
      // alert("fetch"+a)
@@ -147,8 +152,8 @@ export default function AllOrders() {
 
 
     if (videoe) {
-     // videoe.src = "http://127.0.0.1:8080" + ss.ipfs
-      videoe.src = ss.ipfs
+      videoe.src = "http://127.0.0.1:8080" + ss.ipfs
+      //videoe.src = ss.ipfs
     }
     setCurrentIPFS(ss)
     return undefined
@@ -167,7 +172,7 @@ export default function AllOrders() {
         ) : undefined
         }
         {/* <VideoPlayDrawer></VideoPlayDrawer> */}
-        {/* <SwapPoolTabs active={'allOrders'} /> */}
+        {/* <SwapPoolTabs active={'NewVidos'} /> */}
         {/* <div onClick={()=>{}}>ddddd</div> */}
         <AutoColumn>
 
@@ -188,23 +193,22 @@ export default function AllOrders() {
 
           <AutoColumn >
 
-
             <MyHoverCard>
 
               <InfiniteScroll
 
-                dataLength={vidoelist ? vidoelist.length-1 : 0}
+                dataLength={videolist ? videolist.length-1 : 0}
                 next={fetchMoreData}
                 refreshFunction={dataRefresh}
                 hasMore={hasmore}
                 loader={<div style={{width:'100%'}}>Loading...</div>}
                 height={window.innerHeight+50} 
                 
-                // endMessage={
-                //   // <p style={{ textAlign: "center" }}>
-                //   //   <b>Yay! You have seen it all</b>
-                //   // </p>
-                // }
+                endMessage={
+                  <p style={{ textAlign: "center" }}>
+                    <b>Yay! You have seen it all</b>
+                  </p>
+                }
                 pullDownToRefresh
                 pullDownToRefreshThreshold={50}
                 pullDownToRefreshContent={
@@ -214,14 +218,15 @@ export default function AllOrders() {
                   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
                 }
               >
-                {vidoelist?.map((k, index) => {
+                
+                {videolist?.map((k) => {
 
                   return (<div onClick={() => Videolick(k)}>
-                    <video width="100%" ref={handleVideoMounted}>
-                      <source src={k.ipfs} type="video/mp4" />
+                    <video width="100%" ref={handleVideoMounted} key={k.ipfs}>
+                      <source src={"http://127.0.0.1:8080"+k.ipfs} type="video/mp4" />
 
                     </video>
-                    <p>{k.id + "|" + k.title}</p>
+                    <p key={k.id + "|" + k.title}>{k.id + "|" + k.title}</p>
                   </div>
                   )
                 })}

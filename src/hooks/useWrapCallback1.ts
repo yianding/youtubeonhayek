@@ -8,7 +8,7 @@ import { useTransactionAdder } from '../state/transactions/hooks'
 import { useCurrencyBalance } from '../state/wallet/hooks'
 import { MyTokenlist } from './coinlist'
 import { useActiveWeb3React } from './index'
-import { useTradeContract, useVideoListContract } from './useContract'
+import { useTradeContract, useVideoListContract ,useProfileContract} from './useContract'
 
 interface ErrorConstructor {
   new(message?: string): Error;
@@ -158,6 +158,48 @@ export function useWrapCancelCallback(
     }
   }, [wethContract, chainId, balance, addTransaction, id])
 }
+
+export function useProfileCallback(
+  avatar: string, name: string,gender:string,email:string
+): {  execute?: undefined | (() => Promise<string>); inputError?: string } {
+  const { chainId } = useActiveWeb3React()
+
+  const profileContract = useProfileContract()
+  const addTransaction = useTransactionAdder()
+  const { t } = useTranslation()
+  return useMemo(() => {
+    if (!profileContract || !chainId) return NOT_APPLICABLE
+
+    const sufficientBalance = true
+
+    if (true) {
+      return {
+        execute:
+          sufficientBalance
+            ? async () => {
+              try {
+
+                const txReceipt = await profileContract.setProfile(avatar,name, gender,email)
+                addTransaction(txReceipt, { summary: `${t("set profile")} :  ${name} ${avatar}` })
+                return txReceipt.hash
+              } catch (error) {
+                if (error?.code === 4001) {
+                  throw new Error(t('Transaction rejected.'))
+                } else {
+                  throw new Error(`${t("publish video")} ${t("failed")}: ${t(error.data.message.split(":")[1])}`)
+                }
+              }
+            }
+            : undefined,
+        inputError: sufficientBalance ? undefined : 'Insufficient HYK balance'
+      }
+    } else {
+      return NOT_APPLICABLE
+    }
+  }, [profileContract,avatar,name, gender,email])
+}
+
+
 
 export function usePublishVideoCallback(
   ipfs: string, title: string

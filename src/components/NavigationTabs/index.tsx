@@ -108,13 +108,13 @@ export function AddRemoveTabs({ adding }: { adding: boolean }) {
   const {t} =useTranslation()
   return (
     <Tabs>
-      <RowBetween style={{ padding: '1rem' }}>
-        <HistoryLink to="/mySaleOrders">
+      <RowBetween style={{ padding: '30px' ,left:'10px',position:'absolute'}}>
+        <HistoryLink to="/newestvideo">
           <StyledArrowLeft />
         </HistoryLink>
-        <ActiveText>{t('Publish sale order')}</ActiveText>
+        <ActiveText>{t('Publish Video')}</ActiveText>
         <QuestionHelper
-          text={t("The order you put will show in <Sale Orders> And <My Sale Orders>")}
+          text={t("Publish your video,no censorship")}
         />
       </RowBetween>
     </Tabs>

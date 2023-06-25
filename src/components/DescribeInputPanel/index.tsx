@@ -13,7 +13,7 @@ import InfoTypeLOGO from '../InfoTypeLogo'
 import Copy from '../AccountDetails/Copy'
 import { ButtonSecondary } from '../Button'
 import Card from '../Card'
-import { FixedHeightRow } from '../../pages/AllOrder'
+import { FixedHeightRow } from '../../pages/NewVideos'
 
 const LabelRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap}
